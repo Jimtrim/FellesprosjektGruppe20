@@ -5,6 +5,12 @@ package no.ntnu.fp.g20;
 import java.awt.*;
 import javax.swing.*;
 
+/**
+ * Appointment information panel class.
+ * This panel displays information about all appointments that a
+ * user has some relation to.
+ * @author Kristian Klomsten Skordal
+ */
 public class AppointmentPanel extends JPanel
 {
 	private JComboBox sortBox;
@@ -16,6 +22,9 @@ public class AppointmentPanel extends JPanel
 	private JToggleButton approveButton, rejectButton;
 	private JButton detailsButton;
 
+	/**
+	 * Constructs an appointment panel.
+	 */
 	public AppointmentPanel()
 	{
 		super();
@@ -165,11 +174,17 @@ public class AppointmentPanel extends JPanel
 		buttonBox.add(detailsButton);
 	}
 
+	/**
+	 * Test application main function.
+	 * @param args command line arguments.
+	 */
 	public static void main(String[] args)
 	{
 		JFrame testFrame = new JFrame("Appointment Panel Test Application");
 		testFrame.add(new AppointmentPanel(), BorderLayout.CENTER);
 		testFrame.pack();
+
+		testFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		testFrame.setVisible(true);
 	}
