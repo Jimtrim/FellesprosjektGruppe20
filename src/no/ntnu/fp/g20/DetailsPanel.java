@@ -1,7 +1,9 @@
 package no.ntnu.fp.g20;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -18,118 +20,119 @@ public class DetailsPanel extends JPanel {
 	private GridBagLayout layout;
 	private GridBagConstraints c;
 	
-	private Box comboBox;
-	private Box buttonBox;
-	
-	private JLabel titleLabel;
-	private JLabel locationLabel;
-	private JLabel descriptionLabel;
-	private JLabel startTimeLabel;
-	private JLabel durationLabel;
-	
-	private JTextField titleField;
-	private JTextField locationField;
+	private JLabel titleLabel, locationLabel, descriptionLabel, startTimeLabel, durationLabel;
+	private JTextField titleField, locationField;
 	private JTextArea descriptionArea;
-	
-	private JButton roomButton;
-	private JButton removeButton;
-	private JButton participantsButton;
-	private JButton saveButton;
-	
-	private JComboBox timeBox;
-	private JComboBox dayBox;
-	private JComboBox monthBox;
-	private JComboBox yearBox;
-	private JComboBox durationBox;
-	
+	private JButton roomButton, removeButton, participantsButton, saveButton;
+	private JComboBox timeBox, dayBox, monthBox, yearBox, durationBox;
 	
 	public DetailsPanel() {
-		titleLabel = new JLabel("Title: ");
-		locationLabel = new JLabel("Location: ");
-		descriptionLabel = new JLabel("Description: ");
-		startTimeLabel = new JLabel("Start time: ");
-		durationLabel = new JLabel("Duration: ");
-		
-		titleField = new JTextField(20);
-		locationField = new JTextField(20);
-		descriptionArea = new JTextArea(5,50);
-		
-		roomButton = new JButton("Room");
-		removeButton = new JButton("Remove");
-		participantsButton = new JButton("Participants");
-		saveButton = new JButton("Save");
-		
-		timeBox = new JComboBox();
-		timeBox.addItem("time");
-		dayBox = new JComboBox();
-		dayBox.addItem("day");
-		monthBox = new JComboBox();
-		monthBox.addItem("month");
-		yearBox = new JComboBox();
-		yearBox.addItem("year");
-		durationBox = new JComboBox();
-		durationBox.addItem("hours");
-		
-		
+
 		layout = new GridBagLayout();
 		c = new GridBagConstraints();
-		
 		setLayout(layout);
 		
-		c.anchor = GridBagConstraints.WEST;
-		
+		//add title label
+		titleLabel = new JLabel("Title: ");
 		c.gridy = 0;
 		c.gridx = 0;
+		c.weightx = 1.0;
+		c.weighty = 1.0;
+		c.anchor = GridBagConstraints.WEST;
 		add(titleLabel, c);
 		
+		//add title text field
+		titleField = new JTextField(20);
 		c.gridx++;
 		add(titleField, c);
 		
-		c.gridx = 3;
+		//add start time label
+		startTimeLabel = new JLabel("Start time: ");
+		c.gridx = c.gridx + 2;
 		add(startTimeLabel, c);
 		
-		comboBox = new Box(BoxLayout.X_AXIS);
-		comboBox.add(timeBox);
-		comboBox.add(dayBox);
-		comboBox.add(monthBox);
-		comboBox.add(yearBox);
+		//add start time boxes
+		timeBox = new JComboBox();
+		timeBox.addItem("time");
+		
+		dayBox = new JComboBox();
+		dayBox.addItem("day");
+		
+		monthBox = new JComboBox();
+		monthBox.addItem("month");
+		
+		yearBox = new JComboBox();
+		yearBox.addItem("year");
+		
+		Box comboBoxes = Box.createHorizontalBox();
+		comboBoxes.add(timeBox);
+		comboBoxes.add(dayBox);
+		comboBoxes.add(monthBox);
+		comboBoxes.add(yearBox);
 		
 		c.gridx++;
-		add(comboBox, c);
+		c.gridwidth = 2;
+		add(comboBoxes, c);
 		
+		//add location label
+		locationLabel = new JLabel("Location: ");
 		c.gridy++;
 		c.gridx = 0;
+		c.gridwidth = 1;
 		add(locationLabel, c);
 		
+		//add location text field
+		locationField = new JTextField(20);
 		c.gridx++;
 		add(locationField, c);
 		
-		c.gridx++;
+		//add room button
+		roomButton = new JButton("Room");
+		c.gridx = c.gridx + c.gridwidth;
 		add(roomButton, c);
 		
+		//add duration label
+		durationLabel = new JLabel("Duration: ");
 		c.gridx++;
 		add(durationLabel, c);
 		
+		//add duration box
+		durationBox = new JComboBox();
+		durationBox.addItem("hours");
 		c.gridx++;
 		add(durationBox, c);
 		
-		c.gridy ++;
+		//add description label
+		descriptionLabel = new JLabel("Description: ");
+		c.gridy++;
 		c.gridx = 0;
+		c.gridwidth = 2;
 		add(descriptionLabel, c);
 		
-		c.gridy = 3;
-		c.gridheight = 5;
-		c.gridwidth = 50;
+		//add description text area
+		descriptionArea = new JTextArea(5, 50);
+		descriptionArea.setLineWrap(true);
+		descriptionArea.setWrapStyleWord(true);
+		c.gridy++;
+		c.gridwidth = 6;
 		add(descriptionArea, c);
 		
-		buttonBox = Box.createHorizontalBox();
-		buttonBox.add(removeButton);
-		buttonBox.add(participantsButton);
-		buttonBox.add(saveButton);
+		//add remove button
+		removeButton = new JButton("Remove");
+		c.gridy++;
+		c.gridwidth = 1;
+		add(removeButton, c);
 		
-		c.gridy = c.gridy + c.gridheight;
-		add(buttonBox, c);
-
+		//add participants button
+		participantsButton = new JButton("Participants");
+		c.gridx = 4;
+		add(participantsButton, c);
+		
+		//add save button
+		saveButton = new JButton("Save");
+		c.gridx++;
+		add(saveButton, c);
+		
 
 	}
 	
