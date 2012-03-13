@@ -29,6 +29,7 @@ public class AppointmentPanel extends JPanel
 	{
 		super();
 
+		// Set up layout:
 		GridBagLayout layout = new GridBagLayout();
 		setLayout(layout);
 
@@ -64,7 +65,7 @@ public class AppointmentPanel extends JPanel
 		layout.setConstraints(scrollPane, c);
 		add(scrollPane);
 
-		// Add the panel heading
+		// Add the panel heading label:
 		c.gridx = 2;
 		c.gridy = 0;
 		c.weighty = 0;
