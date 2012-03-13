@@ -31,8 +31,14 @@ public class AppointmentPanel extends JPanel
 		c.ipadx = 2;
 		c.ipady = 2;
 
+		// Add the sort by label:
+		JLabel sortLabel = new JLabel("Sort by:");
+		layout.setConstraints(sortLabel, c);
+		add(sortLabel);
+
 		// Add the sort box:
 		String[] sortType = { "Time", "Status" };
+		c.gridx++;
 		sortBox = new JComboBox(sortType);
 		layout.setConstraints(sortBox, c);
 		add(sortBox);
@@ -40,15 +46,17 @@ public class AppointmentPanel extends JPanel
 		// Add the appointment list:
 		appointmentList = new JList();
 		JScrollPane scrollPane = new JScrollPane(appointmentList);
+		c.gridx = 0;
 		c.gridy++;
 		c.weighty = 1;
+		c.gridwidth = 2;
 		c.gridheight = GridBagConstraints.REMAINDER;
 		c.fill = GridBagConstraints.BOTH;
 		layout.setConstraints(scrollPane, c);
 		add(scrollPane);
 
 		// Add the panel heading
-		c.gridx = 1;
+		c.gridx = 2;
 		c.gridy = 0;
 		c.weighty = 0;
 		c.gridwidth = GridBagConstraints.REMAINDER;
@@ -112,7 +120,7 @@ public class AppointmentPanel extends JPanel
 		add(hourLabel);
 
 		// Add the description label:
-		c.gridx = 1;
+		c.gridx = 2;
 		c.gridy++;
 		c.gridwidth = GridBagConstraints.REMAINDER;
 		JLabel descriptionLabel = new JLabel("Description:");
@@ -125,6 +133,7 @@ public class AppointmentPanel extends JPanel
 		c.weighty = 1;
 		c.fill = GridBagConstraints.BOTH;
 		descriptionField = new JTextArea();
+		descriptionField.setEditable(false);
 		layout.setConstraints(descriptionField, c);
 		add(descriptionField);
 
