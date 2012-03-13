@@ -1,3 +1,5 @@
+package no.ntnu.fp.g20;
+
 // Login Dialogue
 
 import javax.swing.*;
