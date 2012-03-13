@@ -30,7 +30,7 @@
       <javac srcdir="${src}"
 	     destdir="${build}"
 	     debug="on"
-
+             includeantruntime="false"
 	     deprecation="off"
 	     executable="${build}">
          <classpath refid="lib.path" />
