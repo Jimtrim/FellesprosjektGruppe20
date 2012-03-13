@@ -1,2 +1,8 @@
 # Ignore the build directory:
+.gitignore
 build/
+.classpath
+.project
+.settings/
+bin/
+
