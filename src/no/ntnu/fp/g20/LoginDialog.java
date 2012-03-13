@@ -1,5 +1,3 @@
-package no.ntnu.fp.g20;
-
 // Login Dialogue
 
 package no.ntnu.fp.g20;
