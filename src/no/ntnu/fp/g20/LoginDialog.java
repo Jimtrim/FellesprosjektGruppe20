@@ -116,7 +116,7 @@ public class LoginDialog extends JDialog
 	}
 
 	/**
-	 * Main class for testing.
+	 * Main function for testing.
 	 * @param args command line arguments.
 	 */
 	public static void main(String[] args)
