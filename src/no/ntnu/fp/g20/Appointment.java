@@ -62,9 +62,9 @@ public class Appointment {
 		this.room = room;
 	}
 	
-	public User[] getListOfParticipants() {
-		return listOfParticipants.toArray();
-	}
+//	public User[] getListOfParticipants() {
+//		return listOfParticipants.toArray();
+//	}
 
 	public void addParticipant(User participant) {
 		listOfParticipants.add(participant);
