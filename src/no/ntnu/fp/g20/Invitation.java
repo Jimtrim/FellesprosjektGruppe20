@@ -27,12 +27,12 @@ public class Invitation
 
 	public void confirm()
 	{
-
+		this.status = Status.CONFIRMED;
 	}
 
 	public void reject()
 	{
-
+		this.status = Status.REJECTED;
 	}
 }
 
