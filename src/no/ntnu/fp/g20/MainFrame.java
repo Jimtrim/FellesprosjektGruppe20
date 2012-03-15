@@ -1,5 +1,7 @@
 package no.ntnu.fp.g20;
 
+import no.ntnu.fp.g20.model.*;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -13,6 +15,7 @@ public class MainFrame extends JFrame {
 	private JTable calendarTable;
 	private JComboBox calendarBox;
 	private AppointmentPanel appointmentList;
+	private CalendarPanel calendar;
 	
 	/**
 	 * Constructs a new MainFrame window.
@@ -21,7 +24,7 @@ public class MainFrame extends JFrame {
 		super(title);
 
 		JToolBar toolBar = new JToolBar("Main menu");
-		add(toolBar, BorderLayout.PAGE_START);
+		add(toolBar, BorderLayout.NORTH);
 		
 		toolBar.add(new NewAppointmentAction());
 		toolBar.add(new DeleteAppointmentAction());
@@ -44,15 +47,18 @@ public class MainFrame extends JFrame {
 		toolBar.add(new PrevWeekAction());
 		toolBar.add(new NextWeekAction());
 
-		calendarTable = new JTable(12, 7);
-		add(calendarTable, BorderLayout.CENTER);
+		calendar = new CalendarPanel(new Calendar());
+		add(calendar, BorderLayout.CENTER);
 
 		appointmentList = new AppointmentPanel();
 		add(appointmentList, BorderLayout.SOUTH);
 
 		pack();
 	}
-	
+
+	/**
+	 * Action for creating a new appointment.
+	 */
 	public class NewAppointmentAction extends AbstractAction
 	{
 		public NewAppointmentAction()
@@ -66,6 +72,9 @@ public class MainFrame extends JFrame {
 		}
 	}
 
+	/**
+	 * Action for deleting an appointment.
+	 */
 	public class DeleteAppointmentAction extends AbstractAction
 	{
 		public DeleteAppointmentAction()
@@ -79,6 +88,9 @@ public class MainFrame extends JFrame {
 		}
 	}
 
+	/**
+	 * Action for adding a calendar to the list of calendar subscriptions.
+	 */
 	public class AddCalendarAction extends AbstractAction
 	{
 		public AddCalendarAction()
@@ -92,6 +104,9 @@ public class MainFrame extends JFrame {
 		}
 	}
 
+	/**
+	 * Action for removing a calendar from the list of calendar subscriptions.
+	 */
 	public class RemoveCalendarAction extends AbstractAction
 	{
 		public RemoveCalendarAction()
@@ -105,6 +120,9 @@ public class MainFrame extends JFrame {
 		}
 	}
 
+	/**
+	 * Action for logging out from the system.
+	 */
 	public class LogoutAction extends AbstractAction
 	{
 		public LogoutAction()
@@ -118,6 +136,9 @@ public class MainFrame extends JFrame {
 		}
 	}
 
+	/**
+	 * Action for showing the manual.
+	 */
 	public class HelpAction extends AbstractAction
 	{
 		public HelpAction()
@@ -131,6 +152,9 @@ public class MainFrame extends JFrame {
 		}
 	}
 
+	/**
+	 * Action for going to the next week in the calendar view.
+	 */
 	public class NextWeekAction extends AbstractAction
 	{
 		public NextWeekAction()
@@ -144,6 +168,9 @@ public class MainFrame extends JFrame {
 		}
 	}
 
+	/**
+	 * Action for going to the previous week in the calendar view.
+	 */
 	public class PrevWeekAction extends AbstractAction
 	{
 		public PrevWeekAction()
@@ -157,6 +184,9 @@ public class MainFrame extends JFrame {
 		}
 	}
 
+	/**
+	 * Main function for testing the frame.
+	 */
 	public static void main(String[] args) {
 		JFrame frame = new MainFrame("SuperCalendar");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
