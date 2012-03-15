@@ -2,6 +2,8 @@
 
 package no.ntnu.fp.g20;
 
+import no.ntnu.fp.g20.model.Appointment;
+
 /**
  * Interface for listening to server events.
  * @author Kristian Klomsten Skordal
