@@ -3,8 +3,9 @@
 .classpath
 .project
 
-# Ignore the build directory:
+# Ignore the build directories:
 build/
+bin/
 
 # Ignore vim swap files:
 .*.swo
