@@ -159,6 +159,26 @@ public class ConnectionImpl extends AbstractConnection {
     }
 
     /**
+     * Adds parity bits to a message.
+     * @param data input message.
+     * @return string with parity bits added.
+     */
+    protected String addParityBits(String data)
+    {
+
+    }
+
+    /**
+     * Removes parity bits from a message.
+     * @param data input message with parity bits.
+     * @return string with parity bits removed.
+     */
+    protected String stripParityBits(String data)
+    {
+
+    }
+
+    /**
      * Test a packet for transmission errors. This function should only called
      * with data or ACK packets in the ESTABLISHED state.
      * 
@@ -167,6 +187,17 @@ public class ConnectionImpl extends AbstractConnection {
      * @return true if packet is free of errors, false otherwise.
      */
     protected boolean isValid(KtnDatagram packet) {
-        throw new NotImplementedException();
+    	// Check the sequence number:
+    	if(packet.getSeq_nr() != nextSequenceNo - 1)
+		return false;
+	
+	// Check the checksum:
+	if(packet.getChecksum() != packet.calculateChecksum())
+		return false;
+
+	// Do the parity checking:
+	
+
+	return true;
     }
 }
