@@ -12,7 +12,6 @@ public class Appointment {
 	private Room room;
 	private ArrayList<User> listOfParticipants;
 	
-	
 	public void addParticipant(User participant) {
 		listOfParticipants.add(participant);
 	}
