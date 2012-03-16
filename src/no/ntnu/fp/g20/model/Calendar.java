@@ -38,7 +38,7 @@ public class Calendar extends AbstractTableModel
 	 * Gets the number of columns in the table.
 	 * @return 7, the number of days in a week.
 	 */
-	@Override public int getColumnCount()
+	public int getColumnCount()
 	{
 		return 7;
 	}
@@ -67,7 +67,7 @@ public class Calendar extends AbstractTableModel
 	 * This may be changed when it is decided how many hours to show.
 	 * @return the number of rows in the table.
 	 */
-	@Override public int getRowCount()
+	public int getRowCount()
 	{
 		return 12;
 	}
@@ -78,7 +78,7 @@ public class Calendar extends AbstractTableModel
 	 * @param col the column to retrieve the contents of.
 	 * @return the contents of the specified cell.
 	 */
-	@Override public Object getValueAt(int row, int col)
+	public Object getValueAt(int row, int col)
 	{
 		return null;
 	}
