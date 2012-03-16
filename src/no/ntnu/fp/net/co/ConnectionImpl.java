@@ -99,7 +99,8 @@ public class ConnectionImpl extends AbstractConnection {
      * @see no.ntnu.fp.net.co.Connection#send(String)
      */
     public void send(String msg) throws ConnectException, IOException {
-        throw new NotImplementedException();
+        KtnDatagram data = constructDataPacket(msg);
+        sendDataPacketWithRetransmit(data);
     }
 
     /**
