@@ -182,6 +182,12 @@ public class ConnectionImpl extends AbstractConnection {
      * Test a packet for transmission errors. This function should only called
      * with data or ACK packets in the ESTABLISHED state.
      * 
+     * Validating sequence:
+     * 	1: Compare sequence numbers
+     * 	2: Compare checksums
+     * 	3: Paritycheck
+     * 
+     * 
      * @param packet
      *            Packet to test.
      * @return true if packet is free of errors, false otherwise.
