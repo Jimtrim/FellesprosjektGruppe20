@@ -4,6 +4,7 @@ import no.ntnu.fp.g20.model.*;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.beans.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
@@ -12,7 +13,7 @@ import javax.swing.event.*;
  * @author Kristian Klomsten Skordal
  */
 public class CalendarPanel extends JPanel
-	implements ComponentListener
+	implements ComponentListener, PropertyChangeListener
 {
 	private JTable calendarTable;
 	private Calendar model;
@@ -48,6 +49,15 @@ public class CalendarPanel extends JPanel
 
 		layout.setConstraints(calendarTable, c);
 		add(calendarTable);
+	}
+
+	/**
+	 * Function called when a property changes in one of the associated model classes.
+	 * @param event the property change event.
+	 */
+	public void propertyChange(PropertyChangeEvent event)
+	{
+
 	}
 
 	/**
