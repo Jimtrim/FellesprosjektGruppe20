@@ -39,8 +39,9 @@ public class ConnectionImpl extends AbstractConnection {
 
     /** Keeps track of the used ports for each server port. */
     private static Map<Integer, Boolean> usedPorts = Collections.synchronizedMap(new HashMap<Integer, Boolean>());
-    private static int startPort = 10000;
-
+    private static int startPort = 49152;
+    private static int maxPort = 65535;
+    
     /**
      * Initialise initial sequence number and setup state machine.
      * 
@@ -79,7 +80,12 @@ public class ConnectionImpl extends AbstractConnection {
             SocketTimeoutException {
     	// TODO: Make singleton connector   	
     	
+    	this.remoteAddress = remoteAddress.getHostAddress();
+    	this.remotePort = remotePort;
+    	int sequenceNo = 1;
+    	
     	KtnDatagram internalPacket = super.constructInternalPacket(KtnDatagram.Flag.SYN);
+    	
     	try {
 			super.simplySendPacket(internalPacket);
 			super.receivePacket(true);
@@ -101,10 +107,27 @@ public class ConnectionImpl extends AbstractConnection {
      * @see Connection#accept()
      */
     public Connection accept() throws IOException, SocketTimeoutException {
-	Connection clientConnection;
-    	KtnDatagram packet = receivePacket(true);
-
-	return null;
+    	KtnDatagram packet = receivePacket(false);
+    	
+    	int newPort=0;
+    	for(int i=startPort; i<=maxPort; i++) {
+    		if (usedPorts.get(i) == false) {
+    			newPort = i;
+    			usedPorts.put(i, true);
+    		}
+    	} if (newPort==0) throw new IOException();
+    	
+    	packet.setDest_port(newPort); 	
+    	sendAck(packet, true);
+    	
+    	KtnDatagram confirm = receiveAck();
+    	if (confirm!=null) {
+	    	ConnectionImpl conn = new ConnectionImpl(newPort);
+	    	conn.state = AbstractConnection.State.ESTABLISHED;
+	    	return conn;
+    	} else { 
+    		throw new SocketTimeoutException(); 
+    	}
     }
 
     /**
