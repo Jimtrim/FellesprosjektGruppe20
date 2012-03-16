@@ -76,7 +76,21 @@ public class ConnectionImpl extends AbstractConnection {
      */
     public void connect(InetAddress remoteAddress, int remotePort) throws IOException,
             SocketTimeoutException {
-        throw new NotImplementedException();
+    	// TODO: Make singleton connector   	
+    	
+    	KtnDatagram internalPacket = super.constructInternalPacket(KtnDatagram.Flag.SYN);
+    	try {
+			super.simplySendPacket(internalPacket);
+			super.receivePacket(true);
+			super.receiveAck();
+			
+			super.sendAck(internalPacket, false);
+		} catch (ClException e) {
+			System.out.println(e.getMessage());
+		} catch (ConnectException e) {
+			System.out.println(e.getMessage());
+		}
+    	
     }
 
     /**
@@ -105,7 +119,8 @@ public class ConnectionImpl extends AbstractConnection {
      * @see no.ntnu.fp.net.co.Connection#send(String)
      */
     public void send(String msg) throws ConnectException, IOException {
-        throw new NotImplementedException();
+        KtnDatagram data = constructDataPacket(msg);
+        sendDataPacketWithRetransmit(data);
     }
 
     /**
@@ -122,11 +137,21 @@ public class ConnectionImpl extends AbstractConnection {
 
     /**
      * Close the connection.
-     * 
      * @see Connection#close()
      */
     public void close() throws IOException {
-        throw new NotImplementedException();
+        KtnDatagram packet = constructInternalPacket(Flag.FIN);
+        try {        	
+        	simplySendPacket(packet);
+        }
+        catch (ClException e) {
+			throw new IOException("C1Exception");
+		} {
+        	
+        }
+        KtnDatagram ack = receiveAck();
+        KtnDatagram receivedPacket = receivePacket(true);
+        sendAck(receivedPacket, false);
     }
 
     /**
