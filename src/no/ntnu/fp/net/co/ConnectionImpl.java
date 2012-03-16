@@ -79,9 +79,12 @@ public class ConnectionImpl extends AbstractConnection {
             SocketTimeoutException {
     	// TODO: Make singleton connector   	
     	
+    	this.remoteAddress = remoteAddress.getHostAddress();
+    	this.remotePort = remotePort;
+    	int sequenceNo = 1;
+    	
     	KtnDatagram internalPacket = super.constructInternalPacket(KtnDatagram.Flag.SYN);
-    	internalPacket.setDest_addr(remoteAddress.getHostAddress());
-    	internalPacket.setDest_port(remotePort);
+    	
     	try {
 			super.simplySendPacket(internalPacket);
 			super.receivePacket(true);
