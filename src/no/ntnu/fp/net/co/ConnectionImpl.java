@@ -73,7 +73,21 @@ public class ConnectionImpl extends AbstractConnection {
      */
     public void connect(InetAddress remoteAddress, int remotePort) throws IOException,
             SocketTimeoutException {
-        throw new NotImplementedException();
+    	// TODO: Make singleton connector   	
+    	
+    	KtnDatagram internalPacket = super.constructInternalPacket(KtnDatagram.Flag.SYN);
+    	try {
+			super.simplySendPacket(internalPacket);
+			super.receivePacket(true);
+			super.receiveAck();
+			
+			super.sendAck(internalPacket, false);
+		} catch (ClException e) {
+			System.out.println(e.getMessage());
+		} catch (ConnectException e) {
+			System.out.println(e.getMessage());
+		}
+    	
     }
 
     /**
