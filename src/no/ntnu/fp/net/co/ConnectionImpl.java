@@ -100,7 +100,7 @@ public class ConnectionImpl extends AbstractConnection {
      * @see Connection#accept()
      */
     public Connection accept() throws IOException, SocketTimeoutException {
-	Connection clientConnection;
+    	Connection clientConnection;
     	KtnDatagram packet = receivePacket(true);
 
 	return null;
