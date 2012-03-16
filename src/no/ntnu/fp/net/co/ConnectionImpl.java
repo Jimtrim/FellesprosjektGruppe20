@@ -114,9 +114,14 @@ public class ConnectionImpl extends AbstractConnection {
     	packet.setDest_port(newPort); 	
     	sendAck(packet, true);
     	
-    	ConnectionImpl conn = new ConnectionImpl(newPort);
-    	conn.state = AbstractConnection.State.ESTABLISHED;
-    	return conn;
+    	KtnDatagram confirm = receiveAck();
+    	if (confirm!=null) {
+	    	ConnectionImpl conn = new ConnectionImpl(newPort);
+	    	conn.state = AbstractConnection.State.ESTABLISHED;
+	    	return conn;
+    	} else { 
+    		throw new SocketTimeoutException(); 
+    	}
     }
 
     /**
