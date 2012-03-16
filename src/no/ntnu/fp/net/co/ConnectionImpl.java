@@ -152,11 +152,31 @@ public class ConnectionImpl extends AbstractConnection {
      * Test a packet for transmission errors. This function should only called
      * with data or ACK packets in the ESTABLISHED state.
      * 
+     * Validating sequence:
+     * 	1: Compare sequence numbers
+     * 	2: Compare checksums
+     * 	3: Paritycheck
+     * 
+     * 
      * @param packet
      *            Packet to test.
      * @return true if packet is free of errors, false otherwise.
      */
     protected boolean isValid(KtnDatagram packet) {
-        throw new NotImplementedException();
+    	if (this.nextSequenceNo != packet.getSeq_nr()) {
+    		return false;
+    	}
+    	if (packet.getChecksum() != packet.calculateChecksum()) {
+    		return false;
+    	}
+    	
+    	// TODO: Paritycheck (ref. docs)
+    	
+    	byte[]payloadBytes = packet.getPayloadAsBytes();
+    	
+    	
+    	
+        this.lastValidPacketReceived = packet;
+        return true;
     }
 }
