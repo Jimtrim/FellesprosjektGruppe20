@@ -76,21 +76,7 @@ public class ConnectionImpl extends AbstractConnection {
      */
     public void connect(InetAddress remoteAddress, int remotePort) throws IOException,
             SocketTimeoutException {
-    	// TODO: Make singleton connector   	
-    	
-    	KtnDatagram internalPacket = super.constructInternalPacket(KtnDatagram.Flag.SYN);
-    	try {
-			super.simplySendPacket(internalPacket);
-			super.receivePacket(true);
-			super.receiveAck();
-			
-			super.sendAck(internalPacket, false);
-		} catch (ClException e) {
-			System.out.println(e.getMessage());
-		} catch (ConnectException e) {
-			System.out.println(e.getMessage());
-		}
-    	
+        throw new NotImplementedException();
     }
 
     /**
@@ -100,8 +86,22 @@ public class ConnectionImpl extends AbstractConnection {
      * @see Connection#accept()
      */
     public Connection accept() throws IOException, SocketTimeoutException {
-	Connection clientConnection;
+	ConnectionImpl clientConnection;
     	KtnDatagram packet = receivePacket(true);
+	int newPort = 0;
+
+	for(int port = startPort; port < (1 << 17) - 1; ++port)
+	{
+		if(!usedPorts.get(port))
+		{
+			usedPorts.put(port, true);
+			newPort = port;
+			break;
+		}
+	}
+
+	if(newPort == 0)
+		throw new IOException("No ports available for use");
 
 	return null;
     }
@@ -119,8 +119,7 @@ public class ConnectionImpl extends AbstractConnection {
      * @see no.ntnu.fp.net.co.Connection#send(String)
      */
     public void send(String msg) throws ConnectException, IOException {
-        KtnDatagram data = constructDataPacket(msg);
-        sendDataPacketWithRetransmit(data);
+        throw new NotImplementedException();
     }
 
     /**
@@ -137,21 +136,11 @@ public class ConnectionImpl extends AbstractConnection {
 
     /**
      * Close the connection.
+     * 
      * @see Connection#close()
      */
     public void close() throws IOException {
-        KtnDatagram packet = constructInternalPacket(Flag.FIN);
-        try {        	
-        	simplySendPacket(packet);
-        }
-        catch (ClException e) {
-			throw new IOException("C1Exception");
-		} {
-        	
-        }
-        KtnDatagram ack = receiveAck();
-        KtnDatagram receivedPacket = receivePacket(true);
-        sendAck(receivedPacket, false);
+        throw new NotImplementedException();
     }
 
     /**
