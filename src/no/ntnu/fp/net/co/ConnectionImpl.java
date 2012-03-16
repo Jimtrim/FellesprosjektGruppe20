@@ -114,8 +114,8 @@ public class ConnectionImpl extends AbstractConnection {
     	packet.setDest_port(newPort); 	
     	sendAck(packet, true);
     	
-    	Connection conn = new ConnectionImpl(newPort);
-    	
+    	ConnectionImpl conn = new ConnectionImpl(newPort);
+    	conn.state = AbstractConnection.State.ESTABLISHED;
     	return conn;
     }
 
