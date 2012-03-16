@@ -143,15 +143,19 @@ public class ConnectionImpl extends AbstractConnection {
         KtnDatagram packet = constructInternalPacket(Flag.FIN);
         try {        	
         	simplySendPacket(packet);
+        	this.state = State.FIN_WAIT_1;
         }
         catch (ClException e) {
 			throw new IOException("C1Exception");
-		} {
-        	
-        }
+		}
         KtnDatagram ack = receiveAck();
-        KtnDatagram receivedPacket = receivePacket(true);
-        sendAck(receivedPacket, false);
+        if (ack != null) {
+        	this.state = State.FIN_WAIT_2;
+        	KtnDatagram receivedPacket = receivePacket(true);
+        	sendAck(receivedPacket, false);
+        	this.state = State.CLOSED;
+        	usedPorts.remove(receivedPacket.getDest_port());
+        }
     }
 
     /**
