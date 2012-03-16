@@ -113,7 +113,8 @@ public class ConnectionImpl extends AbstractConnection {
      * @see no.ntnu.fp.net.co.Connection#send(String)
      */
     public void send(String msg) throws ConnectException, IOException {
-        throw new NotImplementedException();
+        KtnDatagram data = constructDataPacket(msg);
+        sendDataPacketWithRetransmit(data);
     }
 
     /**
@@ -130,11 +131,21 @@ public class ConnectionImpl extends AbstractConnection {
 
     /**
      * Close the connection.
-     * 
      * @see Connection#close()
      */
     public void close() throws IOException {
-        throw new NotImplementedException();
+        KtnDatagram packet = constructInternalPacket(Flag.FIN);
+        try {        	
+        	simplySendPacket(packet);
+        }
+        catch (ClException e) {
+			throw new IOException("C1Exception");
+		} {
+        	
+        }
+        KtnDatagram ack = receiveAck();
+        KtnDatagram receivedPacket = receivePacket(true);
+        sendAck(receivedPacket, false);
     }
 
     /**

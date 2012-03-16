@@ -2,6 +2,7 @@ package no.ntnu.fp.g20.model;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.beans.*;
 import java.util.*;
 
 import javax.swing.*;
@@ -14,11 +15,23 @@ import javax.swing.table.*;
  */
 public class Calendar extends AbstractTableModel
 {
+	private PropertyChangeSupport pcs;
+
 	/**
 	 * Constructs a new calendar model class.
 	 */
 	public Calendar()
 	{
+		pcs = new PropertyChangeSupport(this);
+	}
+
+	/**
+	 * Adds a new property change listener.
+	 * @param listener the listener to add.
+	 */
+	public void addPropertyChangeListener(PropertyChangeListener listener)
+	{
+		pcs.addPropertyChangeListener(listener);
 	}
 
 	/**
