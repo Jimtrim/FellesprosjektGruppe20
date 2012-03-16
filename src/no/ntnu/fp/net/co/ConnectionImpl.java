@@ -38,6 +38,7 @@ public class ConnectionImpl extends AbstractConnection {
 
     /** Keeps track of the used ports for each server port. */
     private static Map<Integer, Boolean> usedPorts = Collections.synchronizedMap(new HashMap<Integer, Boolean>());
+    private static int startPort = 10000;
 
     /**
      * Initialise initial sequence number and setup state machine.
@@ -46,7 +47,9 @@ public class ConnectionImpl extends AbstractConnection {
      *            - the local port to associate with this connection
      */
     public ConnectionImpl(int myPort) {
-        throw new NotImplementedException();
+    	super();
+	this.myPort = myPort;
+	this.myAddress = getIPv4Address();
     }
 
     private String getIPv4Address() {
@@ -83,7 +86,10 @@ public class ConnectionImpl extends AbstractConnection {
      * @see Connection#accept()
      */
     public Connection accept() throws IOException, SocketTimeoutException {
-        throw new NotImplementedException();
+	Connection clientConnection;
+    	KtnDatagram packet = receivePacket(true);
+
+	return null;
     }
 
     /**
