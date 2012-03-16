@@ -5,6 +5,7 @@ package no.ntnu.fp.net.co;
 
 import java.io.EOFException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.SocketTimeoutException;
@@ -158,14 +159,73 @@ public class ConnectionImpl extends AbstractConnection {
         }
     }
 
+    public static void main(String[] args) throws UnsupportedEncodingException
+    {
+	String testString = "12345678";
+	ConnectionImpl test = new ConnectionImpl(777);
+	testString = test.addParityBits(testString);
+	for(int i = 0; i < testString.length(); ++i)
+		System.out.println("0x" + Integer.toHexString((testString.charAt(i))));
+    }
+
+    /**
+     * Calculates the even parity bit for a byte.
+     * @param b byte to calculate the parity bit for.
+     * @return the parity bit.
+     */
+    private byte getParityBit(byte data)
+    {
+        int numOnes = 0;
+	for(int i = 0; i < 8; ++i)
+		numOnes += data >> i;
+	
+	if(numOnes % 2 == 1)
+		return 1;
+	else
+		return 0;
+    }
+
     /**
      * Adds parity bits to a message.
      * @param data input message.
      * @return string with parity bits added.
      */
-    protected String addParityBits(String data)
+    private String addParityBits(String data) throws UnsupportedEncodingException
     {
+         byte[] messageData = data.getBytes("ASCII");
+	 StringBuilder retval = new StringBuilder(data);
 
+	 // Pad the message with zero bytes:
+	 int zeroes = 8 - (messageData.length % 8);
+	 for(int i = 0; i < zeroes && zeroes != 8; ++i)
+	 {
+	 	System.out.println("Appended 0");
+	 	retval.append('\u0000');
+	 }
+
+	for(int i = 8; i <= retval.length(); i += 9)
+	{
+		byte rowParity = 0;
+		byte colParity = 0;
+
+		// Xor value of all the columns:
+		byte colXor = (byte) 0xff;
+
+		for(int r = i - 8; r < i; ++r)
+		{
+			rowParity |= getParityBit((byte) retval.charAt(r)) << 8 - r;
+			colXor ^= (byte) retval.charAt(r);
+		}
+
+		// Create the parity byte for the columns:
+		for(int b = 0; b < 8; ++b)
+			colParity |= (byte) ~((colXor >> b) & 0x1 << 8 - b);
+
+		retval.insert(i, (byte) rowParity);
+		retval.insert(i + 1, (byte) colParity);
+	}
+
+	return retval.toString();
     }
 
     /**
@@ -173,9 +233,21 @@ public class ConnectionImpl extends AbstractConnection {
      * @param data input message with parity bits.
      * @return string with parity bits removed.
      */
-    protected String stripParityBits(String data)
+    private String stripParityBits(String data)
     {
+        StringBuilder retval = new StringBuilder();
+	byte[] messageData = data.getBytes();
+	for(int i = 0; i < messageData.length; ++i)
+	{
+		if(messageData[i] == 0)
+			continue;
+		// Remove parity bytes:
+		if(i % 8 == 1 || i % 8 == 2)
+			continue;
+		retval.append(messageData[i]);
+	}
 
+	return retval.toString();
     }
 
     /**
