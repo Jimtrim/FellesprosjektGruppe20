@@ -80,6 +80,8 @@ public class ConnectionImpl extends AbstractConnection {
     	// TODO: Make singleton connector   	
     	
     	KtnDatagram internalPacket = super.constructInternalPacket(KtnDatagram.Flag.SYN);
+    	internalPacket.setDest_addr(remoteAddress.getHostAddress());
+    	internalPacket.setDest_port(remotePort);
     	try {
 			super.simplySendPacket(internalPacket);
 			super.receivePacket(true);
@@ -182,7 +184,7 @@ public class ConnectionImpl extends AbstractConnection {
      * @return string with parity bits added.
      */
     protected String addParityBits(String data)
-    {
+    {return null;
 
     }
 
@@ -192,7 +194,7 @@ public class ConnectionImpl extends AbstractConnection {
      * @return string with parity bits removed.
      */
     protected String stripParityBits(String data)
-    {
+    {return null;
 
     }
 
