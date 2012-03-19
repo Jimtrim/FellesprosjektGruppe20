@@ -5,8 +5,15 @@ package no.ntnu.fp.g20;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.Calendar;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import no.ntnu.fp.g20.model.Appointment;
 
 /**
  * Appointment information panel class.
@@ -14,8 +21,10 @@ import javax.swing.*;
  * user has some relation to.
  * @author Kristian Klomsten Skordal
  */
-public class AppointmentPanel extends JPanel
-{
+public class AppointmentPanel extends JPanel {
+	
+	private Appointment model;
+
 	private JComboBox sortBox;
 	private JList appointmentList;
 	private JTextField titleField, locationField;
@@ -54,29 +63,12 @@ public class AppointmentPanel extends JPanel
 		sortBox = new JComboBox(sortType);
 		layout.setConstraints(sortBox, c);
 		add(sortBox);
-		
-		
-		
-		//create listener for the sort box
-		class SortBoxListener implements ActionListener {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (sortBox.getSelectedItem().equals("Time")) {
-				}
-				else if (sortBox.getSelectedItem().equals("Status")) {
-					
-				}
-			}
-			
-		}
-		
-		//add listener to sortBox
 		sortBox.addActionListener(new SortBoxListener());
 		
 
 		// Add the appointment list:
 		appointmentList = new JList();
+		appointmentList.setModel(new DefaultListModel());
 		JScrollPane scrollPane = new JScrollPane(appointmentList);
 		c.gridx = 0;
 		c.gridy++;
@@ -116,6 +108,7 @@ public class AppointmentPanel extends JPanel
 		titleField.setText("Go home");
 		layout.setConstraints(titleField, c);
 		add(titleField);
+		titleField.addKeyListener(new TitleFieldListener());
 		
 		//add the location label
 		JLabel locationLabel = new JLabel("Location: ");
@@ -129,6 +122,7 @@ public class AppointmentPanel extends JPanel
 		c.gridx++;
 		c.gridwidth = 5;
 		add(locationField, c);
+		locationField.addKeyListener(new LocationFieldListener());
 		
 		//add room reservation button
 		roomResButton = new JButton("Room");
@@ -136,6 +130,7 @@ public class AppointmentPanel extends JPanel
 		c.gridwidth = 1;
 		c.anchor = GridBagConstraints.WEST;
 		add(roomResButton, c);
+		roomResButton.addActionListener(new RoomResButtonListener());
 		
 		//add the date label
 		JLabel dateLabel = new JLabel("Date: ");
@@ -143,7 +138,6 @@ public class AppointmentPanel extends JPanel
 		c.gridx = 2;
 		c.gridwidth = 1;
 		add(dateLabel, c);
-		
 		
 		//add the date combo boxes
 		dayBox = new JComboBox();
@@ -167,37 +161,6 @@ public class AppointmentPanel extends JPanel
 		c.anchor = GridBagConstraints.WEST;
 		add(yearBox, c);
 		
-		//create listeners for the date boxes
-		class DayBoxListener implements ActionListener {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-		}
-		
-		class MonthBoxListener implements ActionListener {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		}
-		
-		class YearBoxListener implements ActionListener {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		}
-		
 		//add listeners to the date boxes
 		dayBox.addActionListener(new DayBoxListener());
 		monthBox.addActionListener(new MonthBoxListener());
@@ -211,7 +174,7 @@ public class AppointmentPanel extends JPanel
 		layout.setConstraints(timeLabel, c);
 		add(timeLabel);
 
-		//add the time combo boxes
+		//add the time boxes
 		hoursBox = new JComboBox();
 		hoursBox.addItem(13);
 		c.fill = GridBagConstraints.NONE;
@@ -224,27 +187,6 @@ public class AppointmentPanel extends JPanel
 		c.gridx++;
 		c.anchor = GridBagConstraints.WEST;
 		add(minutesBox, c);
-		
-		//create listeners for the time boxes
-		class HoursBoxListener implements ActionListener {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		}
-		
-		class MinutesBoxListener implements ActionListener {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		}
 			
 		//add listeners to the time boxes
 		hoursBox.addActionListener(new HoursBoxListener());
@@ -256,10 +198,11 @@ public class AppointmentPanel extends JPanel
 		c.gridx++;
 		add(durationLabel, c);
 
-		//add the duration combo box
+		//add the duration box
 		durationBox = new JComboBox();
 		c.gridx++;
 		add(durationBox, c);
+		durationBox.addActionListener(new DurationBoxListener());
 
 		// Add the hours label:
 		JLabel hourLabel = new JLabel("hours");
@@ -279,7 +222,7 @@ public class AppointmentPanel extends JPanel
 		c.gridy++;
 		c.weightx = 1;
 		c.weighty = 1;
-		c.gridwidth = c.REMAINDER;
+		c.gridwidth = GridBagConstraints.REMAINDER;
 		c.fill = GridBagConstraints.BOTH;
 		descriptionField = new JTextArea();
 		descriptionField.setRows(2);
@@ -287,6 +230,7 @@ public class AppointmentPanel extends JPanel
 		descriptionField.setWrapStyleWord(true);
 		layout.setConstraints(descriptionField, c);
 		add(descriptionField);
+		descriptionField.addKeyListener(new DescriptionFieldListener());
 
 		// Add the button box:
 		Box buttonBox = Box.createHorizontalBox();
@@ -315,42 +259,226 @@ public class AppointmentPanel extends JPanel
 		participantsButton = new JButton("Participants");
 		buttonBox.add(participantsButton);
 		
-		//create listener for the approve button
-		class ApproveButtonListener implements ActionListener {
+		//add listeners to the buttons
+		approveButton.addActionListener(new ApproveButtonListener());
+		rejectButton.addActionListener(new RejectButtonListener());
+		participantsButton.addActionListener(new ParticipantsButtonListener());
+	}
+	
+	/**
+	 * Return the panels Appointment model
+	 */
+	public Appointment getModel() {
+		return this.model;
+	}
+	
+	/**
+	 * Sets the panels Appointment model
+	 */
+	public void setModel(Appointment model) {
+		this.model = model;
+		if (model != null) {
+			titleField.setText(model.getName());
+			locationField.setText(model.getLocation());
+			dayBox.setSelectedItem(model.getStartTime().get(Calendar.DAY_OF_MONTH));
+			monthBox.setSelectedItem(model.getStartTime().get(Calendar.MONTH));
+			yearBox.setSelectedItem(model.getStartTime().get(Calendar.YEAR));
+			hoursBox.setSelectedItem(model.getStartTime().get(Calendar.HOUR));
+			minutesBox.setSelectedItem(model.getStartTime().get(Calendar.MINUTE));
+			//no getter for duration in Appointment class
+			//no description field in Appointment class
+		}
+	}
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
+	
+	//create listener for the sort box
+	class SortBoxListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (sortBox.getSelectedItem().equals("Time")) {
+				
+			}
+			else if (sortBox.getSelectedItem().equals("Status")) {
 				
 			}
 		}
-		
-		//add listener to the approve button
-		approveButton.addActionListener(new ApproveButtonListener());
-		
-		//create listener for the reject button
-		class RejectButtonListener implements ActionListener {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
+	}
+	
+	//create listener for the title field
+	class TitleFieldListener implements KeyListener {
 
-			}
-		}
-		
-		//add listener to the reject button
-		rejectButton.addActionListener(new RejectButtonListener());
-		
-		//create listener for the participants button
-		class ParticipantsButtonListener implements ActionListener {
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// TODO Auto-generated method stub
 			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ParticipantList listOfParticipants = new ParticipantList();
-				listOfParticipants.setVisible(true);
-			}
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
 		}
 		
-		//add listener to the participants button
-		participantsButton.addActionListener(new ParticipantsButtonListener());
+	}
+	
+	//create listener for location field
+	class LocationFieldListener implements KeyListener {
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
+	
+	//create listener for description field
+	class DescriptionFieldListener implements KeyListener {
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
+	
+	//create listener for room reservation button
+	class RoomResButtonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JFrame roomResFrame = new JFrame();
+			roomResFrame.add(new RoomReservationPanel());
+			roomResFrame.pack();
+			roomResFrame.setVisible(true);
+		}
+	}
+	
+	//create listeners for the date boxes
+	class DayBoxListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+	}
+	
+	class MonthBoxListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+	}
+	
+	class YearBoxListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			
+		}	
+	}
+	
+	//create listeners for the time boxes
+	class HoursBoxListener implements ActionListener {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+	}
+	
+	class MinutesBoxListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+	}
+	
+	class DurationBoxListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+	}
+	
+	//create listener for the approve button
+	class ApproveButtonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+	}
+	
+	//create listener for the reject button
+	class RejectButtonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+	}
+	
+	//create listener for the participants button
+	class ParticipantsButtonListener implements ActionListener {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			ParticipantList listOfParticipants = new ParticipantList();
+			listOfParticipants.setVisible(true);
+		}
+	}
+	
+	//create listener for the appointment list
+	class AppointmentListListener implements ListSelectionListener {
+
+		@Override
+		public void valueChanged(ListSelectionEvent e) {
+			setModel((Appointment) appointmentList.getSelectedValue());
+		}
 	}
 
 	/**
