@@ -1,2 +1,13 @@
-# Ignore the build directory:
+# Ignore eclipse files:
+.settings/
+.classpath
+.project
+
+# Ignore the build directories:
 build/
+bin/
+
+# Ignore vim swap files:
+.*.swo
+.*.swp
+

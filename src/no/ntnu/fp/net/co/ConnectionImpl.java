@@ -5,6 +5,7 @@ package no.ntnu.fp.net.co;
 
 import java.io.EOFException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.SocketTimeoutException;
@@ -38,7 +39,9 @@ public class ConnectionImpl extends AbstractConnection {
 
     /** Keeps track of the used ports for each server port. */
     private static Map<Integer, Boolean> usedPorts = Collections.synchronizedMap(new HashMap<Integer, Boolean>());
-
+    private static int startPort = 49152;
+    private static int maxPort = 65535;
+    
     /**
      * Initialise initial sequence number and setup state machine.
      * 
@@ -46,7 +49,9 @@ public class ConnectionImpl extends AbstractConnection {
      *            - the local port to associate with this connection
      */
     public ConnectionImpl(int myPort) {
-        throw new NotImplementedException();
+    	super();
+	this.myPort = myPort;
+	this.myAddress = getIPv4Address();
     }
 
     private String getIPv4Address() {
@@ -73,7 +78,27 @@ public class ConnectionImpl extends AbstractConnection {
      */
     public void connect(InetAddress remoteAddress, int remotePort) throws IOException,
             SocketTimeoutException {
-        throw new NotImplementedException();
+    	// TODO: Make singleton connector   	
+    	
+    	this.remoteAddress = remoteAddress.getHostAddress();
+    	this.remotePort = remotePort;
+    	
+    	KtnDatagram internalPacket = super.constructInternalPacket(KtnDatagram.Flag.SYN);
+    	
+    	try {
+			super.simplySendPacket(internalPacket);
+			// TODO: Check the received packets
+			super.receivePacket(true);
+			super.receiveAck();
+			
+			super.sendAck(internalPacket, true);
+	        this.state = AbstractConnection.State.ESTABLISHED;
+		} catch (ClException e) {
+			System.out.println(e.getMessage());
+		} catch (ConnectException e) {
+			System.out.println(e.getMessage());
+		}
+    	
     }
 
     /**
@@ -83,7 +108,35 @@ public class ConnectionImpl extends AbstractConnection {
      * @see Connection#accept()
      */
     public Connection accept() throws IOException, SocketTimeoutException {
-        throw new NotImplementedException();
+    	KtnDatagram packet = receivePacket(false);
+	if(packet.getFlag() == KtnDatagram.Flag.SYN)
+		return null;
+
+	state = State.LISTEN;
+    	
+    	int newPort=0;
+    	for(int i=startPort; i<=maxPort; i++) {
+    		if (usedPorts.containsKey(i) == false) {
+    			newPort = i;
+    			usedPorts.put(i, true);
+    		}
+    	} if (newPort==0) throw new IOException();
+    	
+	System.out.println(newPort);
+
+//   	packet.setDest_port(newPort); 
+//    	sendAck(packet, true);
+    	
+	ConnectionImpl conn = new ConnectionImpl(newPort);
+	conn.sendAck(packet, true);
+    	KtnDatagram confirm = conn.receiveAck();
+
+    	if (confirm!=null) {
+	    	conn.state = AbstractConnection.State.ESTABLISHED;
+	    	return conn;
+    	} else { 
+    		throw new SocketTimeoutException(); 
+    	}
     }
 
     /**
@@ -99,7 +152,10 @@ public class ConnectionImpl extends AbstractConnection {
      * @see no.ntnu.fp.net.co.Connection#send(String)
      */
     public void send(String msg) throws ConnectException, IOException {
-        throw new NotImplementedException();
+        KtnDatagram data = constructDataPacket(msg);
+        data.setPayload(msg);
+        System.out.println(data.getPayload());
+        sendDataPacketWithRetransmit(data);
     }
 
     /**
@@ -111,27 +167,113 @@ public class ConnectionImpl extends AbstractConnection {
      * @see AbstractConnection#sendAck(KtnDatagram, boolean)
      */
     public String receive() throws ConnectException, IOException {
-        throw new NotImplementedException();
+        KtnDatagram packet = super.receivePacket(false);
+        if (isValid(packet)) {
+	        sendAck(packet, true);
+	        System.out.println("Packet: Valid!");
+	        return packet.getPayloadAsBytes().toString();
+        } else {
+	        System.out.println("Packet: Invalid!");
+        	return null;
+        }
     }
 
     /**
      * Close the connection.
-     * 
      * @see Connection#close()
      */
     public void close() throws IOException {
-        throw new NotImplementedException();
+        KtnDatagram packet = constructInternalPacket(Flag.FIN);
+        try {        	
+        	simplySendPacket(packet);
+        	this.state = State.FIN_WAIT_1;
+        }
+        catch (ClException e) {
+			throw new IOException("C1Exception");
+		}
+        KtnDatagram ack = receiveAck();
+        if (ack != null) {
+        	this.state = State.FIN_WAIT_2;
+        	KtnDatagram receivedPacket = receivePacket(true);
+        	sendAck(receivedPacket, false);
+        	this.state = State.CLOSED;
+        	usedPorts.remove(receivedPacket.getDest_port());
+        }
+    }
+
+    /** For testing the parity functions. */
+    public static void main(String[] args) throws UnsupportedEncodingException
+    {
+	String testString = "12345678";
+	ConnectionImpl test = new ConnectionImpl(777);
+	testString = test.addParityBits(testString);
+	for(int i = 0; i < testString.length(); ++i)
+		System.out.println("0x" + Integer.toHexString((testString.charAt(i))));
+    }
+
+    /**
+     * Calculates the even parity bit for a byte.
+     * @param b byte to calculate the parity bit for.
+     * @return the parity bit.
+     */
+    private byte getParityBit(byte data)
+    {
+        int numOnes = 0;
+	for(int i = 0; i < 8; ++i)
+		numOnes += data >> i;
+	
+	if(numOnes % 2 == 1)
+		return 1;
+	else
+		return 0;
+    }
+
+    /**
+     * Adds parity bits to a message.
+     * @param data input message.
+     * @return string with parity bits added.
+     */
+    private String addParityBits(String data) throws UnsupportedEncodingException
+    {
+	return data;
+    }
+
+    /**
+     * Removes parity bits from a message.
+     * @param data input message with parity bits.
+     * @return string with parity bits removed.
+     */
+    private String stripParityBits(String data)
+    {
+	return data;
     }
 
     /**
      * Test a packet for transmission errors. This function should only called
      * with data or ACK packets in the ESTABLISHED state.
      * 
+     * Validating sequence:
+     * 	1: Compare sequence numbers
+     * 	2: Compare checksums
+     * 	3: Paritycheck
+     * 
+     * 
      * @param packet
      *            Packet to test.
      * @return true if packet is free of errors, false otherwise.
      */
     protected boolean isValid(KtnDatagram packet) {
-        throw new NotImplementedException();
+    	// Check the sequence number:
+    	if(packet.getSeq_nr() != nextSequenceNo - 1)
+		return false;
+	
+	// Check the checksum:
+	if(packet.getChecksum() != packet.calculateChecksum())
+		return false;
+
+	// Do the parity checking:
+	
+
+	return true;
     }
 }
