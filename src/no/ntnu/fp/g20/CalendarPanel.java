@@ -37,8 +37,8 @@ public class CalendarPanel extends JPanel
 		calendarTable = new JTable(model);
 		calendarTable.setFillsViewportHeight(true);
 		calendarTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		calendarTable.getTableHeader().setReorderingAllowed(false);
 		calendarTable.getTableHeader().setResizingAllowed(false);
+		calendarTable.getTableHeader().setReorderingAllowed(false);
 		calendarTable.addComponentListener(this);
 
 		layout.setConstraints(calendarTable.getTableHeader(), c);
