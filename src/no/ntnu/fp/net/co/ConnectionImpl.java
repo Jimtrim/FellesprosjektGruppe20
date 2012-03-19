@@ -79,19 +79,29 @@ public class ConnectionImpl extends AbstractConnection {
     public void connect(InetAddress remoteAddress, int remotePort) throws IOException,
             SocketTimeoutException {
     	// TODO: Make singleton connector   	
+	
+	state = State.CLOSED;
     	
     	this.remoteAddress = remoteAddress.getHostAddress();
     	this.remotePort = remotePort;
     	
-    	KtnDatagram internalPacket = super.constructInternalPacket(KtnDatagram.Flag.SYN);
-    	
+    	KtnDatagram internalPacket = constructInternalPacket(KtnDatagram.Flag.SYN);
     	try {
-			super.simplySendPacket(internalPacket);
-			// TODO: Check the received packets
-			super.receivePacket(true);
-			super.receiveAck();
+			simplySendPacket(internalPacket);
+
+			state = State.SYN_SENT;
+
+			KtnDatagram packet = receiveAck();
+			if(packet == null)
+				throw new IOException("SYN_ACK not received!");
+			if(packet.getFlag() != KtnDatagram.Flag.SYN_ACK)
+				throw new IOException("SYN_ACK not received!");
 			
-			super.sendAck(internalPacket, false);
+			this.remotePort = packet.getSrc_port();
+			System.out.println("remote port: " + remotePort);
+
+			sendAck(packet, false);
+		        state = State.ESTABLISHED;
 		} catch (ClException e) {
 			System.out.println(e.getMessage());
 		} catch (ConnectException e) {
@@ -107,26 +117,34 @@ public class ConnectionImpl extends AbstractConnection {
      * @see Connection#accept()
      */
     public Connection accept() throws IOException, SocketTimeoutException {
-    	KtnDatagram packet = receivePacket(false);
-	if(packet.getFlag() == KtnDatagram.Flag.SYN)
-		return null;
-
 	state = State.LISTEN;
+	KtnDatagram packet = null;
+
+	do {
+	    	packet = receivePacket(true);
+	} while(packet == null);
+
+	if(packet.getFlag() != KtnDatagram.Flag.SYN)
+	{
+		System.out.println(packet.getFlag());
+		throw new IOException("SYN not received in accept()");
+	}
     	
     	int newPort=0;
     	for(int i=startPort; i<=maxPort; i++) {
-    		if (usedPorts.get(i) == false) {
+    		if (usedPorts.containsKey(i) == false) {
     			newPort = i;
     			usedPorts.put(i, true);
+			break;
     		}
     	} if (newPort==0) throw new IOException();
     	
-	System.out.println(newPort);
+	System.out.println("new port: " + newPort);
 
-//   	packet.setDest_port(newPort); 
-//    	sendAck(packet, true);
-    	
 	ConnectionImpl conn = new ConnectionImpl(newPort);
+	conn.remoteAddress = packet.getSrc_addr();
+	conn.remotePort = packet.getSrc_port();
+	conn.state = State.SYN_RCVD;
 	conn.sendAck(packet, true);
     	KtnDatagram confirm = conn.receiveAck();
 
@@ -152,6 +170,8 @@ public class ConnectionImpl extends AbstractConnection {
      */
     public void send(String msg) throws ConnectException, IOException {
         KtnDatagram data = constructDataPacket(msg);
+        data.setPayload(msg);
+	System.out.println(data.getPayload());
         sendDataPacketWithRetransmit(data);
     }
 
@@ -164,7 +184,15 @@ public class ConnectionImpl extends AbstractConnection {
      * @see AbstractConnection#sendAck(KtnDatagram, boolean)
      */
     public String receive() throws ConnectException, IOException {
-        throw new NotImplementedException();
+        KtnDatagram packet = receivePacket(false);
+        if (isValid(packet)) {
+	        sendAck(packet, true);
+	        System.out.println("Packet: Valid!");
+	        return (String) packet.getPayload();
+        } else {
+	        System.out.println("Packet: Invalid!");
+        	return null;
+        }
     }
 
     /**
@@ -184,9 +212,11 @@ public class ConnectionImpl extends AbstractConnection {
         if (ack != null) {
         	this.state = State.FIN_WAIT_2;
         	KtnDatagram receivedPacket = receivePacket(true);
-        	sendAck(receivedPacket, false);
+		if(receivedPacket != null)
+	        	sendAck(receivedPacket, false);
         	this.state = State.CLOSED;
-        	usedPorts.remove(receivedPacket.getDest_port());
+		if(receivedPacket != null)
+	        	usedPorts.remove(receivedPacket.getDest_port());
         }
     }
 
@@ -253,12 +283,12 @@ public class ConnectionImpl extends AbstractConnection {
      */
     protected boolean isValid(KtnDatagram packet) {
     	// Check the sequence number:
-    	if(packet.getSeq_nr() != nextSequenceNo - 1)
-		return false;
+  //  	if(packet.getSeq_nr() != nextSequenceNo - 1)
+//		return false;
 	
 	// Check the checksum:
-	if(packet.getChecksum() != packet.calculateChecksum())
-		return false;
+//	if(packet.getChecksum() != packet.calculateChecksum())
+//		return false;
 
 	// Do the parity checking:
 	
