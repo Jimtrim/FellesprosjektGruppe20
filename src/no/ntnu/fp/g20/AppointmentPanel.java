@@ -90,6 +90,7 @@ public class AppointmentPanel extends JPanel
 		c.gridx = 2;
 		c.gridy = 0;
 		c.weighty = 0;
+		c.weightx = 0;
 		c.gridwidth = GridBagConstraints.REMAINDER;
 		c.gridheight = 1;
 
@@ -106,9 +107,8 @@ public class AppointmentPanel extends JPanel
 
 		// Add the title field:
 		c.gridx++;
-		c.weightx = 1;
-		c.gridwidth = 3;
-		titleField = new JTextField(15);
+		c.gridwidth = 5;
+		titleField = new JTextField(20);
 		titleField.setText("Go home");
 		layout.setConstraints(titleField, c);
 		add(titleField);
@@ -147,7 +147,6 @@ public class AppointmentPanel extends JPanel
 		// Add the start time label:
 		c.gridx = 2;
 		c.gridy++;
-		c.weightx = 0;
 		JLabel timeLabel = new JLabel("Start time:");
 		layout.setConstraints(timeLabel, c);
 		add(timeLabel);
@@ -168,11 +167,10 @@ public class AppointmentPanel extends JPanel
 		add(minutes, c);
 		
 		// Add the duration label:
-		c.gridx++;
-		c.weightx = 0;
 		JLabel durationLabel = new JLabel("Duration: ");
 		layout.setConstraints(durationLabel, c);
-		add(durationLabel);
+		c.gridx++;
+		add(durationLabel, c);
 
 		//add the duration combo box
 		duration = new JComboBox();
@@ -262,7 +260,8 @@ public class AppointmentPanel extends JPanel
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				ParticipantList listOfParticipants = new ParticipantList();
+				listOfParticipants.setVisible(true);
 			}
 		}
 		
