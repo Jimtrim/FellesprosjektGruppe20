@@ -167,9 +167,8 @@ public class ConnectionImpl extends AbstractConnection {
      * @see no.ntnu.fp.net.co.Connection#send(String)
      */
     public void send(String msg) throws ConnectException, IOException {
-		KtnDatagram data = constructDataPacket(msg);
-		data.setPayload(msg);
-		sendDataPacketWithRetransmit(data);
+        KtnDatagram data = constructDataPacket(addParityBits(msg));
+        sendDataPacketWithRetransmit(data);
     }
 
     /**
@@ -181,13 +180,15 @@ public class ConnectionImpl extends AbstractConnection {
      * @see AbstractConnection#sendAck(KtnDatagram, boolean)
      */
     public String receive() throws ConnectException, IOException {
-		KtnDatagram packet = receivePacket(false);
-		if (isValid(packet)) {
-		    sendAck(packet, true);
-		    return packet.getPayload().toString();
-		} else {
-			return null;
-		}
+        KtnDatagram packet = receivePacket(false);
+        if (isValid(packet)) {
+	        sendAck(packet, true);
+	        System.out.println("Packet: Valid!");
+	        return stripParityBits((String) packet.getPayload());
+        } else {
+	        System.out.println("Packet: Invalid!");
+        	return null;
+        }
     }
 
     /**
@@ -277,16 +278,15 @@ public class ConnectionImpl extends AbstractConnection {
      * @return true if packet is free of errors, false otherwise.
      */
     protected boolean isValid(KtnDatagram packet) {
-// 		Check the sequence number:
-		if(packet.getSeq_nr() != nextSequenceNo - 1)
-			return false;
+    	// Check the sequence number:
+    	if(packet.getSeq_nr() != nextSequenceNo - 1)
+		return false;
 	
-// 		Check the checksum:
-		if(packet.getChecksum() != packet.calculateChecksum())
-			return false;
+	// Check the checksum:
+	if(packet.getChecksum() != packet.calculateChecksum())
+		return false;
 
 	// Do the parity checking:
-	
 
 	return true;
     }

@@ -41,6 +41,9 @@ public class CalendarPanel extends JPanel
 		calendarTable.getTableHeader().setReorderingAllowed(false);
 		calendarTable.addComponentListener(this);
 
+		for(int day = 0; day < 7; ++day)
+			calendarTable.getColumnModel().getColumn(day).setCellRenderer(model);
+
 		layout.setConstraints(calendarTable.getTableHeader(), c);
 		add(calendarTable.getTableHeader());
 
