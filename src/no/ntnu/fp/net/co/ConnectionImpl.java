@@ -91,7 +91,8 @@ public class ConnectionImpl extends AbstractConnection {
 			super.receivePacket(true);
 			super.receiveAck();
 			
-			super.sendAck(internalPacket, false);
+			super.sendAck(internalPacket, true);
+	        this.state = AbstractConnection.State.ESTABLISHED;
 		} catch (ClException e) {
 			System.out.println(e.getMessage());
 		} catch (ConnectException e) {
@@ -115,7 +116,7 @@ public class ConnectionImpl extends AbstractConnection {
     	
     	int newPort=0;
     	for(int i=startPort; i<=maxPort; i++) {
-    		if (usedPorts.get(i) == false) {
+    		if (usedPorts.containsKey(i) == false) {
     			newPort = i;
     			usedPorts.put(i, true);
     		}
@@ -152,6 +153,8 @@ public class ConnectionImpl extends AbstractConnection {
      */
     public void send(String msg) throws ConnectException, IOException {
         KtnDatagram data = constructDataPacket(msg);
+        data.setPayload(msg);
+        System.out.println(data.getPayload());
         sendDataPacketWithRetransmit(data);
     }
 
@@ -164,7 +167,15 @@ public class ConnectionImpl extends AbstractConnection {
      * @see AbstractConnection#sendAck(KtnDatagram, boolean)
      */
     public String receive() throws ConnectException, IOException {
-        throw new NotImplementedException();
+        KtnDatagram packet = super.receivePacket(false);
+        if (isValid(packet)) {
+	        sendAck(packet, true);
+	        System.out.println("Packet: Valid!");
+	        return packet.getPayloadAsBytes().toString();
+        } else {
+	        System.out.println("Packet: Invalid!");
+        	return null;
+        }
     }
 
     /**
