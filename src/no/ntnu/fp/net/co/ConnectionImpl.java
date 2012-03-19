@@ -141,15 +141,11 @@ public class ConnectionImpl extends AbstractConnection {
     	
 	System.out.println("new port: " + newPort);
 
-//   	packet.setDest_port(newPort); 
-//    	sendAck(packet, true);
-    	
 	ConnectionImpl conn = new ConnectionImpl(newPort);
 	conn.remoteAddress = packet.getSrc_addr();
 	conn.remotePort = packet.getSrc_port();
 	conn.state = State.SYN_RCVD;
 	conn.sendAck(packet, true);
-//	sendAck(packet, true);
     	KtnDatagram confirm = conn.receiveAck();
 
     	if (confirm!=null) {
