@@ -19,7 +19,7 @@ public class AppointmentPanel extends JPanel
 	private JComboBox sortBox;
 	private JList appointmentList;
 	private JTextField titleField;
-	private JComboBox hours, minutes, day, month, year, duration;
+	private JComboBox hoursBox, minutesBox, dayBox, monthBox, yearBox, durationBox;
 	private JTextArea descriptionField;
 	private JToggleButton approveButton, rejectButton;
 	private JButton participantsButton;
@@ -39,7 +39,6 @@ public class AppointmentPanel extends JPanel
 
 		c.gridx = 0;
 		c.gridy = 0;
-		c.fill = GridBagConstraints.HORIZONTAL;
 		c.ipadx = 2;
 		c.ipady = 2;
 
@@ -51,9 +50,12 @@ public class AppointmentPanel extends JPanel
 		// Add the sort box:
 		String[] sortType = { "Time", "Status" };
 		c.gridx++;
+		c.anchor = GridBagConstraints.WEST;
 		sortBox = new JComboBox(sortType);
 		layout.setConstraints(sortBox, c);
 		add(sortBox);
+		
+		
 		
 		//create listener for the sort box
 		class SortBoxListener implements ActionListener {
@@ -61,7 +63,6 @@ public class AppointmentPanel extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (sortBox.getSelectedItem().equals("Time")) {
-					
 				}
 				else if (sortBox.getSelectedItem().equals("Status")) {
 					
@@ -80,6 +81,7 @@ public class AppointmentPanel extends JPanel
 		c.gridx = 0;
 		c.gridy++;
 		c.weighty = 1;
+		c.weightx = 0.7;
 		c.gridwidth = 2;
 		c.gridheight = GridBagConstraints.REMAINDER;
 		c.fill = GridBagConstraints.BOTH;
@@ -108,6 +110,8 @@ public class AppointmentPanel extends JPanel
 		// Add the title field:
 		c.gridx++;
 		c.gridwidth = 5;
+		c.fill = GridBagConstraints.NONE;
+		c.anchor = GridBagConstraints.WEST;
 		titleField = new JTextField(20);
 		titleField.setText("Go home");
 		layout.setConstraints(titleField, c);
@@ -122,49 +126,109 @@ public class AppointmentPanel extends JPanel
 		
 		
 		//add the date combo boxes
-		day = new JComboBox();
-		day.addItem(19);
+		dayBox = new JComboBox();
+		dayBox.addItem(19);
 		c.gridx++;
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.EAST;
-		add(day, c);
+		add(dayBox, c);
 		
-		month = new JComboBox();
-		month.addItem("March");
+		monthBox = new JComboBox();
+		monthBox.addItem("March");
 		c.gridx++;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		add(month, c);
+		add(monthBox, c);
 		
-		year = new JComboBox();
-		year.addItem(2012);
+		yearBox = new JComboBox();
+		yearBox.addItem(2012);
 		c.gridx = c.gridx + c.gridwidth;
 		c.gridwidth = 1;
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.WEST;
-		add(year, c);
+		add(yearBox, c);
+		
+		//create listeners for the date boxes
+		class DayBoxListener implements ActionListener {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+		}
+		
+		class MonthBoxListener implements ActionListener {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		}
+		
+		class YearBoxListener implements ActionListener {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		}
+		
+		//add listeners to the date boxes
+		dayBox.addActionListener(new DayBoxListener());
+		monthBox.addActionListener(new MonthBoxListener());
+		yearBox.addActionListener(new YearBoxListener());
 		
 
-		// Add the start time label:
+		// Add the time label:
 		c.gridx = 2;
 		c.gridy++;
-		JLabel timeLabel = new JLabel("Start time:");
+		JLabel timeLabel = new JLabel("Time:");
 		layout.setConstraints(timeLabel, c);
 		add(timeLabel);
 
-		//add the start hours combo box
-		hours = new JComboBox();
-		hours.addItem(13);
+		//add the time combo boxes
+		hoursBox = new JComboBox();
+		hoursBox.addItem(13);
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.EAST;
 		c.gridx++;
-		add(hours, c);
+		add(hoursBox, c);
 		
-		//add the minutes combo box
-		minutes = new JComboBox();
-		minutes.addItem(59);
+		minutesBox = new JComboBox();
+		minutesBox.addItem(59);
 		c.gridx++;
 		c.anchor = GridBagConstraints.WEST;
-		add(minutes, c);
+		add(minutesBox, c);
+		
+		//create listeners for the time boxes
+		class HoursBoxListener implements ActionListener {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		}
+		
+		class MinutesBoxListener implements ActionListener {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		}
+			
+		//add listeners to the time boxes
+		hoursBox.addActionListener(new HoursBoxListener());
+		minutesBox.addActionListener(new MinutesBoxListener());
 		
 		// Add the duration label:
 		JLabel durationLabel = new JLabel("Duration: ");
@@ -173,9 +237,9 @@ public class AppointmentPanel extends JPanel
 		add(durationLabel, c);
 
 		//add the duration combo box
-		duration = new JComboBox();
+		durationBox = new JComboBox();
 		c.gridx++;
-		add(duration, c);
+		add(durationBox, c);
 
 		// Add the hours label:
 		JLabel hourLabel = new JLabel("hours");
@@ -240,7 +304,7 @@ public class AppointmentPanel extends JPanel
 			}
 		}
 		
-		//add listener for the approve button
+		//add listener to the approve button
 		approveButton.addActionListener(new ApproveButtonListener());
 		
 		//create listener for the reject button
@@ -252,7 +316,7 @@ public class AppointmentPanel extends JPanel
 			}
 		}
 		
-		//add listener for the reject button
+		//add listener to the reject button
 		rejectButton.addActionListener(new RejectButtonListener());
 		
 		//create listener for the participants button
@@ -265,7 +329,7 @@ public class AppointmentPanel extends JPanel
 			}
 		}
 		
-		//add listener for the participants button
+		//add listener to the participants button
 		participantsButton.addActionListener(new ParticipantsButtonListener());
 	}
 
