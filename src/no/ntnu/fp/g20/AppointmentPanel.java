@@ -3,6 +3,9 @@
 package no.ntnu.fp.g20;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 
 /**
@@ -16,11 +19,10 @@ public class AppointmentPanel extends JPanel
 	private JComboBox sortBox;
 	private JList appointmentList;
 	private JTextField titleField;
-	private JTextField timeField;
-	private JTextField durationField;
+	private JComboBox hours, minutes, day, month, year, duration;
 	private JTextArea descriptionField;
 	private JToggleButton approveButton, rejectButton;
-	private JButton detailsButton;
+	private JButton participantsButton;
 
 	/**
 	 * Constructs an appointment panel.
@@ -52,6 +54,25 @@ public class AppointmentPanel extends JPanel
 		sortBox = new JComboBox(sortType);
 		layout.setConstraints(sortBox, c);
 		add(sortBox);
+		
+		//create listener for the sort box
+		class SortBoxListener implements ActionListener {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (sortBox.getSelectedItem().equals("Time")) {
+					
+				}
+				else if (sortBox.getSelectedItem().equals("Status")) {
+					
+				}
+			}
+			
+		}
+		
+		//add listener to sortBox
+		sortBox.addActionListener(new SortBoxListener());
+		
 
 		// Add the appointment list:
 		appointmentList = new JList();
@@ -69,6 +90,7 @@ public class AppointmentPanel extends JPanel
 		c.gridx = 2;
 		c.gridy = 0;
 		c.weighty = 0;
+		c.weightx = 0;
 		c.gridwidth = GridBagConstraints.REMAINDER;
 		c.gridheight = 1;
 
@@ -85,43 +107,75 @@ public class AppointmentPanel extends JPanel
 
 		// Add the title field:
 		c.gridx++;
-		c.weightx = 1;
-		c.gridwidth = GridBagConstraints.REMAINDER;
-		titleField = new JTextField(15);
-		titleField.setEditable(false);
+		c.gridwidth = 5;
+		titleField = new JTextField(20);
+		titleField.setText("Go home");
 		layout.setConstraints(titleField, c);
 		add(titleField);
+		
+		//add the date label
+		JLabel dateLabel = new JLabel("Date: ");
+		c.gridy++;
+		c.gridx = 2;
+		c.gridwidth = 1;
+		add(dateLabel, c);
+		
+		
+		//add the date combo boxes
+		day = new JComboBox();
+		day.addItem(19);
+		c.gridx++;
+		c.fill = GridBagConstraints.NONE;
+		c.anchor = GridBagConstraints.EAST;
+		add(day, c);
+		
+		month = new JComboBox();
+		month.addItem("March");
+		c.gridx++;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		add(month, c);
+		
+		year = new JComboBox();
+		year.addItem(2012);
+		c.gridx = c.gridx + c.gridwidth;
+		c.gridwidth = 1;
+		c.fill = GridBagConstraints.NONE;
+		c.anchor = GridBagConstraints.WEST;
+		add(year, c);
+		
 
 		// Add the start time label:
-		c.gridx--;
+		c.gridx = 2;
 		c.gridy++;
-		c.gridwidth = 1;
-		c.weightx = 0;
 		JLabel timeLabel = new JLabel("Start time:");
 		layout.setConstraints(timeLabel, c);
 		add(timeLabel);
 
-		// Add the start time field:
+		//add the start hours combo box
+		hours = new JComboBox();
+		hours.addItem(13);
+		c.fill = GridBagConstraints.NONE;
+		c.anchor = GridBagConstraints.EAST;
 		c.gridx++;
-		c.weightx = 1;
-		timeField = new JTextField(15);
-		timeField.setEditable(false);
-		layout.setConstraints(timeField, c);
-		add(timeField);
-
+		add(hours, c);
+		
+		//add the minutes combo box
+		minutes = new JComboBox();
+		minutes.addItem(59);
+		c.gridx++;
+		c.anchor = GridBagConstraints.WEST;
+		add(minutes, c);
+		
 		// Add the duration label:
-		c.gridx++;
-		c.weightx = 0;
 		JLabel durationLabel = new JLabel("Duration: ");
 		layout.setConstraints(durationLabel, c);
-		add(durationLabel);
-
-		// Add the duration field:
 		c.gridx++;
-		durationField = new JTextField(2);
-		durationField.setEditable(false);
-		layout.setConstraints(durationField, c);
-		add(durationField);
+		add(durationLabel, c);
+
+		//add the duration combo box
+		duration = new JComboBox();
+		c.gridx++;
+		add(duration, c);
 
 		// Add the hours label:
 		JLabel hourLabel = new JLabel("hours");
@@ -132,7 +186,7 @@ public class AppointmentPanel extends JPanel
 		// Add the description label:
 		c.gridx = 2;
 		c.gridy++;
-		c.gridwidth = GridBagConstraints.REMAINDER;
+		c.gridwidth = 2;
 		JLabel descriptionLabel = new JLabel("Description:");
 		layout.setConstraints(descriptionLabel, c);
 		add(descriptionLabel);
@@ -141,9 +195,12 @@ public class AppointmentPanel extends JPanel
 		c.gridy++;
 		c.weightx = 1;
 		c.weighty = 1;
+		c.gridwidth = c.REMAINDER;
 		c.fill = GridBagConstraints.BOTH;
 		descriptionField = new JTextArea();
-		descriptionField.setEditable(false);
+		descriptionField.setRows(2);
+//		descriptionField.setLineWrap(true);
+		descriptionField.setWrapStyleWord(true);
 		layout.setConstraints(descriptionField, c);
 		add(descriptionField);
 
@@ -170,9 +227,46 @@ public class AppointmentPanel extends JPanel
 
 		buttonBox.add(Box.createHorizontalGlue());
 
-		// Add the details button:
-		detailsButton = new JButton("Details");
-		buttonBox.add(detailsButton);
+		// Add the participants button:
+		participantsButton = new JButton("Participants");
+		buttonBox.add(participantsButton);
+		
+		//create listener for the approve button
+		class ApproveButtonListener implements ActionListener {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		}
+		
+		//add listener for the approve button
+		approveButton.addActionListener(new ApproveButtonListener());
+		
+		//create listener for the reject button
+		class RejectButtonListener implements ActionListener {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		}
+		
+		//add listener for the reject button
+		rejectButton.addActionListener(new RejectButtonListener());
+		
+		//create listener for the participants button
+		class ParticipantsButtonListener implements ActionListener {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ParticipantList listOfParticipants = new ParticipantList();
+				listOfParticipants.setVisible(true);
+			}
+		}
+		
+		//add listener for the participants button
+		participantsButton.addActionListener(new ParticipantsButtonListener());
 	}
 
 	/**
