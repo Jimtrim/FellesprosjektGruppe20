@@ -1,3 +1,5 @@
+package no.ntnu.fp.g20;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -162,9 +164,9 @@ public class ParticipantList extends JDialog{
 		participantList.setModel(participantListModel);
 		
 		//TODO: 'Tis a test. Remove. Adds test persons to move around.
-		//for (Person p : new ExamplePersonArrayList()){
-		//	userListModel.addElement(p);
-		//}
+//		for (Person p : new ExamplePersonArrayList()){
+//			userListModel.addElement(p);
+//		}
 		
 		
 		//ADDING:
