@@ -108,6 +108,10 @@ public class ConnectionImpl extends AbstractConnection {
      */
     public Connection accept() throws IOException, SocketTimeoutException {
     	KtnDatagram packet = receivePacket(false);
+	if(packet.getFlag() == KtnDatagram.Flag.SYN)
+		return null;
+
+	state = State.LISTEN;
     	
     	int newPort=0;
     	for(int i=startPort; i<=maxPort; i++) {
@@ -117,12 +121,16 @@ public class ConnectionImpl extends AbstractConnection {
     		}
     	} if (newPort==0) throw new IOException();
     	
-    	packet.setDest_port(newPort); 
-    	sendAck(packet, true);
+	System.out.println(newPort);
+
+//   	packet.setDest_port(newPort); 
+//    	sendAck(packet, true);
     	
-    	KtnDatagram confirm = receiveAck();
+	ConnectionImpl conn = new ConnectionImpl(newPort);
+	conn.sendAck(packet, true);
+    	KtnDatagram confirm = conn.receiveAck();
+
     	if (confirm!=null) {
-	    	ConnectionImpl conn = new ConnectionImpl(newPort);
 	    	conn.state = AbstractConnection.State.ESTABLISHED;
 	    	return conn;
     	} else { 
