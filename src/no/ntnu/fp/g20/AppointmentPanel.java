@@ -18,11 +18,11 @@ public class AppointmentPanel extends JPanel
 {
 	private JComboBox sortBox;
 	private JList appointmentList;
-	private JTextField titleField;
+	private JTextField titleField, locationField;
 	private JComboBox hoursBox, minutesBox, dayBox, monthBox, yearBox, durationBox;
 	private JTextArea descriptionField;
 	private JToggleButton approveButton, rejectButton;
-	private JButton participantsButton;
+	private JButton participantsButton, roomResButton;
 
 	/**
 	 * Constructs an appointment panel.
@@ -116,6 +116,26 @@ public class AppointmentPanel extends JPanel
 		titleField.setText("Go home");
 		layout.setConstraints(titleField, c);
 		add(titleField);
+		
+		//add the location label
+		JLabel locationLabel = new JLabel("Location: ");
+		c.gridy++;
+		c.gridx--;
+		c.gridwidth = 1;
+		add(locationLabel, c);
+		
+		//add the location field
+		locationField = new JTextField(20);
+		c.gridx++;
+		c.gridwidth = 5;
+		add(locationField, c);
+		
+		//add room reservation button
+		roomResButton = new JButton("Room");
+		c.gridx = c.gridx + c.gridwidth;
+		c.gridwidth = 1;
+		c.anchor = GridBagConstraints.WEST;
+		add(roomResButton, c);
 		
 		//add the date label
 		JLabel dateLabel = new JLabel("Date: ");
