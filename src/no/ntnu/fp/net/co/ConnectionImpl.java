@@ -82,12 +82,12 @@ public class ConnectionImpl extends AbstractConnection {
     	
     	this.remoteAddress = remoteAddress.getHostAddress();
     	this.remotePort = remotePort;
-    	int sequenceNo = 1;
     	
     	KtnDatagram internalPacket = super.constructInternalPacket(KtnDatagram.Flag.SYN);
     	
     	try {
 			super.simplySendPacket(internalPacket);
+			// TODO: Check the received packets
 			super.receivePacket(true);
 			super.receiveAck();
 			
@@ -117,7 +117,7 @@ public class ConnectionImpl extends AbstractConnection {
     		}
     	} if (newPort==0) throw new IOException();
     	
-    	packet.setDest_port(newPort); 	
+    	packet.setDest_port(newPort); 
     	sendAck(packet, true);
     	
     	KtnDatagram confirm = receiveAck();
@@ -182,6 +182,7 @@ public class ConnectionImpl extends AbstractConnection {
         }
     }
 
+    /** For testing the parity functions. */
     public static void main(String[] args) throws UnsupportedEncodingException
     {
 	String testString = "12345678";
@@ -215,40 +216,7 @@ public class ConnectionImpl extends AbstractConnection {
      */
     private String addParityBits(String data) throws UnsupportedEncodingException
     {
-         byte[] messageData = data.getBytes("ASCII");
-	 StringBuilder retval = new StringBuilder(data);
-
-	 // Pad the message with zero bytes:
-	 int zeroes = 8 - (messageData.length % 8);
-	 for(int i = 0; i < zeroes && zeroes != 8; ++i)
-	 {
-	 	System.out.println("Appended 0");
-	 	retval.append('\u0000');
-	 }
-
-	for(int i = 8; i <= retval.length(); i += 9)
-	{
-		byte rowParity = 0;
-		byte colParity = 0;
-
-		// Xor value of all the columns:
-		byte colXor = (byte) 0xff;
-
-		for(int r = i - 8; r < i; ++r)
-		{
-			rowParity |= getParityBit((byte) retval.charAt(r)) << 8 - r;
-			colXor ^= (byte) retval.charAt(r);
-		}
-
-		// Create the parity byte for the columns:
-		for(int b = 0; b < 8; ++b)
-			colParity |= (byte) ~((colXor >> b) & 0x1 << 8 - b);
-
-		retval.insert(i, (byte) rowParity);
-		retval.insert(i + 1, (byte) colParity);
-	}
-
-	return retval.toString();
+	return data;
     }
 
     /**
@@ -258,19 +226,7 @@ public class ConnectionImpl extends AbstractConnection {
      */
     private String stripParityBits(String data)
     {
-        StringBuilder retval = new StringBuilder();
-	byte[] messageData = data.getBytes();
-	for(int i = 0; i < messageData.length; ++i)
-	{
-		if(messageData[i] == 0)
-			continue;
-		// Remove parity bytes:
-		if(i % 8 == 1 || i % 8 == 2)
-			continue;
-		retval.append(messageData[i]);
-	}
-
-	return retval.toString();
+	return data;
     }
 
     /**
