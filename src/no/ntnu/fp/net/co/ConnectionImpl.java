@@ -87,20 +87,21 @@ public class ConnectionImpl extends AbstractConnection {
     	
     	KtnDatagram internalPacket = constructInternalPacket(KtnDatagram.Flag.SYN);
     	try {
-			System.out.println(internalPacket);
 			simplySendPacket(internalPacket);
+
+			state = State.SYN_SENT;
+
 			KtnDatagram packet = receiveAck();
 			if(packet == null)
 				throw new IOException("SYN_ACK not received!");
 			if(packet.getFlag() != KtnDatagram.Flag.SYN_ACK)
 				throw new IOException("SYN_ACK not received!");
-			//receiveAck();
 			
-			this.remotePort = packet.getDest_port();
+			this.remotePort = packet.getSrc_port();
 			System.out.println("remote port: " + remotePort);
 
 			sendAck(packet, false);
-		        state = AbstractConnection.State.ESTABLISHED;
+		        state = State.ESTABLISHED;
 		} catch (ClException e) {
 			System.out.println(e.getMessage());
 		} catch (ConnectException e) {
@@ -117,10 +118,12 @@ public class ConnectionImpl extends AbstractConnection {
      */
     public Connection accept() throws IOException, SocketTimeoutException {
 	state = State.LISTEN;
+	KtnDatagram packet = null;
 
-    	KtnDatagram packet = receivePacket(true);
-	if(packet == null)
-		throw new SocketTimeoutException("Timeout in accept()");
+	do {
+	    	packet = receivePacket(true);
+	} while(packet == null);
+
 	if(packet.getFlag() != KtnDatagram.Flag.SYN)
 	{
 		System.out.println(packet.getFlag());
@@ -138,14 +141,11 @@ public class ConnectionImpl extends AbstractConnection {
     	
 	System.out.println("new port: " + newPort);
 
-//   	packet.setDest_port(newPort); 
-//    	sendAck(packet, true);
-    	
 	ConnectionImpl conn = new ConnectionImpl(newPort);
 	conn.remoteAddress = packet.getSrc_addr();
 	conn.remotePort = packet.getSrc_port();
+	conn.state = State.SYN_RCVD;
 	conn.sendAck(packet, true);
-//	sendAck(packet, true);
     	KtnDatagram confirm = conn.receiveAck();
 
     	if (confirm!=null) {
@@ -171,7 +171,7 @@ public class ConnectionImpl extends AbstractConnection {
     public void send(String msg) throws ConnectException, IOException {
         KtnDatagram data = constructDataPacket(msg);
         data.setPayload(msg);
-//	System.out.println(data.getPayload());
+	System.out.println(data.getPayload());
         sendDataPacketWithRetransmit(data);
     }
 
@@ -188,7 +188,7 @@ public class ConnectionImpl extends AbstractConnection {
         if (isValid(packet)) {
 	        sendAck(packet, true);
 	        System.out.println("Packet: Valid!");
-	        return packet.getPayloadAsBytes().toString();
+	        return (String) packet.getPayload();
         } else {
 	        System.out.println("Packet: Invalid!");
         	return null;
@@ -212,9 +212,11 @@ public class ConnectionImpl extends AbstractConnection {
         if (ack != null) {
         	this.state = State.FIN_WAIT_2;
         	KtnDatagram receivedPacket = receivePacket(true);
-        	sendAck(receivedPacket, false);
+		if(receivedPacket != null)
+	        	sendAck(receivedPacket, false);
         	this.state = State.CLOSED;
-        	usedPorts.remove(receivedPacket.getDest_port());
+		if(receivedPacket != null)
+	        	usedPorts.remove(receivedPacket.getDest_port());
         }
     }
 
@@ -281,12 +283,12 @@ public class ConnectionImpl extends AbstractConnection {
      */
     protected boolean isValid(KtnDatagram packet) {
     	// Check the sequence number:
-    	if(packet.getSeq_nr() != nextSequenceNo - 1)
-		return false;
+  //  	if(packet.getSeq_nr() != nextSequenceNo - 1)
+//		return false;
 	
 	// Check the checksum:
-	if(packet.getChecksum() != packet.calculateChecksum())
-		return false;
+//	if(packet.getChecksum() != packet.calculateChecksum())
+//		return false;
 
 	// Do the parity checking:
 	
