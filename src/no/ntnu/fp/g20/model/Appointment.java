@@ -39,6 +39,12 @@ public class Appointment
 	{
 		listOfParticipants.remove(participant);
 	}
+
+	public Calendar getStartTime()
+	{
+		return startTime;
+	}
+
 	public int getID() {
 		return this.id;
 	}
