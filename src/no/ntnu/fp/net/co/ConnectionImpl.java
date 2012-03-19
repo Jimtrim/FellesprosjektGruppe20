@@ -49,9 +49,9 @@ public class ConnectionImpl extends AbstractConnection {
      *            - the local port to associate with this connection
      */
     public ConnectionImpl(int myPort) {
-    	super();
-	this.myPort = myPort;
-	this.myAddress = getIPv4Address();
+		super();
+		this.myPort = myPort;
+		this.myAddress = getIPv4Address();
     }
 
     private String getIPv4Address() {
@@ -78,9 +78,7 @@ public class ConnectionImpl extends AbstractConnection {
      */
     public void connect(InetAddress remoteAddress, int remotePort) throws IOException,
             SocketTimeoutException {
-    	// TODO: Make singleton connector   	
-	
-	state = State.CLOSED;
+    	state = State.CLOSED;
     	
     	this.remoteAddress = remoteAddress.getHostAddress();
     	this.remotePort = remotePort;
@@ -92,17 +90,17 @@ public class ConnectionImpl extends AbstractConnection {
 			state = State.SYN_SENT;
 
 			KtnDatagram packet = receiveAck();
-			if(packet == null)
+			if(packet.getFlag() != KtnDatagram.Flag.SYN_ACK ||
+					packet == null) {
 				throw new IOException("SYN_ACK not received!");
-			if(packet.getFlag() != KtnDatagram.Flag.SYN_ACK)
-				throw new IOException("SYN_ACK not received!");
-			
+			}
+				
 			this.remotePort = packet.getSrc_port();
-			System.out.println("remote port: " + remotePort);
+//			System.out.println("remote port: " + remotePort);
 
 			sendAck(packet, false);
 		        state = State.ESTABLISHED;
-		} catch (ClException e) {
+		} catch (ClException e){
 			System.out.println(e.getMessage());
 		} catch (ConnectException e) {
 			System.out.println(e.getMessage());
@@ -118,42 +116,42 @@ public class ConnectionImpl extends AbstractConnection {
      */
     public Connection accept() throws IOException, SocketTimeoutException {
 	state = State.LISTEN;
-	KtnDatagram packet = null;
-
-	do {
-	    	packet = receivePacket(true);
-	} while(packet == null);
-
-	if(packet.getFlag() != KtnDatagram.Flag.SYN)
-	{
-		System.out.println(packet.getFlag());
-		throw new IOException("SYN not received in accept()");
-	}
-    	
-    	int newPort=0;
-    	for(int i=startPort; i<=maxPort; i++) {
-    		if (usedPorts.containsKey(i) == false) {
-    			newPort = i;
-    			usedPorts.put(i, true);
+		KtnDatagram packet = null;
+		
+		while(packet == null) {
+		    	packet = receivePacket(true);
+		}
+		
+		if(packet.getFlag() != KtnDatagram.Flag.SYN)
+		{
+			System.out.println(packet.getFlag());
+			throw new IOException("SYN not received in accept()");
+		}
+		
+		int newPort=0;
+		for(int i=startPort; i<=maxPort; i++) {
+			if (usedPorts.containsKey(i) == false) {
+				newPort = i;
+				usedPorts.put(i, true);
 			break;
-    		}
-    	} if (newPort==0) throw new IOException();
-    	
-	System.out.println("new port: " + newPort);
-
-	ConnectionImpl conn = new ConnectionImpl(newPort);
-	conn.remoteAddress = packet.getSrc_addr();
-	conn.remotePort = packet.getSrc_port();
-	conn.state = State.SYN_RCVD;
-	conn.sendAck(packet, true);
-    	KtnDatagram confirm = conn.receiveAck();
-
-    	if (confirm!=null) {
-	    	conn.state = AbstractConnection.State.ESTABLISHED;
-	    	return conn;
-    	} else { 
-    		throw new SocketTimeoutException(); 
-    	}
+			}
+		} if (newPort==0) throw new IOException();
+			
+		System.out.println("new port: " + newPort);
+		
+		ConnectionImpl conn = new ConnectionImpl(newPort);
+		conn.remoteAddress = packet.getSrc_addr();
+		conn.remotePort = packet.getSrc_port();
+		conn.state = State.SYN_RCVD;
+		conn.sendAck(packet, true);
+		KtnDatagram confirm = conn.receiveAck();
+		
+		if (confirm!=null) {
+			conn.state = AbstractConnection.State.ESTABLISHED;
+			return conn;
+		} else { 
+			throw new SocketTimeoutException(); 
+		}
     }
 
     /**
@@ -252,7 +250,7 @@ public class ConnectionImpl extends AbstractConnection {
      */
     private String addParityBits(String data) throws UnsupportedEncodingException
     {
-	return data;
+    	return data;
     }
 
     /**
@@ -262,7 +260,7 @@ public class ConnectionImpl extends AbstractConnection {
      */
     private String stripParityBits(String data)
     {
-	return data;
+    	return data;
     }
 
     /**
@@ -289,7 +287,6 @@ public class ConnectionImpl extends AbstractConnection {
 		return false;
 
 	// Do the parity checking:
-	
 
 	return true;
     }

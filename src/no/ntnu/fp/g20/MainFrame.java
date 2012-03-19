@@ -47,6 +47,8 @@ public class MainFrame extends JFrame {
 		toolBar.add(new PrevWeekAction());
 		toolBar.add(new NextWeekAction());
 		
+		toolBar.setFloatable(false);
+		
 		calendar = new CalendarPanel(new Calendar());
 		add(calendar, BorderLayout.CENTER);
 
@@ -112,7 +114,7 @@ public class MainFrame extends JFrame {
 	{
 		public RemoveCalendarAction()
 		{
-			super("–"); // Beware, n-dash, not hyphen.
+			super("ï¿½"); // Beware, n-dash, not hyphen.
 		}
 
 		public void actionPerformed(ActionEvent event)

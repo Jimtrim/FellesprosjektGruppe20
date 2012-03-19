@@ -19,6 +19,7 @@ public class Calendar extends AbstractTableModel
 	implements PropertyChangeListener, TableCellRenderer
 {
 	public final static int HOURS = 12;
+	public final static int START_HOUR = 7;
 
 	private PropertyChangeSupport pcs;
 	private Appointment[][] appointments;
@@ -118,9 +119,9 @@ public class Calendar extends AbstractTableModel
 	 * @param col the column to retrieve the contents of.
 	 * @return the contents of the specified cell.
 	 */
-	public Object getValueAt(int row, int col)
+	public Object getValueAt(int row, int column)
 	{
-		return 0;
+		return appointments[column][row];
 	}
 
 	/**
@@ -136,8 +137,10 @@ public class Calendar extends AbstractTableModel
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
 		boolean hasFocus, int row, int column)
 	{
-		return new AppointmentWidget(null);
-	//	return new JLabel("empty");
+		if(appointments[column][row] == null)
+			return new AppointmentWidget(row);
+		else
+			return new AppointmentWidget((Appointment) value);
 	}
 }
 

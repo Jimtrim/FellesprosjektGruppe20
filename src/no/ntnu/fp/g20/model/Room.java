@@ -4,16 +4,18 @@ public class Room {
 	private int id;
 	private String name;
 	private int capacity;
-	private Available available;
 	private String description;
 	
-	public Room(int id, String name, int capacity, Available available, String description) {
+	public Room(int id, String name, int capacity, String description) {
 		this.id = id;
 		this.name = name;
 		this.capacity = capacity;
-		this.available = available;
 		this.description = description;
 		
+	}
+
+	public Room(String name) {
+		this.name = name;
 	}
 
 	public void reserve(){
@@ -22,14 +24,6 @@ public class Room {
 
 	public void unreserve(){
 		
-	}
-
-	public Available getAvailable() {
-		return available;
-	}
-
-	public void setAvailable(Available available) {
-		this.available = available;
 	}
 
 	public String getDescription() {
@@ -83,10 +77,6 @@ public class Room {
 				System.err.println("Capacity not the same");
 				return false;
 			}
-			else if (!this.available.equals(r.getAvailable())) {
-				System.err.println("Available not the same");
-				return false;
-			}
 			else{
 				return true;
 			}
@@ -97,8 +87,4 @@ public class Room {
 		}
 	}
 	
-	public enum Available{
-		AVAILABLE, UNAVAILABLE;
-	}
-
 }
