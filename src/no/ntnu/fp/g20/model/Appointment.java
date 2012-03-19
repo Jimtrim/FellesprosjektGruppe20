@@ -16,6 +16,7 @@ public class Appointment
 	public final static String LOCATION_PROPERTY = "LocationProperty";
 
 	private int id;
+	private String name;
 	private Calendar startTime;
 	private int duration;
 	private String location;
@@ -45,8 +46,37 @@ public class Appointment
 		return startTime;
 	}
 
-	public int getID() {
-		return this.id;
+	public int getID()
+	{
+		return id;
+	}
+
+	public String getName()
+	{
+		return name;
+	}
+
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+
+	public String getLocation()
+	{
+		if(room == null)
+			return location;
+		else
+			return room.toString();
+	}
+
+	public void setLocation(String location)
+	{
+		this.location = location;
+	}
+
+	public void setStartTime(Calendar startTime)
+	{
+		this.startTime = startTime;
 	}
 	
 	public boolean equals(Object ob) {
