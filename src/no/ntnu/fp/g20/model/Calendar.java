@@ -35,8 +35,11 @@ public class Calendar extends AbstractTableModel
 		appointments[4][4] = new Appointment();
 		appointments[4][4].setName("Test appointment");
 		appointments[4][4].setLocation("Funroom");
+	
+		// Create a start time:
 		java.util.Calendar startTime = java.util.Calendar.getInstance();
 		startTime.set(2012, 3, 19, 4, 0);
+
 		appointments[4][4].setStartTime(startTime);
 	}
 
