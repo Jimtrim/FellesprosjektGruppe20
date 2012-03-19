@@ -19,5 +19,18 @@ public class Appointment {
 	public void removeParticipant(User participant) {
 		listOfParticipants.remove(participant);
 	}
-
+	public int getID() {
+		return this.id;
+	}
+	
+	public boolean equals(Object ob) {
+		if (ob instanceof Appointment) {
+			Appointment app = (Appointment) ob;
+			if (app.getID() != this.id) {
+				System.err.println("Appointment ID not the same");
+				return false;
+			}
+			return true;
+		} return false;
+	}
 }

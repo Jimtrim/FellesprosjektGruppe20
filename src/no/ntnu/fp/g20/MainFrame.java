@@ -46,7 +46,7 @@ public class MainFrame extends JFrame {
 
 		toolBar.add(new PrevWeekAction());
 		toolBar.add(new NextWeekAction());
-
+		
 		calendar = new CalendarPanel(new Calendar());
 		add(calendar, BorderLayout.CENTER);
 
@@ -54,6 +54,7 @@ public class MainFrame extends JFrame {
 		add(appointmentList, BorderLayout.SOUTH);
 
 		pack();
+		setMinimumSize(new Dimension(getSize().width, getSize().height));
 	}
 
 	/**
@@ -111,7 +112,7 @@ public class MainFrame extends JFrame {
 	{
 		public RemoveCalendarAction()
 		{
-			super("â€“"); // Beware, endash, not hyphen.
+			super("–"); // Beware, n-dash, not hyphen.
 		}
 
 		public void actionPerformed(ActionEvent event)
