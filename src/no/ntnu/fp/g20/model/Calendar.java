@@ -31,6 +31,16 @@ public class Calendar extends AbstractTableModel
 	{
 		pcs = new PropertyChangeSupport(this);
 		appointments = new Appointment[7][HOURS];
+
+		appointments[4][4] = new Appointment();
+		appointments[4][4].setName("Test appointment");
+		appointments[4][4].setLocation("Funroom");
+	
+		// Create a start time:
+		java.util.Calendar startTime = java.util.Calendar.getInstance();
+		startTime.set(2012, 3, 19, 4, 0);
+
+		appointments[4][4].setStartTime(startTime);
 	}
 
 	/**
@@ -140,7 +150,7 @@ public class Calendar extends AbstractTableModel
 		if(appointments[column][row] == null)
 			return new AppointmentWidget(row);
 		else
-			return new AppointmentWidget((Appointment) value);
+			return new AppointmentWidget(appointments[column][row]);
 	}
 }
 

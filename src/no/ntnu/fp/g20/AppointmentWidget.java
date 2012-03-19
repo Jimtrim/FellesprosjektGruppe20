@@ -57,6 +57,8 @@ public class AppointmentWidget extends JComponent
 		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
 			RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
+		setMinimumSize(new Dimension(getWidth(), metrics.getHeight() * 4));
+
 		if(appointment == null)
 		{
 			g.setColor(getBackground());
@@ -75,6 +77,12 @@ public class AppointmentWidget extends JComponent
 
 			g.setFont(getFont());
 			g.setColor(Color.BLACK);
+			g.drawString(appointment.getName(), 0, titleY);
+
+			titleY += metrics.getHeight();
+
+			g.setColor(Color.GRAY);
+			g.drawString(appointment.getLocation(), 0, titleY);
 		}
 	}
 }

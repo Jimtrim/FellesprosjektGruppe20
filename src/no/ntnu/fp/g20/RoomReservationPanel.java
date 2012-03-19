@@ -141,11 +141,11 @@ public class RoomReservationPanel extends JPanel implements ActionListener, List
 			JList list = (JList)e.getSource();
 			
 			//Get all selected items
-			this.setModel((Room)roomList.getSelectedValue();
+			//this.setModel((Room)roomList.getSelectedValue());
 			
-			for(int i = 0; i<selected.length; i++){
-				Object sel = selected[i];
-			}
+			//for(int i = 0; i<selected.length; i++){
+		//		Object sel = selected[i];
+		//	}
 		}
 
 	}
