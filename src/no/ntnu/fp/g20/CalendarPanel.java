@@ -39,6 +39,7 @@ public class CalendarPanel extends JPanel
 		calendarTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		calendarTable.getTableHeader().setResizingAllowed(false);
 		calendarTable.getTableHeader().setReorderingAllowed(false);
+		calendarTable.setGridColor(new Color(220,220,220));
 		calendarTable.addComponentListener(this);
 
 		layout.setConstraints(calendarTable.getTableHeader(), c);
