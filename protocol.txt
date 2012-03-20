@@ -8,5 +8,5 @@ Login:
 	Server replies:
 		LOGIN FAILED
 	or:
-		LOGIN OK <user id>
+		LOGIN OK <user id> <first name> <last name>
 
