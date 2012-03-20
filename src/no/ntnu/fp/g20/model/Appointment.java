@@ -5,6 +5,8 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import no.ntnu.fp.g20.Status;
+
 /**
  * Class representing an appointment.
  * @author ?
@@ -22,12 +24,14 @@ public class Appointment
 	private String location;
 	private Room room;
 	private ArrayList<User> listOfParticipants;
+	private Status status;
 
 	private PropertyChangeSupport pcs;
 
 	public Appointment()
 	{
 		listOfParticipants = new ArrayList<User>();
+		status = Status.UNCONFIRMED;
 		pcs = new PropertyChangeSupport(this);
 	}
 
@@ -77,6 +81,13 @@ public class Appointment
 	public void setStartTime(Calendar startTime)
 	{
 		this.startTime = startTime;
+	}
+	
+	public void setStatus(Status status){
+		this.status = status;
+	}
+	public Status getStatus(){
+		return status;
 	}
 	
 	public boolean equals(Object ob) {

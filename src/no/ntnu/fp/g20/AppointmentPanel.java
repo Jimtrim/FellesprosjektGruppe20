@@ -23,15 +23,17 @@ import no.ntnu.fp.g20.model.Appointment;
  */
 public class AppointmentPanel extends JPanel {
 	
-	private Appointment model;
+	protected Appointment model;
+	
+	protected GridBagConstraints c;
 
-	private JComboBox sortBox;
-	private JList appointmentList;
-	private JTextField titleField, locationField;
-	private JComboBox hoursBox, minutesBox, dayBox, monthBox, yearBox, durationBox;
-	private JTextArea descriptionField;
-	private JToggleButton approveButton, rejectButton;
-	private JButton participantsButton, roomResButton;
+	protected JComboBox sortBox;
+	protected JList appointmentList;
+	protected JTextField titleField, locationField;
+	protected JComboBox hoursBox,dayBox, monthBox, yearBox, durationBox;
+	protected JTextArea descriptionField;
+	protected JButton participantsButton, roomResButton, saveButton, deleteButton;
+	protected Box buttonBox;
 
 	/**
 	 * Constructs an appointment panel.
@@ -44,7 +46,7 @@ public class AppointmentPanel extends JPanel {
 		GridBagLayout layout = new GridBagLayout();
 		setLayout(layout);
 
-		GridBagConstraints c = new GridBagConstraints();
+		c = new GridBagConstraints();
 
 		c.gridx = 0;
 		c.gridy = 0;
@@ -105,7 +107,6 @@ public class AppointmentPanel extends JPanel {
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.WEST;
 		titleField = new JTextField(20);
-		titleField.setText("Go home");
 		layout.setConstraints(titleField, c);
 		add(titleField);
 		titleField.addKeyListener(new TitleFieldListener());
@@ -119,8 +120,8 @@ public class AppointmentPanel extends JPanel {
 		
 		//add the date combo boxes
 		dayBox = new JComboBox();
-		for (int i = 0; i<31; i++) {
-			dayBox.addItem(i+1);
+		for (int i = 1; i<32; i++) {
+			dayBox.addItem(i);
 		}
 		c.gridx++;
 		c.anchor = GridBagConstraints.EAST;
@@ -154,22 +155,23 @@ public class AppointmentPanel extends JPanel {
 		layout.setConstraints(timeLabel, c);
 		add(timeLabel);
 
-		//add the time boxes
+		//add the hours box
 		hoursBox = new JComboBox();
-		hoursBox.addItem(13);
+		for (int i = 7; i < 19; i++) {
+			hoursBox.addItem(i);
+		}
 		c.anchor = GridBagConstraints.EAST;
 		c.gridx++;
 		add(hoursBox, c);
 		
-		minutesBox = new JComboBox();
-		minutesBox.addItem(59);
+		//add minutes label
+		JLabel minutesLabel = new JLabel(" :00");
 		c.gridx++;
 		c.anchor = GridBagConstraints.WEST;
-		add(minutesBox, c);
-			
+		add(minutesLabel, c);
+		
 		//add listeners to the time boxes
 		hoursBox.addActionListener(new HoursBoxListener());
-		minutesBox.addActionListener(new MinutesBoxListener());
 		
 		// Add the duration label:
 		JLabel durationLabel = new JLabel("Duration: ");
@@ -179,12 +181,15 @@ public class AppointmentPanel extends JPanel {
 
 		//add the duration box
 		durationBox = new JComboBox();
+		for (int i = 1; i < 12; i++) {
+			durationBox.addItem(i);
+		}
 		c.gridx++;
 		add(durationBox, c);
 		durationBox.addActionListener(new DurationBoxListener());
 
 		// Add the hours label:
-		JLabel hourLabel = new JLabel("hours");
+		JLabel hourLabel = new JLabel("hour(s)");
 		c.gridx++;
 		layout.setConstraints(hourLabel, c);
 		add(hourLabel);
@@ -234,7 +239,7 @@ public class AppointmentPanel extends JPanel {
 		descriptionField.addKeyListener(new DescriptionFieldListener());
 
 		// Add the button box:
-		Box buttonBox = Box.createHorizontalBox();
+		buttonBox = Box.createHorizontalBox();
 		c.gridy++;
 		c.gridheight = 1;
 		c.weightx = 1;
@@ -242,17 +247,13 @@ public class AppointmentPanel extends JPanel {
 		layout.setConstraints(buttonBox, c);
 		add(buttonBox);
 
-		// Add the confirm/reject buttons:
-		ButtonGroup confirmationGroup = new ButtonGroup();
-		approveButton = new JToggleButton("Approve");
-		rejectButton = new JToggleButton("Reject");
+		// Add the save and delete buttons:
+		saveButton = new JButton("Save");
+		deleteButton = new JButton("Delete");
 
-		confirmationGroup.add(approveButton);
-		confirmationGroup.add(rejectButton);
-
-		buttonBox.add(approveButton);
+		buttonBox.add(saveButton);
 		buttonBox.add(Box.createHorizontalStrut(2));
-		buttonBox.add(rejectButton);
+		buttonBox.add(deleteButton);
 
 		buttonBox.add(Box.createHorizontalGlue());
 
@@ -261,8 +262,8 @@ public class AppointmentPanel extends JPanel {
 		buttonBox.add(participantsButton);
 		
 		//add listeners to the buttons
-		approveButton.addActionListener(new ApproveButtonListener());
-		rejectButton.addActionListener(new RejectButtonListener());
+		saveButton.addActionListener(new SaveButtonListener());
+		deleteButton.addActionListener(new DeleteButtonListener());
 		participantsButton.addActionListener(new ParticipantsButtonListener());
 	}
 	
@@ -285,7 +286,6 @@ public class AppointmentPanel extends JPanel {
 			monthBox.setSelectedItem(model.getStartTime().get(Calendar.MONTH));
 			yearBox.setSelectedItem(model.getStartTime().get(Calendar.YEAR));
 			hoursBox.setSelectedItem(model.getStartTime().get(Calendar.HOUR));
-			minutesBox.setSelectedItem(model.getStartTime().get(Calendar.MINUTE));
 			//no getter for duration in Appointment class
 			//no description field in Appointment class
 		}
@@ -420,16 +420,6 @@ public class AppointmentPanel extends JPanel {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-	}
-	
-	class MinutesBoxListener implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
 			
 		}
 	}
@@ -444,7 +434,7 @@ public class AppointmentPanel extends JPanel {
 	}
 	
 	//create listener for the approve button
-	class ApproveButtonListener implements ActionListener {
+	class SaveButtonListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -454,7 +444,7 @@ public class AppointmentPanel extends JPanel {
 	}
 	
 	//create listener for the reject button
-	class RejectButtonListener implements ActionListener {
+	class DeleteButtonListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -480,21 +470,6 @@ public class AppointmentPanel extends JPanel {
 		public void valueChanged(ListSelectionEvent e) {
 			setModel((Appointment) appointmentList.getSelectedValue());
 		}
-	}
-
-	/**
-	 * Test application main function.
-	 * @param args command line arguments.
-	 */
-	public static void main(String[] args)
-	{
-		JFrame testFrame = new JFrame("Appointment Panel Test Application");
-		testFrame.add(new AppointmentPanel(), BorderLayout.CENTER);
-		testFrame.pack();
-
-		testFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		testFrame.setVisible(true);
 	}
 }
 
