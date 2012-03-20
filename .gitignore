@@ -6,6 +6,10 @@
 # Ignore the build directories:
 build/
 bin/
+doc/
+
+# Ignore the A2 log directory:
+Log/
 
 # Ignore vim swap files:
 .*.swo
