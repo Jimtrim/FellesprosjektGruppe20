@@ -11,6 +11,7 @@ import no.ntnu.fp.g20.Status;
 public class Invitation
 {
 	private Status status;
+	private User user;
 
 	public Invitation()
 	{

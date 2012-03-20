@@ -232,6 +232,7 @@ public class LoginDialog extends JDialog
 			{
 				JOptionPane.showMessageDialog(null, "Please type in a username!", "Error!",
 					JOptionPane.ERROR_MESSAGE);
+				return;
 			} else {
 				for(int i = 0; i < usernameField.getText().length(); ++i)
 				{

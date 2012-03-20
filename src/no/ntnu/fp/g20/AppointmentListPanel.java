@@ -16,6 +16,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import no.ntnu.fp.g20.model.Appointment;
+import no.ntnu.fp.g20.model.SortableAppointmentListModel;
 
 public class AppointmentListPanel extends JPanel {
 	
@@ -24,6 +25,7 @@ public class AppointmentListPanel extends JPanel {
 	private JLabel sortLabel;
 	private JComboBox sortBox;
 	private JList appointmentList;
+	private SortableAppointmentListModel listModel;
 	private JScrollPane scrollPane;
 	
 	private AppointmentPanel editablePanel;
@@ -53,7 +55,8 @@ public class AppointmentListPanel extends JPanel {
 		
 		// Add the appointment list:
 		appointmentList = new JList();
-		appointmentList.setModel(new DefaultListModel());
+		listModel = new SortableAppointmentListModel();
+		appointmentList.setModel(listModel);
 		scrollPane = new JScrollPane(appointmentList);
 		c.gridx = 0;
 		c.gridy++;
@@ -84,10 +87,10 @@ public class AppointmentListPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (sortBox.getSelectedItem().equals("Time")) {
-				
+				listModel.sortByTime();
 			}
 			else if (sortBox.getSelectedItem().equals("Status")) {
-				
+				listModel.sortByStatus();
 			}
 		}
 	}
