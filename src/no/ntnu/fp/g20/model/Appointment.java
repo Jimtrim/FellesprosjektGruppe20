@@ -21,6 +21,7 @@ public class Appointment
 	private Calendar startTime;
 	private int duration;
 	private String location;
+	private String description;
 	private Room room;
 	private ArrayList<User> listOfParticipants;
 	private Status status;
@@ -50,6 +51,14 @@ public class Appointment
 		return startTime;
 	}
 
+	public int getDuration() {
+		return duration;
+	}
+
+	public void setDuration(int duration) {
+		this.duration = duration;
+	}
+
 	public int getID()
 	{
 		return id;
@@ -63,6 +72,14 @@ public class Appointment
 	public void setName(String name)
 	{
 		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getLocation()
@@ -117,4 +134,19 @@ public class Appointment
 		} 
 		return false;
 	}
+<<<<<<< HEAD
+=======
+
+	public void invitationConfirmed(Invitation invitation)
+	{
+		listOfInvitations.get(listOfInvitations.indexOf(invitation)).setStatus(Status.CONFIRMED);
+	}
+
+	public void invitationRejected(Invitation invitation)
+	{
+		listOfInvitations.get(listOfInvitations.indexOf(invitation)).setStatus(Status.REJECTED);
+	}
+
+	
+>>>>>>> 511808e29d6a38af74290bab1fa685d4f0a5bbf8
 }
