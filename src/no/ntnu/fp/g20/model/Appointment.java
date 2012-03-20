@@ -25,6 +25,7 @@ public class Appointment
 	private Room room;
 	private ArrayList<User> listOfParticipants;
 	private Status status;
+	private ArrayList<Invitation> listOfInvitations;
 
 	private PropertyChangeSupport pcs;
 
