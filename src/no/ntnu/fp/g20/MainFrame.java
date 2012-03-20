@@ -52,14 +52,9 @@ public class MainFrame extends JFrame {
 		calendar = new CalendarPanel(new Calendar());
 		add(calendar, BorderLayout.CENTER);
 
-		JTabbedPane tabbedPane = new JTabbedPane();
-		//ImageIcon icon = createImageIcon("images/middle.gif");
-		tabbedPane.addTab("Avtaler", null, new AppointmentPanel(), "Dine avtaler");
-		tabbedPane.addTab("Detaljer", null, new DetailsPanel());
-		add(tabbedPane, BorderLayout.SOUTH);
 		
-		//appointmentList = new AppointmentPanel();
-		//add(appointmentList, BorderLayout.SOUTH);
+		appointmentList = new AppointmentPanel();
+		add(appointmentList, BorderLayout.SOUTH);
 
 		pack();
 		setMinimumSize(getSize());
