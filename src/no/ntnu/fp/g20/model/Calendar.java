@@ -23,14 +23,17 @@ public class Calendar extends AbstractTableModel
 
 	private PropertyChangeSupport pcs;
 	private Appointment[][] appointments;
+	private User user;
 
 	/**
 	 * Constructs a new calendar model class.
+	 * @param user the user the calendar belongs to.
 	 */
-	public Calendar()
+	public Calendar(User user)
 	{
 		pcs = new PropertyChangeSupport(this);
 		appointments = new Appointment[7][HOURS];
+		this.user = user;
 
 		appointments[4][4] = new Appointment();
 		appointments[4][4].setName("Test appointment");

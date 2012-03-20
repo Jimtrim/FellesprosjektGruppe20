@@ -16,11 +16,12 @@ public class MainFrame extends JFrame {
 	private JComboBox calendarBox;
 	private AppointmentPanel appointmentList;
 	private CalendarPanel calendar;
+	private Calendar model;
 	
 	/**
 	 * Constructs a new MainFrame window.
 	 */
-	public MainFrame(String title) {
+	public MainFrame(String title, Calendar model) {
 		super(title);
 
 		JToolBar toolBar = new JToolBar("Main menu");
@@ -49,7 +50,7 @@ public class MainFrame extends JFrame {
 		
 		toolBar.setFloatable(false);
 		
-		calendar = new CalendarPanel(new Calendar());
+		calendar = new CalendarPanel(model);
 		add(calendar, BorderLayout.CENTER);
 
 		
@@ -196,14 +197,5 @@ public class MainFrame extends JFrame {
 		{
 
 		}
-	}
-
-	/**
-	 * Main function for testing the frame.
-	 */
-	public static void main(String[] args) {
-		JFrame frame = new MainFrame("SuperCalendar");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);       
 	}
 }
