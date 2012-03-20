@@ -110,28 +110,6 @@ public class AppointmentPanel extends JPanel {
 		add(titleField);
 		titleField.addKeyListener(new TitleFieldListener());
 		
-		//add the location label
-		JLabel locationLabel = new JLabel("Location: ");
-		c.gridy++;
-		c.gridx--;
-		c.gridwidth = 1;
-		add(locationLabel, c);
-		
-		//add the location field
-		locationField = new JTextField(20);
-		c.gridx++;
-		c.gridwidth = 5;
-		add(locationField, c);
-		locationField.addKeyListener(new LocationFieldListener());
-		
-		//add room reservation button
-		roomResButton = new JButton("Room");
-		c.gridx = c.gridx + c.gridwidth;
-		c.gridwidth = 1;
-		c.anchor = GridBagConstraints.WEST;
-		add(roomResButton, c);
-		roomResButton.addActionListener(new RoomResButtonListener());
-		
 		//add the date label
 		JLabel dateLabel = new JLabel("Date: ");
 		c.gridy++;
@@ -141,14 +119,16 @@ public class AppointmentPanel extends JPanel {
 		
 		//add the date combo boxes
 		dayBox = new JComboBox();
-		dayBox.addItem(19);
+		for (int i = 0; i<31; i++) {
+			dayBox.addItem(i+1);
+		}
 		c.gridx++;
-		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.EAST;
 		add(dayBox, c);
 		
-		monthBox = new JComboBox();
-		monthBox.addItem("March");
+		String[] months = {"January", "February", "March", "April", "May", "June", "July",
+				"August", "September", "October", "November", "December"};
+		monthBox = new JComboBox(months);
 		c.gridx++;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		add(monthBox, c);
@@ -177,7 +157,6 @@ public class AppointmentPanel extends JPanel {
 		//add the time boxes
 		hoursBox = new JComboBox();
 		hoursBox.addItem(13);
-		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.EAST;
 		c.gridx++;
 		add(hoursBox, c);
@@ -209,6 +188,28 @@ public class AppointmentPanel extends JPanel {
 		c.gridx++;
 		layout.setConstraints(hourLabel, c);
 		add(hourLabel);
+		
+		//add the location label
+		JLabel locationLabel = new JLabel("Location: ");
+		c.gridy++;
+		c.gridx = 2;
+		c.gridwidth = 1;
+		add(locationLabel, c);
+		
+		//add the location field
+		locationField = new JTextField(20);
+		c.gridx++;
+		c.gridwidth = 5;
+		add(locationField, c);
+		locationField.addKeyListener(new LocationFieldListener());
+		
+		//add room reservation button
+		roomResButton = new JButton("Room");
+		c.gridx = c.gridx + c.gridwidth;
+		c.gridwidth = 1;
+		c.anchor = GridBagConstraints.WEST;
+		add(roomResButton, c);
+		roomResButton.addActionListener(new RoomResButtonListener());
 
 		// Add the description label:
 		c.gridx = 2;
