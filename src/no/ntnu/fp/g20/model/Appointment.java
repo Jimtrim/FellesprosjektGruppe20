@@ -25,7 +25,6 @@ public class Appointment
 	private Room room;
 	private ArrayList<User> listOfParticipants;
 	private Status status;
-	private String description;
 
 	private PropertyChangeSupport pcs;
 
@@ -106,22 +105,6 @@ public class Appointment
 	public Status getStatus(){
 		return status;
 	}
-	
-	public void setDuration(int duration) {
-		this.duration = duration;
-	}
-
-	public int getDuration() {
-		return duration;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getDescription() {
-		return description;
-	}
 
 	public boolean equals(Object ob) {
 		if (ob instanceof Appointment) {
@@ -134,8 +117,6 @@ public class Appointment
 		} 
 		return false;
 	}
-<<<<<<< HEAD
-=======
 
 	public void invitationConfirmed(Invitation invitation)
 	{
@@ -147,6 +128,4 @@ public class Appointment
 		listOfInvitations.get(listOfInvitations.indexOf(invitation)).setStatus(Status.REJECTED);
 	}
 
-	
->>>>>>> 511808e29d6a38af74290bab1fa685d4f0a5bbf8
 }
