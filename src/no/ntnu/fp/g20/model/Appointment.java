@@ -5,13 +5,13 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import no.ntnu.fp.g20.Status;
+import no.ntnu.fp.g20.*;
 
 /**
  * Class representing an appointment.
  * @author ?
  */
-public class Appointment
+public class Appointment implements InvitationListener
 {	
 	public final static String DURATION_PROPERTY = "DurationProperty";
 	public final static String START_TIME_PROPERTY = "StartTimeProperty";
@@ -24,14 +24,14 @@ public class Appointment
 	private String location;
 	private Room room;
 	private ArrayList<User> listOfParticipants;
-	private Status status;
+	private ArrayList<Invitation> listOfInvitations;
 
 	private PropertyChangeSupport pcs;
 
 	public Appointment()
 	{
 		listOfParticipants = new ArrayList<User>();
-		status = Status.UNCONFIRMED;
+		listOfInvitations = new ArrayList<Invitation>();
 		pcs = new PropertyChangeSupport(this);
 	}
 
@@ -83,11 +83,14 @@ public class Appointment
 		this.startTime = startTime;
 	}
 	
-	public void setStatus(Status status){
-		this.status = status;
-	}
-	public Status getStatus(){
-		return status;
+	public Status getStatus()
+	{
+		if(listOfInvitations.isEmpty())
+			return Status.CONFIRMED;
+
+		// Just return unconfirmed:
+		// TODO: Fix here :-)-<-<
+		return Status.UNCONFIRMED;
 	}
 	
 	public boolean equals(Object ob) {
@@ -100,5 +103,15 @@ public class Appointment
 			return true;
 		} 
 		return false;
+	}
+
+	public void invitationConfirmed(Invitation invitation)
+	{
+		listOfInvitations.get(listOfInvitations.indexOf(invitation)).setStatus(Status.CONFIRMED);
+	}
+
+	public void invitationRejected(Invitation invitation)
+	{
+		listOfInvitations.get(listOfInvitations.indexOf(invitation)).setStatus(Status.REJECTED);
 	}
 }
