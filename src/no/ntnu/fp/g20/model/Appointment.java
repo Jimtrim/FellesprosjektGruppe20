@@ -1,7 +1,6 @@
 package no.ntnu.fp.g20.model;
 
 import java.beans.*;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -25,6 +24,7 @@ public class Appointment
 	private Room room;
 	private ArrayList<User> listOfParticipants;
 	private Status status;
+	private String description;
 
 	private PropertyChangeSupport pcs;
 
@@ -90,6 +90,22 @@ public class Appointment
 		return status;
 	}
 	
+	public void setDuration(int duration) {
+		this.duration = duration;
+	}
+
+	public int getDuration() {
+		return duration;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
 	public boolean equals(Object ob) {
 		if (ob instanceof Appointment) {
 			Appointment app = (Appointment) ob;

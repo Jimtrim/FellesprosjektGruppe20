@@ -27,8 +27,6 @@ public class AppointmentPanel extends JPanel {
 	
 	protected GridBagConstraints c;
 
-//	protected JComboBox sortBox;
-//	protected JList appointmentList;
 	protected JTextField titleField, locationField;
 	protected JComboBox hoursBox,dayBox, monthBox, yearBox, durationBox;
 	protected JTextArea descriptionField;
@@ -258,8 +256,8 @@ public class AppointmentPanel extends JPanel {
 			monthBox.setSelectedItem(model.getStartTime().get(Calendar.MONTH));
 			yearBox.setSelectedItem(model.getStartTime().get(Calendar.YEAR));
 			hoursBox.setSelectedItem(model.getStartTime().get(Calendar.HOUR));
-			//no getter for duration in Appointment class
-			//no description field in Appointment class
+			durationBox.setSelectedItem(model.getDuration());
+			descriptionField.setText(model.getDescription());
 		}
 	}
 	
