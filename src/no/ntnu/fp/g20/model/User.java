@@ -9,12 +9,16 @@ public class User {
 	private String lastName;
 	
 	public User(int id, String username, String password, String firstname, String lastName) {
-		
 		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.firstname = firstname;
 		this.lastName = lastName;
+	}
+
+	public User()
+	{
+		id = 0;
 	}
 	
 	public int getId() {

@@ -3,6 +3,7 @@
 package no.ntnu.fp.g20;
 
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 
 /**
@@ -11,8 +12,16 @@ import javax.swing.*;
  */
 public class LoginDialog extends JDialog
 {
+	/**
+	 * Enumeration of the buttons in the dialog.
+	 * This is used for checking which of the buttons was clicked to close the dialog box.
+	 */
+	public enum CloseReason { LOGIN, CANCEL, CLOSE_BUTTON };
+
 	private JTextField usernameField;
 	private JPasswordField passwordField;
+
+	private CloseReason closeReason;
 
 	/** 
 	 * Constructor.
@@ -20,7 +29,8 @@ public class LoginDialog extends JDialog
 	 */
 	public LoginDialog(JFrame parent)
 	{
-		super(parent, "Calendar Login");
+		super(parent, "Calendar Login", true);
+		closeReason = CloseReason.CLOSE_BUTTON;
 
 		// Make layout and layout settings:
 		GridBagConstraints c = new GridBagConstraints();
@@ -66,7 +76,7 @@ public class LoginDialog extends JDialog
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.WEST;
 
-		JButton helpButton = new JButton("?");
+		JButton helpButton = new JButton(new HelpAction());
 		layout.setConstraints(helpButton, c);
 		add(helpButton);
 
@@ -81,8 +91,9 @@ public class LoginDialog extends JDialog
 		add(buttonBox);
 
 		// Create the buttons:
-		JButton cancelButton = new JButton("Cancel");
-		JButton loginButton = new JButton("Login");
+		JButton cancelButton = new JButton(new CancelAction());
+		JButton loginButton = new JButton(new LoginAction());
+		getRootPane().setDefaultButton(loginButton);
 
 		buttonBox.add(Box.createHorizontalGlue());
 		buttonBox.add(cancelButton);
@@ -93,6 +104,16 @@ public class LoginDialog extends JDialog
 		pack();
 		setMinimumSize(getSize());
 		setMaximumSize(getSize());
+	}
+
+	/**
+	 * Gets the reason why the dialogue was closed.
+	 * @return the close reason.
+	 * @see CloseReason
+	 */
+	public CloseReason getCloseReason()
+	{
+		return closeReason;
 	}
 
 	/**
@@ -114,13 +135,69 @@ public class LoginDialog extends JDialog
 	}
 
 	/**
-	 * Main function for testing.
-	 * @param args command line arguments.
+	 * Action for showing the login dialog help.
 	 */
-	public static void main(String[] args)
+	public class HelpAction extends AbstractAction
 	{
-		LoginDialog dialog = new LoginDialog(null);
-		dialog.setVisible(true);
+		public HelpAction()
+		{
+			super("?");
+
+			putValue(SHORT_DESCRIPTION, "Get help for this dialogue box.");
+			putValue(LONG_DESCRIPTION, "Opens a window containing help for this dialogue box.");
+		}
+
+		public void actionPerformed(ActionEvent event)
+		{
+			JOptionPane.showMessageDialog(null, 
+				"1. Put your username in the username field.\n2. Put your password in the password field."
+				+ "\n3. Click the login button to log in.",
+				"Login dialogue help", JOptionPane.INFORMATION_MESSAGE);
+		}
+	}
+
+	/**
+	 * Action for cancelling the dialogue box.
+	 */
+	public class CancelAction extends AbstractAction
+	{
+		public CancelAction()
+		{
+			super("Cancel");
+
+			putValue(SHORT_DESCRIPTION, "Cancels the login dialogue.");
+			putValue(LONG_DESCRIPTION, "Cancels the login dialogue and closes the application.");
+			putValue(MNEMONIC_KEY, KeyEvent.VK_C);
+		}
+		
+		public void actionPerformed(ActionEvent event)
+		{
+			closeReason = CloseReason.CANCEL;
+			setVisible(false);
+		}
+	}
+
+	/**
+	 * Action for starting the login process.
+	 * Simply closes the dialogue box and sets the close reason to LOGIN.
+	 * @see CloseReason
+	 */
+	public class LoginAction extends AbstractAction
+	{
+		public LoginAction()
+		{
+			super("Login");
+
+			putValue(SHORT_DESCRIPTION, "Starts the login process.");
+			putValue(LONG_DESCRIPTION, "Starts the login process by connecting to the server and checking your credentials.");
+			putValue(MNEMONIC_KEY, KeyEvent.VK_L);
+		}
+
+		public void actionPerformed(ActionEvent event)
+		{
+			closeReason = CloseReason.LOGIN;
+			setVisible(false);
+		}
 	}
 }
 
