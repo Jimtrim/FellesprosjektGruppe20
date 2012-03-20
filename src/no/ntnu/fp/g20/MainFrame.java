@@ -6,8 +6,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-import com.sun.corba.se.spi.ior.MakeImmutable;
-
 /**
  * Main frame for the calendar.
  * @author Kristian Klomsten Skordal
