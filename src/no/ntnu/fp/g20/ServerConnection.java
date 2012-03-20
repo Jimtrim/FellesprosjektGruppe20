@@ -2,6 +2,7 @@
 
 package no.ntnu.fp.g20;
 
+import no.ntnu.fp.g20.model.*;
 import no.ntnu.fp.net.co.*;
 
 import java.net.*;
@@ -100,21 +101,23 @@ public class ServerConnection
 
 		String reply = receive();
 		if(reply == null)
-			return fnull;
+			return null;
 		else {
 			if(!reply.startsWith("LOGIN OK"))
 				return null;
 			else {
 				StringTokenizer parser = new StringTokenizer(reply);
-				retval = new User();
 
 				if(!parser.nextToken().equals("LOGIN"))
 					return null;
-				if(!parser.nextToken().equals("OK))
+				if(!parser.nextToken().equals("OK"))
 					return null;
 
-				user.setId(Integer.parseInt(parser.nextToken()));
-				return user;
+				int uid = Integer.parseInt(parser.nextToken());
+				String firstName = parser.nextToken();
+				String lastName = parser.nextToken();
+
+				return new User(uid, username, password, firstName, lastName);
 			}
 		}
 	}
