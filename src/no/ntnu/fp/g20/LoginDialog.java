@@ -20,7 +20,7 @@ public class LoginDialog extends JDialog
 	 */
 	public LoginDialog(JFrame parent)
 	{
-		super(parent, "Calendar Login");
+		super(parent, "Calendar Login", true);
 
 		// Make layout and layout settings:
 		GridBagConstraints c = new GridBagConstraints();
