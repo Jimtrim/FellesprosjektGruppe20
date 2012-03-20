@@ -1,17 +1,16 @@
 package no.ntnu.fp.g20.model;
 
 import java.beans.*;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import no.ntnu.fp.g20.*;
+import no.ntnu.fp.g20.Status;
 
 /**
  * Class representing an appointment.
  * @author ?
  */
-public class Appointment implements InvitationListener
+public class Appointment
 {	
 	public final static String DURATION_PROPERTY = "DurationProperty";
 	public final static String START_TIME_PROPERTY = "StartTimeProperty";
@@ -25,6 +24,7 @@ public class Appointment implements InvitationListener
 	private String description;
 	private Room room;
 	private ArrayList<User> listOfParticipants;
+	private Status status;
 	private ArrayList<Invitation> listOfInvitations;
 
 	private PropertyChangeSupport pcs;
@@ -32,7 +32,7 @@ public class Appointment implements InvitationListener
 	public Appointment()
 	{
 		listOfParticipants = new ArrayList<User>();
-		listOfInvitations = new ArrayList<Invitation>();
+		status = Status.UNCONFIRMED;
 		pcs = new PropertyChangeSupport(this);
 	}
 
@@ -100,16 +100,13 @@ public class Appointment implements InvitationListener
 		this.startTime = startTime;
 	}
 	
-	public Status getStatus()
-	{
-		if(listOfInvitations.isEmpty())
-			return Status.CONFIRMED;
-
-		// Just return unconfirmed:
-		// TODO: Fix here :-)-<-<
-		return Status.UNCONFIRMED;
+	public void setStatus(Status status){
+		this.status = status;
 	}
-	
+	public Status getStatus(){
+		return status;
+	}
+
 	public boolean equals(Object ob) {
 		if (ob instanceof Appointment) {
 			Appointment app = (Appointment) ob;
@@ -132,5 +129,4 @@ public class Appointment implements InvitationListener
 		listOfInvitations.get(listOfInvitations.indexOf(invitation)).setStatus(Status.REJECTED);
 	}
 
-	
 }
