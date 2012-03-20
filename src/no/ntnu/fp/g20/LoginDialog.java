@@ -228,6 +228,31 @@ public class LoginDialog extends JDialog
 		 */
 		public void actionPerformed(ActionEvent event)
 		{
+			if(usernameField.getText().length() == 0)
+			{
+				JOptionPane.showMessageDialog(null, "Please type in a username!", "Error!",
+					JOptionPane.ERROR_MESSAGE);
+			} else {
+				for(int i = 0; i < usernameField.getText().length(); ++i)
+				{
+					char c = usernameField.getText().charAt(i);
+					if(!Character.isLetter(c) && !Character.isDigit(c))
+					{
+						JOptionPane.showMessageDialog(null,
+							"Your username can only contain characters or digits.",
+							"Error!", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+				}
+			}
+
+			if(passwordField.getPassword().length == 0)
+			{
+				JOptionPane.showMessageDialog(null, "Please type in a password!", "Error!",
+					JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+
 			closeReason = CloseReason.LOGIN;
 			setVisible(false);
 		}
