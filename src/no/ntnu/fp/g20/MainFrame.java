@@ -52,13 +52,24 @@ public class MainFrame extends JFrame {
 		calendar = new CalendarPanel(new Calendar());
 		add(calendar, BorderLayout.CENTER);
 
+		
 		appointmentList = new AppointmentPanel();
 		add(appointmentList, BorderLayout.SOUTH);
 
 		pack();
-		setMinimumSize(new Dimension(getSize().width, getSize().height));
-	}
+		setMinimumSize(getSize());
 
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+	
+	protected JComponent makePanel (String text) {
+		JPanel panel = new JPanel(false);
+        JLabel filler = new JLabel(text);
+        filler.setHorizontalAlignment(JLabel.CENTER);
+        panel.setLayout(new GridLayout(1, 1));
+        panel.add(filler);
+        return panel;
+	}
 	/**
 	 * Action for creating a new appointment.
 	 */
