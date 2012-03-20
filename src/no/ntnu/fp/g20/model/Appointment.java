@@ -22,6 +22,7 @@ public class Appointment implements InvitationListener
 	private Calendar startTime;
 	private int duration;
 	private String location;
+	private String description;
 	private Room room;
 	private ArrayList<User> listOfParticipants;
 	private ArrayList<Invitation> listOfInvitations;
@@ -50,6 +51,14 @@ public class Appointment implements InvitationListener
 		return startTime;
 	}
 
+	public int getDuration() {
+		return duration;
+	}
+
+	public void setDuration(int duration) {
+		this.duration = duration;
+	}
+
 	public int getID()
 	{
 		return id;
@@ -63,6 +72,14 @@ public class Appointment implements InvitationListener
 	public void setName(String name)
 	{
 		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getLocation()
@@ -114,4 +131,6 @@ public class Appointment implements InvitationListener
 	{
 		listOfInvitations.get(listOfInvitations.indexOf(invitation)).setStatus(Status.REJECTED);
 	}
+
+	
 }
