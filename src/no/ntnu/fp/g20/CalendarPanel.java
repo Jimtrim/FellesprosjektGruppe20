@@ -68,6 +68,7 @@ public class CalendarPanel extends JPanel
 
 	/**
 	 * Function called when a component is hidden.
+	 * @param event the component event.
 	 */
 	public void componentHidden(ComponentEvent event)
 	{
@@ -76,6 +77,7 @@ public class CalendarPanel extends JPanel
 
 	/**
 	 * Function called when a component is moved.
+	 * @param event the component event.
 	 */
 	public void componentMoved(ComponentEvent event)
 	{
@@ -84,6 +86,7 @@ public class CalendarPanel extends JPanel
 
 	/**
 	 * Function called when a component is resized.
+	 * @param event the component event.
 	 */
 	public void componentResized(ComponentEvent event)
 	{
@@ -93,6 +96,7 @@ public class CalendarPanel extends JPanel
 
 	/**
 	 * Function called when a component is shown.
+	 * @param event the component event.
 	 */
 	public void componentShown(ComponentEvent event)
 	{

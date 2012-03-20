@@ -1,6 +1,8 @@
 // Invitation class
 
-package no.ntnu.fp.g20;
+package no.ntnu.fp.g20.model;
+
+import no.ntnu.fp.g20.Status;
 
 /**
  * Class representing an invitation.
