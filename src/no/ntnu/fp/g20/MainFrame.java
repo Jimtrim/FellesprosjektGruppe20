@@ -6,6 +6,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import com.sun.corba.se.spi.ior.MakeImmutable;
+
 /**
  * Main frame for the calendar.
  * @author Kristian Klomsten Skordal
@@ -52,13 +54,27 @@ public class MainFrame extends JFrame {
 		calendar = new CalendarPanel(new Calendar());
 		add(calendar, BorderLayout.CENTER);
 
-		appointmentList = new AppointmentPanel();
-		add(appointmentList, BorderLayout.SOUTH);
+		JTabbedPane tabbedPane = new JTabbedPane();
+		//ImageIcon icon = createImageIcon("images/middle.gif");
+		tabbedPane.addTab("Avtaler", null, new AppointmentPanel(), "Dine avtaler");
+		tabbedPane.addTab("Detaljer", null, new DetailsPanel());
+		add(tabbedPane, BorderLayout.SOUTH);
+		
+		//appointmentList = new AppointmentPanel();
+		//add(appointmentList, BorderLayout.SOUTH);
 
 		pack();
 		setMinimumSize(new Dimension(getSize().width, getSize().height));
 	}
-
+	
+	protected JComponent makePanel (String text) {
+		JPanel panel = new JPanel(false);
+        JLabel filler = new JLabel(text);
+        filler.setHorizontalAlignment(JLabel.CENTER);
+        panel.setLayout(new GridLayout(1, 1));
+        panel.add(filler);
+        return panel;
+	}
 	/**
 	 * Action for creating a new appointment.
 	 */
