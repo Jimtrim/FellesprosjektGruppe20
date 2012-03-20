@@ -148,6 +148,7 @@ public class DBUser {
 	 */
 	private static User makeUserObject(ResultSet rs) {
 		User user = null;
+		
 		try {
 			int id = rs.getInt("id");
 			String firstname = rs.getString("firstname");
