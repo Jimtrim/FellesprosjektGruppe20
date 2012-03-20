@@ -118,6 +118,7 @@ public class LoginDialog extends JDialog
 
 	/**
 	 * Shows the dialogue.
+	 * @param visible set to true to show the dialogue, set to false to hide the dialogue - simple, isn't it?
 	 */
 	public void setVisible(boolean visible)
 	{
@@ -149,6 +150,7 @@ public class LoginDialog extends JDialog
 	 */
 	public class HelpAction extends AbstractAction
 	{
+		/** Constructs a new help action. */
 		public HelpAction()
 		{
 			super("?");
@@ -157,6 +159,11 @@ public class LoginDialog extends JDialog
 			putValue(LONG_DESCRIPTION, "Opens a window containing help for this dialogue box.");
 		}
 
+		/**
+		 * Performs the action.
+		 * Shows a dialogue with help instructions.
+		 * @param event the action event.
+		 */
 		public void actionPerformed(ActionEvent event)
 		{
 			JOptionPane.showMessageDialog(null, 
@@ -168,9 +175,12 @@ public class LoginDialog extends JDialog
 
 	/**
 	 * Action for cancelling the dialogue box.
+	 * Closes the dialogue box and sets the close action to CANCEL.
+	 * @see CloseAction
 	 */
 	public class CancelAction extends AbstractAction
 	{
+		/** Constructs a new cancel action. */
 		public CancelAction()
 		{
 			super("Cancel");
@@ -179,7 +189,13 @@ public class LoginDialog extends JDialog
 			putValue(LONG_DESCRIPTION, "Cancels the login dialogue and closes the application.");
 			putValue(MNEMONIC_KEY, KeyEvent.VK_C);
 		}
-		
+
+		/**
+		 * Performs the action.
+		 * This closes the dialogue box and sets the close reason to CANCEL.
+		 * @see CloseReason
+		 * @param event the action event.
+		 */
 		public void actionPerformed(ActionEvent event)
 		{
 			closeReason = CloseReason.CANCEL;
@@ -194,6 +210,7 @@ public class LoginDialog extends JDialog
 	 */
 	public class LoginAction extends AbstractAction
 	{
+		/** Constructs a login action. */
 		public LoginAction()
 		{
 			super("Login");
@@ -203,6 +220,12 @@ public class LoginDialog extends JDialog
 			putValue(MNEMONIC_KEY, KeyEvent.VK_L);
 		}
 
+		/**
+		 * Performs the action.
+		 * Closes the dialog and sets the close reason to LOGIN.
+		 * @see CloseReason
+		 * @param event the action event.
+		 */
 		public void actionPerformed(ActionEvent event)
 		{
 			closeReason = CloseReason.LOGIN;
