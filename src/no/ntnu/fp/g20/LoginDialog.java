@@ -121,7 +121,8 @@ public class LoginDialog extends JDialog
 	 */
 	public void setVisible(boolean visible)
 	{
-		closeReason = CloseReason.CLOSE_BUTTON;
+		if(visible)
+			closeReason = CloseReason.CLOSE_BUTTON;
 		super.setVisible(visible);
 	}
 
