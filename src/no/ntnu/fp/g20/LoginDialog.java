@@ -117,6 +117,15 @@ public class LoginDialog extends JDialog
 	}
 
 	/**
+	 * Shows the dialogue.
+	 */
+	public void setVisible(boolean visible)
+	{
+		closeReason = CloseReason.CLOSE_BUTTON;
+		super.setVisible(visible);
+	}
+
+	/**
 	 * Gets the username from the username field.
 	 * @return the username.
 	 */
