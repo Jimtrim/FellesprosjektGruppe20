@@ -11,6 +11,7 @@ import javax.swing.*;
 
 /**
  * Class for maintaining a connection to the server.
+ * @author Kristian Klomsten Skordal
  */
 public class ServerConnection
 {
@@ -22,12 +23,20 @@ public class ServerConnection
 	private Connection serverConnection;
 	private boolean connected;
 
+	/**
+	 * Constructs an unconnected server connection object.
+	 */
 	public ServerConnection()
 	{
 		serverConnection = new ConnectionImpl(LOCAL_PORT);
 		connected = false;
 	}
 
+	/**
+	 * Connects the the server using {@link SERVER_HOST} as host and {@link SERVER_PORT} as port.
+	 * This function shows an error dialogue if something goes wrong.
+	 * @return true if successful, false otherwise.
+	 */
 	private boolean connect()
 	{
 		try {
@@ -48,6 +57,11 @@ public class ServerConnection
 		return true;
 	}
 
+	/**
+	 * Sends a message to the server.
+	 * Shows a message dialog if anything goes wrong.
+	 * @return true if successful, false if not.
+	 */
 	private boolean send(String message)
 	{
 		try {
@@ -69,6 +83,11 @@ public class ServerConnection
 		return true;
 	}
 
+	/**
+	 * Receives a message from the server.
+	 * Shows a message dialogue if anything goes wrong.
+	 * @return the message received or null if anything went wrong.
+	 */
 	private String receive()
 	{
 		String message = null;
@@ -88,10 +107,12 @@ public class ServerConnection
 		}
 	}
 
+	/**
+	 * Attempts to log a user in.
+	 * @return the user object corresponding to the logged in user or null if an error occurred.
+	 */
 	public User login(String username, String password)
 	{
-		User retval;
-
 		if(!connected)
 			if(!connect())
 				return null;
@@ -122,11 +143,19 @@ public class ServerConnection
 		}
 	}
 
+	/**
+	 * Adds a listener to this server connection object.
+	 * @param listener the listener to add.
+	 */
 	public void addServerListener(ServerListener listener)
 	{
 		listeners.add(listener);
 	}
 
+	/**
+	 * Removes a listener from this server connection object.
+	 * @param listener the listener to remove.
+	 */
 	public void removeServerListener(ServerListener listener)
 	{
 		listeners.remove(listener);

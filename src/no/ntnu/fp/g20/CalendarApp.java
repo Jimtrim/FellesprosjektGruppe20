@@ -24,7 +24,6 @@ public class CalendarApp implements Runnable
 	public void run()
 	{
 		boolean loggedIn = false;
-//		mainWindow.setVisible(true);
 
 		while(!loggedIn)
 		{
@@ -40,6 +39,8 @@ public class CalendarApp implements Runnable
 					break;
 			}
 		}
+
+		mainWindow.setVisible(true);
 	}
 
 	public static void main(String[] args)
