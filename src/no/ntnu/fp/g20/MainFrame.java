@@ -14,7 +14,7 @@ public class MainFrame extends JFrame {
 
 	private JTable calendarTable;
 	private JComboBox calendarBox;
-	private AppointmentPanel appointmentList;
+	private AppointmentListPanel appointmentPanel;
 	private CalendarPanel calendar;
 	private Calendar model;
 	
@@ -54,8 +54,8 @@ public class MainFrame extends JFrame {
 		add(calendar, BorderLayout.CENTER);
 
 		
-		appointmentList = new AppointmentPanel();
-		add(appointmentList, BorderLayout.SOUTH);
+		appointmentPanel = new AppointmentListPanel();
+		add(appointmentPanel, BorderLayout.SOUTH);
 
 		pack();
 		setMinimumSize(getSize());
