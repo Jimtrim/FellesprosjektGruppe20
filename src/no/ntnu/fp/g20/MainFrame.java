@@ -56,7 +56,9 @@ public class MainFrame extends JFrame {
 		add(appointmentList, BorderLayout.SOUTH);
 
 		pack();
-		setMinimumSize(new Dimension(getSize().width, getSize().height));
+		setMinimumSize(getSize());
+
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	/**

@@ -1,0 +1,12 @@
+Calendar application server <-> client protocol
+
+Feel free to change!
+
+Login:
+	Client sends:
+		LOGIN <username> <password>
+	Server replies:
+		LOGIN FAILED
+	or:
+		LOGIN OK <user id>
+
