@@ -36,5 +36,8 @@ public interface ServerListener
 	 * @return the rejected invitation.
 	 */
 	public Invitation invitationRejected();
+
+	/** Called when the connection to the server is lost. */
+	public void connectionLost();
 }
 
