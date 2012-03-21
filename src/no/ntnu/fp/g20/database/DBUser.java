@@ -44,7 +44,7 @@ public class DBUser {
 		}
 		
 		
-		return addDrink(fName, lName, uName, pwd);
+		return addUser(fName, lName, uName, pwd);
 		
 	}
 	
@@ -58,7 +58,7 @@ public class DBUser {
 	 * @param password The password of the user.
 	 * @return int Return value, positive for ok, or -1 for error.
 	 */
-	private static int addDrink(String firstname, String lastName, String username, String password) {
+	private static int addUser(String firstname, String lastName, String username, String password) {
 		String query = "INSERT INTO users "
 				+ "(firstname, lastname, username, password) VALUES ('" + firstname + "','"
 				+ lastName + "','" + username + "','" + password + "')";
