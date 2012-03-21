@@ -1,4 +1,4 @@
-package no.ntnu.fp.g20.database;
+package no.ntnu.fp.g20.model;
 
 public class Participants {
 
