@@ -48,43 +48,33 @@ public class ServerApp {
 		// start comparisons
 		
 		
-		
-		
 		return 0;
 	}
-	
-	public static void main (String args[]){
-		
-	    // Create log
-		Log log = new Log();
-		log.setLogName("ServerApp");
-		
-		// server connection instance, listen on myPort
-		Connection server = new ConnectionImpl(MY_PORT);
-		// each new connection lives in its own instance
-		Connection conn;
+
+	/**
+	 * Main application entry point.
+	 * @param args command line arguments.
+	 */
+	public static void main(String[] args)
+	{
+		Connection connection = new ConnectionImpl(MY_PORT);
+
+		Log serverLog = new Log();
+		serverLog.setLogName("SuperCalendar Server Application");
+
 		try {
-			conn = server.accept();
-	
-			try {
-				while (true) {
-					String msg = conn.receive();
-					Log.writeToLog("Message got through to server: " + msg,
-					"TestServer");
-					
-				
-				}
-			} catch (EOFException e){
-				Log.writeToLog("Got close request (EOFException), closing.",
-				"TestServer");
-				conn.close();
+			while(true)
+			{
+				Connection clientConnection = connection.accept();
+				(new ClientHandler(clientConnection)).start();
 			}
-	
-		System.out.println("SERVER TEST FINISHED");
-		Log.writeToLog("TEST SERVER FINISHED","TestServer");
+		} catch(EOFException error)
+		{
+			// Anyone knows what the second argument to writeToLog is?
+			serverLog.writeToLog("EOF received, exiting.", "SuperCalendar Server");
+		} catch(Exception error)
+		{
+			serverLog.writeToLog("An error occurred: " + error.getMessage(), "SuperCalendar Server");
 		}
-		catch (IOException e){
-			e.printStackTrace();
-		}
-	} // End: main()
+	}
 }
