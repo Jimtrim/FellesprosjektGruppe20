@@ -3,7 +3,7 @@ Calendar application server <-> client protocol
 Feel free to change!
 
 Command-identifiers:
-	Server:
+	Client:
 		10 User LOGIN
 		19 User LOGOUT
 		
@@ -21,7 +21,7 @@ Command-identifiers:
 		  // TODO: Make for the rest
 		 INVITATION
 		 APPOINTMENT
-	Client:
+	Server:
 		The norm: xx0 = SUCCESS, xx9 == ERROR
 		
 		100 Login SUCCESS
