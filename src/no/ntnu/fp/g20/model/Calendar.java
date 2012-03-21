@@ -16,13 +16,14 @@ import javax.swing.table.*;
  * @author Kristian Klomsten Skordal
  */
 public class Calendar extends AbstractTableModel
-	implements PropertyChangeListener, TableCellRenderer
+	implements PropertyChangeListener, TableCellRenderer, ListSelectionListener
 {
 	public final static int HOURS = 12;
 	public final static int START_HOUR = 7;
 
 	private PropertyChangeSupport pcs;
 	private Appointment[][] appointments;
+	private AppointmentWidget appointmentWidget;
 	private User user;
 
 	/**
@@ -44,6 +45,8 @@ public class Calendar extends AbstractTableModel
 		startTime.set(2012, 3, 19, 4, 0);
 
 		appointments[4][4].setStartTime(startTime);
+
+		appointmentWidget = new AppointmentWidget();
 	}
 
 	/**
@@ -77,6 +80,16 @@ public class Calendar extends AbstractTableModel
 
 			}
 		}
+	}
+
+	/**
+	 * Listens for a selected row.
+	 * @param event the selection event
+	 */
+	public void valueChanged(ListSelectionEvent event)
+	{
+		if(!event.getValueIsAdjusting())
+			System.out.println(((ListSelectionModel) event.getSource()).getAnchorSelectionIndex());
 	}
 
 	/**
@@ -150,10 +163,8 @@ public class Calendar extends AbstractTableModel
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
 		boolean hasFocus, int row, int column)
 	{
-		if(appointments[column][row] == null)
-			return new AppointmentWidget(row);
-		else
-			return new AppointmentWidget(appointments[column][row]);
+		appointmentWidget.setParameters(appointments[column][row], isSelected, hasFocus, row);
+		return appointmentWidget;
 	}
 }
 

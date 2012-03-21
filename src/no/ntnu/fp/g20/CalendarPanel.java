@@ -36,11 +36,15 @@ public class CalendarPanel extends JPanel
 
 		calendarTable = new JTable(model);
 		calendarTable.setFillsViewportHeight(true);
+		calendarTable.setCellSelectionEnabled(true);
 		calendarTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		calendarTable.getTableHeader().setResizingAllowed(false);
 		calendarTable.getTableHeader().setReorderingAllowed(false);
 		calendarTable.setGridColor(new Color(220,220,220));
+		calendarTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
 		calendarTable.addComponentListener(this);
+		calendarTable.getSelectionModel().addListSelectionListener(model);
 
 		for(int day = 0; day < 7; ++day)
 			calendarTable.getColumnModel().getColumn(day).setCellRenderer(model);

@@ -24,6 +24,7 @@ public class DBAppointment {
 		//TODO: FIX ME
 //		return addAppointment(a.getDescription(), a.getName(), a.getLocation(), a.getStartTime(), a.getDuration());
 		
+		return 0;
 	}
 	
 	public static Appointment getAppointment(int id) {
@@ -99,7 +100,7 @@ public class DBAppointment {
 			String place = rs.getString("place");
 			
 			//TODO: Make appropriate constructor
-			app = new Appointment(id, timestamp, duration, description, title, place);
+		//	app = new Appointment(id, timestamp, duration, description, title, place);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

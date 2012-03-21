@@ -23,6 +23,7 @@ public class Appointment
 	private String location;
 	private String description;
 	private Room room;
+	private User owner;
 	private ArrayList<User> listOfParticipants;
 	private Status status;
 	private ArrayList<Invitation> listOfInvitations;
