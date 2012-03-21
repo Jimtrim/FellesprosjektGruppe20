@@ -16,6 +16,8 @@ Command-identifiers:
 		32 Room UNRESERVE
 		39 Room DELETE
 		
+		91 General REQUEST UPDATE
+		
 		  // TODO: Make for the rest
 		 INVITATION
 		 APPOINTMENT
@@ -43,21 +45,27 @@ Command-identifiers:
 		390 Room DELETE SUCCESS
 		399 Room DELETE ERROR
 		
+		910 General NEW UPDATES
+		911 General NO UPDATES
+		919 General REQUEST ERROR
+		
+		
 		  // TODO: Make for the rest
 		 INVITATION
 		 APPOINTMENT
 		
 	 
 Command-specifications
-	newline indicates an alternative input/output	 
+	New command-id indicates an alternative input/output	 
 
 
+-- 1xx : User --
 Login:
 	Client request:
-		10 <username> <password>
+		10 <String: username> <String: password>
 	Server reply:
 		109 LOGIN FAILED
-		101 LOGIN OK <user id> <first name> <last name>
+		101 LOGIN OK <Int: userID> <String: firstName> <String: lastName>
 
 Logout:
 	Client request:
@@ -66,30 +74,65 @@ Logout:
 		190 Logout SUCCESS
 		199 Logout ERROR
 
+
+-- 2xx : Appointment --
 Create Appointment:
 	Client request:
-		20
+		20 <String: name> <String: description> <Long: startTime> 
+		   <Int: roomID> <Int: Duration>
 	Server reply:
-		200 Appointment CREATE SUCCESS
-		209 Appointment CREATE ERROR
+		200 Appointment CREATE SUCCESS <Int: id> <String: name>
+		209 Appointment CREATE ERROR <String: name>
 
 Update Appointment:
 	Client request:
-		21
+		21 <Int: id> <String:name> <String:description> <Long:startTime> <Int:roomID> <Int:Duration>
 	Server reply:
-		210 Appointment CREATE SUCCESS
-		219 Appointment CREATE ERROR
+		210 Appointment UPDATE SUCCESS <Int: id> <String: name>
+		219 Appointment UPDATE ERROR
 
+Delete Appointment:
+	Client request:
+		29 <Int: id>
+	Server reply:
+		290 Appointment DELETE SUCCESS <Int: id> <String: name>
+		299 Appointment DELETE ERROR
 
+-- 3xx : Room --
+Create Room:
+	Client request:
+		30 <String: name> <String: descrition> <Int: Capacity> 
+	Server reply:
+		300 Room CREATE SUCCESS <Int: id> <String: name>
+		309 Room CREATE ERROR
 
+Reserve Room:
+	Client request:
+		31 <Int: id>
+	Server reply:
+		310 Room RESERVE SUCCESS <Int: id> <String: name>
+		319 Room RESERVE ERROR
 
+Unreserve Room:
+	Client request:
+		32 <Int: id>
+	Server reply:
+		320 Room UNRESERVE SUCCESS <Int: id> <String: name>
+		329 Room UNRESERVE ERROR
 
+Delete Room:
+	Client request:
+		29 <Int: id>
+	Server reply:
+		290 Room DELETE SUCCESS <Int: id> <String: name>
+		299 Room DELETE ERROR
 
-
-
-
-
-
-
-
-
+-- 9xx : General --
+//TODO: Fill out missing links (what I need to update, what to send etc)
+General check updates:
+	Client request:
+		91 <Int: id>
+	Server reply:
+		910 General NEW UPDATES
+		911 General NO UPDATES
+		919 GEneral REQUEST ERROR
