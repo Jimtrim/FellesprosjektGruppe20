@@ -9,13 +9,12 @@ import no.ntnu.fp.g20.model.Room;
 
 public class DBAppointment {
 	
-	public static int addAppointment(String description, String title, Room room, long timestamp, int duration){
+	public static int addAppointment(long start, int duration, String description, String title, Room room){
 		String query = "INSERT INTO appointments "
 				+ "(start, duration, description, title, place) VALUES "
-				+ "('" + timestamp + "','" + duration + "','" + description 
+				+ "('" + start + "','" + duration + "','" + description 
 				+ title + "','" + room.getName() + "')";
 		
-		//TODO: Implement sanity check on input
 		
 		return Database.executeUpdate(query, true);
 	}
