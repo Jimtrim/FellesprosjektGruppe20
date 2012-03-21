@@ -2,11 +2,94 @@ Calendar application server <-> client protocol
 
 Feel free to change!
 
+Command-identifiers:
+	Server:
+		10 User LOGIN
+		19 User LOGOUT
+		
+		20 Appointment CREATE
+		21 Appointment UPDATE
+		29 Appointment DELETE
+		
+		30 Room CREATE
+		31 Room RESERVE
+		32 Room UNRESERVE
+		39 Room DELETE
+		
+		  // TODO: Make for the rest
+		 INVITATION
+		 APPOINTMENT
+	Client:
+		The norm: xx0 = SUCCESS, xx9 == ERROR
+		
+		100 Login SUCCESS
+		109 Login ERROR
+		190 Logout SUCCESS
+		199 Logout ERROR
+		
+		200 Appointment CREATE SUCCESS
+		209 Appointment CREATE ERROR
+		210 Appointment UPDATE SUCCESS
+		219 Appointment UPDATE ERROR
+		290 Appointment DELETE SUCCESS
+		299 Appointment DELETE ERROR
+		
+		300 Room CREATE SUCCESS
+		309 Room CREATE ERROR
+		310 Room RESERVE SUCCESS
+		319 Room RESERVE ERROR
+		320 Room UNRESERVE SUCCESS
+		321 Room UNRESERVE ERROR
+		390 Room DELETE SUCCESS
+		399 Room DELETE ERROR
+		
+		  // TODO: Make for the rest
+		 INVITATION
+		 APPOINTMENT
+		
+	 
+Command-specifications
+	newline indicates an alternative input/output	 
+
+
 Login:
-	Client sends:
-		LOGIN <username> <password>
-	Server replies:
-		LOGIN FAILED
-	or:
-		LOGIN OK <user id> <first name> <last name>
+	Client request:
+		10 <username> <password>
+	Server reply:
+		109 LOGIN FAILED
+		101 LOGIN OK <user id> <first name> <last name>
+
+Logout:
+	Client request:
+		19
+	Server reply:
+		190 Logout SUCCESS
+		199 Logout ERROR
+
+Create Appointment:
+	Client request:
+		20
+	Server reply:
+		200 Appointment CREATE SUCCESS
+		209 Appointment CREATE ERROR
+
+Update Appointment:
+	Client request:
+		21
+	Server reply:
+		210 Appointment CREATE SUCCESS
+		219 Appointment CREATE ERROR
+
+
+
+
+
+
+
+
+
+
+
+
+
 
