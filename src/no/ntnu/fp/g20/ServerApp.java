@@ -45,7 +45,10 @@ public class ServerApp {
 			if (c==' ') break;
 			command += c;
 		}
-		// start comparisons
+		int commandCode = Integer.parseInt(command);
+		// commandCode will be compared to protocol-codes
+		// It will contain all numbers before first space
+		// in the payload
 		
 		
 		
