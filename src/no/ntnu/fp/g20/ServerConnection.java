@@ -144,10 +144,41 @@ public class ServerConnection
 	}
 
 	/**
+	 * Sends an update request to the server.
+	 */
+	public void requestUpdate()
+	{
+
+	}
+
+	/**
+	 * Send a new appointment to the server.
+	 * @param appointment the appointment to create.
+	 * @return true if successful, false otherwise.
+	 */
+	public boolean createAppointment(Appointment appointment)
+	{
+		// TODO: Implement me.
+		return false;
+	}
+
+	/**
 	 * Send appointment update to server.
 	 * @param appointment the appointment to update.
+	 * @return true if successful, false otherwise.
 	 */
 	public boolean updateAppointment(Appointment appointment)
+	{
+		// TODO: Implement me.
+		return false;
+	}
+
+	/**
+	 * Deletes an appointment.
+	 * @param appointment the appointment to delete.
+	 * @return true if successful, false otherwise.
+	 */
+	public boolean deleteAppointment(Appointment appointment)
 	{
 		// TODO: Implement me.
 		return false;
