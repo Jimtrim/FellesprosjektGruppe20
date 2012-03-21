@@ -1,32 +1,41 @@
-package no.ntnu.fp.g20.model;
+// Invitation class
 
-import java.util.ArrayList;
+package no.ntnu.fp.g20.model;
 
 import no.ntnu.fp.g20.Status;
 
-public class Participants {
-	private User user;
-	private Appointment appointment;
+/**
+ * Class representing an invitation.
+ * @author Kristian Klomsten Skordal
+ */
+public class Participants
+{
 	private Status status;
-	private ArrayList<User> users; 
-	private ArrayList<Appointment> appointments;
-	
-	public Participants(ArrayList<User> users, Appointment appointment, Status status){
-		if (users == null) {
-			this.users = new ArrayList<User>();
-		} else {
-			this.users = users;
-		}
-		
-		if (status == null) {
-			this.status = Status.UNCONFIRMED;
-		} else {
-			this.status = status;
-		}
-		
-		this.appointment = appointment;
-		
-		
+	private User user;
+
+	public Participants()
+	{
+		status = Status.UNCONFIRMED;
 	}
 
+	public Status getStatus()
+	{
+		return status;
+	}
+
+	public void setStatus(Status status)
+	{
+		this.status = status;
+	}
+
+	public void confirm()
+	{
+		this.status = Status.CONFIRMED;
+	}
+
+	public void reject()
+	{
+		this.status = Status.REJECTED;
+	}
 }
+
