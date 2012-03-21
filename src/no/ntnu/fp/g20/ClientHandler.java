@@ -29,12 +29,19 @@ public class ClientHandler extends Thread
 	 */
 	public void run()
 	{
-		// TODO: See pseudocode below :-)
-		// loop
-		// 	client handling;
-		// until tired;
-
-		connection.close();
+		try {
+			// TODO: See pseudocode below :-)
+			// loop
+			// 	client handling;
+			// until tired;
+		} finally {
+			try {
+				connection.close();
+			} catch(Exception error)
+			{
+				// Ignore errors, as we are closing anyways.
+			}
+		}
 	}
 }
 

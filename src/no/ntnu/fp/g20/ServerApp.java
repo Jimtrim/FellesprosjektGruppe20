@@ -20,20 +20,8 @@ public class ServerApp {
 	/** Server port: */
 	public final static int MY_PORT = 26700;
 	
-	// TODO: Implement complete server- and client-protocols
-	// Constants for command-recognition
-	final int USER_LOGIN = 10; // 1x = USER-command
-	final int USER_LOGOUT = 19;
-	final int APPOINTMENT_CREATE = 20; // 2x = APPOINTMENT-command
-	final int APPOINTMENT_REMOVE = 29;
-	
-	public ServerApp()
-	{
-
-	}
-	
 	/**
-	 * 
+	 * ?
 	 * @param payload
 	 * @return a constant int to select proper action
 	 */
@@ -68,7 +56,7 @@ public class ServerApp {
 			}
 		} catch(EOFException error)
 		{
-			// Anyone knows what the second argument to writeToLog is?
+			// Anyone knows what the second argument to writeToLog is? Log title?
 			serverLog.writeToLog("EOF received, exiting.", "SuperCalendar Server");
 		} catch(Exception error)
 		{

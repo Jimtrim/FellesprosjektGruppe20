@@ -76,6 +76,15 @@ public class AppointmentWidget extends JComponent
 			g.fillRect(0, 0, getWidth(), getHeight());
 		}
 
+		if(focused)
+		{
+			g.setColor(Color.GRAY);
+			g.drawLine(0, 0, getWidth() - 1, 0);
+			g.drawLine(getWidth() - 1, 0, getWidth() - 1, getHeight() - 1);
+			g.drawLine(getWidth() - 1, getHeight() - 1, 0, getHeight() - 1);
+			g.drawLine(0, getHeight() - 1, 0, 0);
+		}
+
 		if(selected)
 		{
 			g.setColor(Color.BLACK);

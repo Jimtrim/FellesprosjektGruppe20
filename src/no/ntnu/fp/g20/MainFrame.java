@@ -117,7 +117,7 @@ public class MainFrame extends JFrame {
 	{
 		public RemoveCalendarAction()
 		{
-			super("�"); // Beware, n-dash, not hyphen.
+			super("-"); // Beware, n-dash, not hyphen.
 		}
 
 		public void actionPerformed(ActionEvent event)
@@ -138,7 +138,7 @@ public class MainFrame extends JFrame {
 
 		public void actionPerformed(ActionEvent event)
 		{
-
+			setVisible(false);
 		}
 	}
 
