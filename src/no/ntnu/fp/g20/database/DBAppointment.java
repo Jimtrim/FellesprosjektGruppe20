@@ -22,7 +22,7 @@ public class DBAppointment {
 	
 	public static int addAppointment(Appointment a){
 		//TODO: FIX ME
-		return addAppointment(a.getDescription(), a.getName(), a.getLocation(), a.getStartTime(), a.getDuration());
+//		return addAppointment(a.getDescription(), a.getName(), a.getLocation(), a.getStartTime(), a.getDuration());
 		
 	}
 	
