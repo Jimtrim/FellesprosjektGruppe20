@@ -72,10 +72,11 @@ public class DBRoom {
 			int appointment_id = rs.getInt("appointment_id");
 			String roomName = rs.getString("name");
 			Room.RoomStatus roomStatus = Room.RoomStatus.valueOf(rs.getString("available"));
+			String description = rs.getString("description");
 			int capacity = rs.getInt("capacity");
 			
 			//TODO: Make appropriate Constructor
-			room = new Room(room_id, appointment_id, roomName, roomStatus, capacity);
+			room = new Room(room_id, appointment_id, roomName, roomStatus, description, capacity);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

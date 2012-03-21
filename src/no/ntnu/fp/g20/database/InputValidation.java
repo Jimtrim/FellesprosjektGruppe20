@@ -16,6 +16,14 @@ public class InputValidation {
 		}
 		return true;
 	}
+	/**
+	 * This method checks whether the input for the {@code User is valid}
+	 * @param uName username
+	 * @param pwd password
+	 * @param fName firstname
+	 * @param lName lastname
+	 * @return returns true if all is correct, false otherwise
+	 */
 	public static boolean isUserValid(String uName, String pwd, String fName, String lName ) {
 		if (fName == null || !InputValidation.isAlphaNumeric(fName) ) {
 			System.err.println("Firstname is invalid!");
@@ -34,4 +42,17 @@ public class InputValidation {
 			return true;
 		}
 	}
+	
+	public static boolean isRoomValid(String name, String description){
+		if (name == null || !InputValidation.isAlphaNumeric(name)) {
+			System.err.println("Name is invalid");
+			return false;
+		} else if (description == null || !InputValidation.isAlphaNumeric(description)) {
+			System.err.println("Description is invalid");
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
 }

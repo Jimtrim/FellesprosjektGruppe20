@@ -8,6 +8,7 @@ import no.ntnu.fp.g20.database.DBRoom;
 import no.ntnu.fp.g20.database.DBUser;
 import no.ntnu.fp.g20.database.Database;
 import no.ntnu.fp.g20.database.InputValidation;
+import no.ntnu.fp.g20.model.Room.RoomStatus;
 
 /**
  * Class that holds all the {@code User}, {@code Participants}, {@code Room}
@@ -79,10 +80,18 @@ public class Model {
 	}
 	
 	public void editUser(){
+		//TODO: Make this
 		
 	}
-	public void createRoom(){
+	public void createRoom(String name, RoomStatus roomStatus, String description, int capacity){
+		boolean input = InputValidation.isRoomValid(name, description);
 		
+		if (input) {
+			this.currentRoom = new Room(name, roomStatus, description, capacity);
+			this.currentRoom.setId(DBRoom.addRoom(this.currentRoom));
+		} else {
+			System.err.println("Something is wrong with the room input");
+		}
 	}
 	public void editRoom(){
 		
