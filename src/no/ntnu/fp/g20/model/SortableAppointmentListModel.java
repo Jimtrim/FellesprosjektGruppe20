@@ -1,41 +1,53 @@
 package no.ntnu.fp.g20.model;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import javax.swing.DefaultListModel;
-import javax.swing.JList;
 
 import no.ntnu.fp.g20.Status;
 
 public class SortableAppointmentListModel extends DefaultListModel{
-	boolean containsNonAppointmentObject = false;
-	
-	public void addElement(Object o){
+	private boolean isValidInsertion(Object o){
 		if (!(o instanceof Appointment)){
-			System.err.println("Put a non-Appointment object in a SortableAppointmentListModel! Most unwise. Please die.");
-			containsNonAppointmentObject = true;
+			System.err.println("Tried to add non-Appointment object to SortableRoomListModel. Cancelled.");
+			return false;
 		}
-		super.addElement(o);
+		return true;
+	}
+	public void addElement(Object element){
+		if (isValidInsertion(element)) return;
+		super.addElement(element);
+	}
+	public void add(int index, Object element){
+		if (isValidInsertion(element)) return;
+		super.add(index, element);
+	}
+	public void insertElementAt(Object obj, int index){
+		if (isValidInsertion(obj)) return;
+		super.insertElementAt(obj, index);
+	}
+	public Object set(int index, Object element){
+		if (isValidInsertion(element)) return getElementAt(index);
+		return super.set(index, element);
+	}
+	public void setElementAt(Object obj, int index){
+		if (isValidInsertion(obj)) return;
+		super.setElementAt(obj, index);
 	}
 	
 	public void sortByTime(){
-		if (containsNonAppointmentObject){
-			System.err.println("Contains non-Appointment object. Cannot sort by Appointment time.");
-			return;
-		}
-		DefaultListModel sorted = mergeSort(this);
+		SortableAppointmentListModel sorted = mergeSortByTime(this);
 		this.clear();
 		for (int i=0; i<sorted.size(); i++){
 			this.addElement(sorted.get(i));
 		}
 	}
-	private DefaultListModel mergeSort(DefaultListModel list){
+	private static SortableAppointmentListModel mergeSortByTime(SortableAppointmentListModel list){
 		if (list.size()<2){
 			return list;
 		}
-		DefaultListModel p0 = new DefaultListModel();
-		DefaultListModel p1 = new DefaultListModel();
+		SortableAppointmentListModel p0 = new SortableAppointmentListModel();
+		SortableAppointmentListModel p1 = new SortableAppointmentListModel();
 		
 		//Splits:
 		int mid = (int) list.size()/2;
@@ -46,13 +58,13 @@ public class SortableAppointmentListModel extends DefaultListModel{
 			p1.addElement(list.get(i));
 		}
 		//Sorts halves
-		p0 = mergeSort(p0);
-		p1 = mergeSort(p1);
-		//Merges:
-		return merge(p0,p1);
+		p0 = mergeSortByTime(p0);
+		p1 = mergeSortByTime(p1);
+		//Merges and returns:
+		return mergeByTime(p0,p1);
 	}
-	private DefaultListModel merge(DefaultListModel p0, DefaultListModel p1){
-		DefaultListModel merged = new DefaultListModel();
+	private static SortableAppointmentListModel mergeByTime(DefaultListModel p0, DefaultListModel p1){
+		SortableAppointmentListModel merged = new SortableAppointmentListModel();
 		int i = 0; long iMillis;
 		int j = 0; long jMillis;
 		
@@ -77,10 +89,6 @@ public class SortableAppointmentListModel extends DefaultListModel{
 	}
 	
 	public void sortByStatus(){
-		if (containsNonAppointmentObject){
-			System.err.println("Contains non-Appointment object. Cannot sort by Appointment Status.");
-			return;
-		}
 		
 		sortByTime();
 		

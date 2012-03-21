@@ -197,4 +197,9 @@ public class MainFrame extends JFrame {
 
 		}
 	}
+	
+	public static void main(String[] args) {
+		MainFrame frame = new MainFrame("Test", new Calendar(new User()));
+		frame.setVisible(true);
+	}
 }

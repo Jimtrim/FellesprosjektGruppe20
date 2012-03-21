@@ -21,7 +21,9 @@ import javax.swing.JScrollPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import no.ntnu.fp.g20.database.DBRoom;
 import no.ntnu.fp.g20.model.Room;
+import no.ntnu.fp.g20.model.Room.RoomStatus;
 
 
 public class RoomReservationPanel extends JPanel implements ActionListener, ListSelectionListener, ItemListener {
@@ -30,12 +32,11 @@ public class RoomReservationPanel extends JPanel implements ActionListener, List
 	private JButton reserveButton;
 	private JButton cancelButton;
 	private JButton cancelReservationButton;
-	private DefaultListModel model;
-	private Room room;
+	private Room model;
+	private DefaultListModel listModel;
 
 	public RoomReservationPanel(){
 		super();
-		model = new DefaultListModel();
 
 		GridBagLayout layout = new GridBagLayout();
 		GridBagConstraints c = new GridBagConstraints();
@@ -66,7 +67,11 @@ public class RoomReservationPanel extends JPanel implements ActionListener, List
 		add(sortBox);
 
 		//Add the roomlist
-		roomList = new JList(model);
+		listModel = new DefaultListModel();
+		roomList = new JList(listModel);
+		for (int i=0; i < DBRoom.getAllRooms().size(); i++) {
+			listModel.addElement(DBRoom.getRoom(i));
+		}
 		JScrollPane scrollPane = new JScrollPane(roomList);
 		c.gridx = 0;
 		c.gridy++;
@@ -104,12 +109,11 @@ public class RoomReservationPanel extends JPanel implements ActionListener, List
 
 
 	}
-	public DefaultListModel getModel() {
+	public Room getModel() {
 		return model;
 	}
-	public void setModel(DefaultListModel dlm) {
-		model = dlm;
-		roomList.setModel(model);
+	public void setModel(Room room) {
+		this.model = room;
 	}
 	public static void main(String[] args) {
 		JFrame testFrame = new JFrame("RoomreservationPanel Test");
@@ -123,13 +127,14 @@ public class RoomReservationPanel extends JPanel implements ActionListener, List
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == reserveButton) {
-			//TODO: 
+			getModel().setRoomStatus(RoomStatus.UNAVAILABLE);
 		}
 		if (e.getSource() == cancelButton) {
-			System.exit(0);
+			getTopLevelAncestor().setEnabled(false);
+			getTopLevelAncestor().setVisible(false);
 		}
 		if (e.getSource() == cancelReservationButton) {
-			//TODO:
+			getModel().setRoomStatus(RoomStatus.AVAILABLE);
 		}
 
 	}
@@ -138,16 +143,16 @@ public class RoomReservationPanel extends JPanel implements ActionListener, List
 	public void valueChanged(ListSelectionEvent e) {
 		roomList.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
 		if (!e.getValueIsAdjusting()) {
-			JList list = (JList)e.getSource();
-			
-			//Get all selected items
-			//this.setModel((Room)roomList.getSelectedValue());
-			
-			//for(int i = 0; i<selected.length; i++){
-		//		Object sel = selected[i];
-		//	}
+			setModel((Room) roomList.getSelectedValue());
+			if (getModel().getRoomStatus() == RoomStatus.AVAILABLE) {
+				reserveButton.setEnabled(true);
+				cancelReservationButton.setEnabled(false);
+			}
+			else {
+				reserveButton.setEnabled(false);
+				cancelReservationButton.setEnabled(true);
+			}
 		}
-
 	}
 	@Override
 	//Handle listeners for sortbox
