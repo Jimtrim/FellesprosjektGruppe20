@@ -21,6 +21,10 @@ public class User {
 		id = 0;
 	}
 	
+	public User(String uName, String pwd, String fName, String lName) {
+		this(0, uName, pwd, fName, lName);
+	}
+
 	public int getId() {
 		return id;
 	}

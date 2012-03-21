@@ -10,31 +10,45 @@ import no.ntnu.fp.g20.Status;
  */
 public class Participants
 {
+	private int appointmentID;
+	private int userID;
 	private Status status;
-	private User user;
-
-	public Participants()
-	{
-		status = Status.UNCONFIRMED;
+	
+	public Participants(int appointmentID, int userID, Status status) {
+		this.appointmentID = appointmentID;
+		this.userID = userID;
+		this.status = Status.UNCONFIRMED;
+	}
+	
+	public int getUserID() {
+		return userID;
 	}
 
-	public Status getStatus()
-	{
+	public void setUserID(int userID ) {
+		this.userID = userID;
+	}
+
+	public int getAppointmentID() {
+		return appointmentID;
+	}
+
+	public void setAppointmentID(int appointmentID) {
+		this.appointmentID = appointmentID;
+	}
+
+	public Status getStatus(){
 		return status;
 	}
 
-	public void setStatus(Status status)
-	{
+	public void setStatus(Status status){
 		this.status = status;
 	}
 
-	public void confirm()
-	{
+	public void confirm(){
 		this.status = Status.CONFIRMED;
 	}
 
-	public void reject()
-	{
+	public void reject(){
 		this.status = Status.REJECTED;
 	}
 }
