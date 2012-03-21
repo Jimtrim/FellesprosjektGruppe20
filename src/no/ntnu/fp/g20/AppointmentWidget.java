@@ -7,30 +7,40 @@ import java.awt.*;
 import javax.swing.*;
 import java.util.*;
 
+// Major TODO: Draw multi-hour appointments.
+
 /**
  * Component used for rendering appointments in the calendar table.
  * @author Kristian Klomsten Skordal
  */
 public class AppointmentWidget extends JComponent
 {
-	private Appointment appointment;
 	private final static Color APPOINTMENT_COLOR = new Color(255, 100, 100);
 	private int hour;
 
-	/**
-	 * Constructs a new appointment widget for the specified appointment.
-	 */
-	public AppointmentWidget(Appointment appointment)
-	{
-		this.appointment = appointment;
-		this.hour = appointment.getStartTime().get(java.util.Calendar.HOUR_OF_DAY);
-	}
+	private Appointment appointment;
+	private boolean selected;
+	private boolean focused;
 
 	/**
 	 * Constructs a new appointment widget without an appointment.
 	 */
-	public AppointmentWidget(int hour)
+	public AppointmentWidget()
 	{
+	}
+
+	/**
+	 * Sets the parameters for the widget.
+	 * @param appointment the appointment to render.
+	 * @param isSelected true if the cell is selected.
+	 * @param isFocused true if the cell has focus.
+	 * @param hour the hour of the current cell.
+	 */
+	public void setParameters(Appointment appointment, boolean isSelected, boolean isFocused, int hour)
+	{
+		this.appointment = appointment;
+		selected = isSelected;
+		focused = isFocused;
 		this.hour = hour;
 	}
 
@@ -57,18 +67,30 @@ public class AppointmentWidget extends JComponent
 		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
 			RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-		setMinimumSize(new Dimension(getWidth(), metrics.getHeight() * 4));
-
 		if(appointment == null)
 		{
 			g.setColor(getBackground());
 			g.fillRect(0, 0, getWidth(), getHeight());
+		} else {
+			g.setColor(APPOINTMENT_COLOR);
+			g.fillRect(0, 0, getWidth(), getHeight());
+		}
+
+		if(selected)
+		{
+			g.setColor(Color.BLACK);
+			g.drawLine(0, 0, getWidth() - 1, 0);
+			g.drawLine(getWidth() - 1, 0, getWidth() - 1, getHeight() - 1);
+			g.drawLine(getWidth() - 1, getHeight() - 1, 0, getHeight() - 1);
+			g.drawLine(0, getHeight() - 1, 0, 0);
+		}
+
+		if(appointment == null)
+		{
 			g.setColor(Color.GRAY);
 			g.setFont(hourFont);
 			g.drawString(timeString, 0, metrics.getHeight());
 		} else {
-			g.setColor(APPOINTMENT_COLOR);
-			g.fillRect(0, 0, getWidth(), getHeight());
 			g.setColor(Color.GRAY);
 			g.setFont(hourFont);
 			g.drawString(timeString, 0, metrics.getHeight());
