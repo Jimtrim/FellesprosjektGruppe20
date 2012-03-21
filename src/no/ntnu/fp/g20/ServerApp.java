@@ -17,8 +17,8 @@ import no.ntnu.fp.net.co.ConnectionImpl;
  *
  */
 public class ServerApp {
-	// Server-config
-	final static int MY_PORT = 26700;
+	/** Server port: */
+	public final static int MY_PORT = 26700;
 	
 	// TODO: Implement complete server- and client-protocols
 	// Constants for command-recognition
@@ -27,8 +27,10 @@ public class ServerApp {
 	final int APPOINTMENT_CREATE = 20; // 2x = APPOINTMENT-command
 	final int APPOINTMENT_REMOVE = 29;
 	
-	public ServerApp() {
-	} // end ServerApp()
+	public ServerApp()
+	{
+
+	}
 	
 	/**
 	 * 
