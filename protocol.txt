@@ -79,7 +79,7 @@ Logout:
 Create Appointment:
 	Client request:
 		20 <String: name> <String: description> <Long: startTime> 
-		   <Int: roomID> <Int: Duration>
+		   <Int: roomID> <Int: Duration> [ <String: participant> ... ]
 	Server reply:
 		200 Appointment CREATE SUCCESS <Int: id> <String: name>
 		209 Appointment CREATE ERROR <String: name>
@@ -87,6 +87,7 @@ Create Appointment:
 Update Appointment:
 	Client request:
 		21 <Int: id> <String:name> <String:description> <Long:startTime> <Int:roomID> <Int:Duration>
+		   [ <String: participant> ...]
 	Server reply:
 		210 Appointment UPDATE SUCCESS <Int: id> <String: name>
 		219 Appointment UPDATE ERROR
@@ -133,6 +134,6 @@ General check updates:
 	Client request:
 		91 <Int: id>
 	Server reply:
-		910 General NEW UPDATES
+		910 General NEW UPDATES <Int: number of updates>
 		911 General NO UPDATES
 		919 GEneral REQUEST ERROR
