@@ -16,7 +16,7 @@ import javax.swing.table.*;
  * @author Kristian Klomsten Skordal
  */
 public class Calendar extends AbstractTableModel
-	implements PropertyChangeListener, TableCellRenderer
+	implements PropertyChangeListener, TableCellRenderer, ListSelectionListener
 {
 	public final static int HOURS = 12;
 	public final static int START_HOUR = 7;
@@ -80,6 +80,16 @@ public class Calendar extends AbstractTableModel
 
 			}
 		}
+	}
+
+	/**
+	 * Listens for a selected row.
+	 * @param event the selection event
+	 */
+	public void valueChanged(ListSelectionEvent event)
+	{
+		if(!event.getValueIsAdjusting())
+			System.out.println(((ListSelectionModel) event.getSource()).getAnchorSelectionIndex());
 	}
 
 	/**

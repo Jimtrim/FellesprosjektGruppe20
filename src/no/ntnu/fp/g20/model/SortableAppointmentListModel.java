@@ -9,7 +9,6 @@ import javax.swing.JList;
 import no.ntnu.fp.g20.Status;
 
 public class SortableAppointmentListModel extends DefaultListModel{
-	
 	boolean containsNonAppointmentObject = false;
 	
 	public void addElement(Object o){

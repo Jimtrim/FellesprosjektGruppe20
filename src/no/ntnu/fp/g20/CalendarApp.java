@@ -38,7 +38,7 @@ public class CalendarApp implements Runnable
 	{
 		boolean loggedIn = false;
 
-		while(!loggedIn)
+/*		while(!loggedIn)
 		{
 			loginDialog.setVisible(true);
 			System.out.println("Login dialog closed.");
@@ -52,6 +52,9 @@ public class CalendarApp implements Runnable
 					break;
 			}
 		}
+		*/
+
+		calendarUser = new User(1, "skordal", "testpass", "Kristian", "Skordal");
 
 		calendarModel = new Calendar(calendarUser);
 
@@ -66,6 +69,16 @@ public class CalendarApp implements Runnable
 	public static CalendarApp getApplication()
 	{
 		return application;
+	}
+
+	/**
+	 * Returns the logged in user object.
+	 * @return the logged in user's User object.
+	 * @see User
+	 */
+	public static User getLoggedInUser()
+	{
+		return CalendarApp.getApplication().calendarUser;
 	}
 
 	/**

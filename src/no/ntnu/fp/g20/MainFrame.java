@@ -52,7 +52,6 @@ public class MainFrame extends JFrame {
 		
 		calendar = new CalendarPanel(model);
 		add(calendar, BorderLayout.CENTER);
-
 		
 		appointmentPanel = new AppointmentListPanel();
 		add(appointmentPanel, BorderLayout.SOUTH);
