@@ -22,22 +22,29 @@ public class DBUser {
 	 * @return A positive integer if all went well, negative if an error occured.
 	 */
 	public static int addUser(User user){
-		if (user.getFirstname() == null) {
-			System.err.println("Firstname is null!");
+		String fName = user.getFirstname(); 
+		String lName = user.getLastName(); 
+		String uName = user.getUsername();
+		String pwd = user.getPassword();
+		
+		
+		if (fName == null || !InputValidation.isAlphaNumeric(fName) ) {
+			System.err.println("Firstname is invalid!");
 			return -1;
-		} else if (user.getLastName() == null) {
-			System.err.println("Lastname is null!");
+		} else if (lName == null || !InputValidation.isAlphaNumeric(lName) ) {
+			System.err.println("Lastname is invalid!");
 			return -1;
-		} else if (user.getUsername() == null) {
-			System.err.println("Username is null");
+		} else if (uName == null || !InputValidation.isAlphaNumeric(uName) ) {
+			System.err.println("Username is invalid!");
 			return -1;
-		} else if (user.getPassword() == null) {
-			System.err.println("Password is null");
+		} else if (pwd == null || !InputValidation.isAlphaNumeric(pwd) ) {
+			// TODO: Lage en hash'e-funksjon på klient-siden
+			System.err.println("Password is invalid!");
 			return -1;
 		}
 		
 		
-		return addDrink(user.getFirstname(), user.getLastName(), user.getUsername(), user.getPassword());
+		return addUser(fName, lName, uName, pwd);
 		
 	}
 	
@@ -51,7 +58,7 @@ public class DBUser {
 	 * @param password The password of the user.
 	 * @return int Return value, positive for ok, or -1 for error.
 	 */
-	private static int addDrink(String firstname, String lastName, String username, String password) {
+	private static int addUser(String firstname, String lastName, String username, String password) {
 		String query = "INSERT INTO users "
 				+ "(firstname, lastname, username, password) VALUES ('" + firstname + "','"
 				+ lastName + "','" + username + "','" + password + "')";
@@ -141,6 +148,7 @@ public class DBUser {
 	 */
 	private static User makeUserObject(ResultSet rs) {
 		User user = null;
+		
 		try {
 			int id = rs.getInt("id");
 			String firstname = rs.getString("firstname");

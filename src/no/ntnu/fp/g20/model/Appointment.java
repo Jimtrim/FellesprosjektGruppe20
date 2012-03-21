@@ -1,7 +1,6 @@
 package no.ntnu.fp.g20.model;
 
 import java.beans.*;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -22,9 +21,11 @@ public class Appointment
 	private Calendar startTime;
 	private int duration;
 	private String location;
+	private String description;
 	private Room room;
 	private ArrayList<User> listOfParticipants;
 	private Status status;
+	private ArrayList<Invitation> listOfInvitations;
 
 	private PropertyChangeSupport pcs;
 
@@ -50,6 +51,14 @@ public class Appointment
 		return startTime;
 	}
 
+	public int getDuration() {
+		return duration;
+	}
+
+	public void setDuration(int duration) {
+		this.duration = duration;
+	}
+
 	public int getID()
 	{
 		return id;
@@ -63,6 +72,14 @@ public class Appointment
 	public void setName(String name)
 	{
 		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getLocation()
@@ -89,7 +106,7 @@ public class Appointment
 	public Status getStatus(){
 		return status;
 	}
-	
+
 	public boolean equals(Object ob) {
 		if (ob instanceof Appointment) {
 			Appointment app = (Appointment) ob;
@@ -101,4 +118,15 @@ public class Appointment
 		} 
 		return false;
 	}
+
+	public void invitationConfirmed(Invitation invitation)
+	{
+		listOfInvitations.get(listOfInvitations.indexOf(invitation)).setStatus(Status.CONFIRMED);
+	}
+
+	public void invitationRejected(Invitation invitation)
+	{
+		listOfInvitations.get(listOfInvitations.indexOf(invitation)).setStatus(Status.REJECTED);
+	}
+
 }

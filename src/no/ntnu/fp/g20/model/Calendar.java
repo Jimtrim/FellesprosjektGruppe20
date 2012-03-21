@@ -23,14 +23,18 @@ public class Calendar extends AbstractTableModel
 
 	private PropertyChangeSupport pcs;
 	private Appointment[][] appointments;
+	private AppointmentWidget appointmentWidget;
+	private User user;
 
 	/**
 	 * Constructs a new calendar model class.
+	 * @param user the user the calendar belongs to.
 	 */
-	public Calendar()
+	public Calendar(User user)
 	{
 		pcs = new PropertyChangeSupport(this);
 		appointments = new Appointment[7][HOURS];
+		this.user = user;
 
 		appointments[4][4] = new Appointment();
 		appointments[4][4].setName("Test appointment");
@@ -41,6 +45,8 @@ public class Calendar extends AbstractTableModel
 		startTime.set(2012, 3, 19, 4, 0);
 
 		appointments[4][4].setStartTime(startTime);
+
+		appointmentWidget = new AppointmentWidget();
 	}
 
 	/**
@@ -147,10 +153,8 @@ public class Calendar extends AbstractTableModel
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
 		boolean hasFocus, int row, int column)
 	{
-		if(appointments[column][row] == null)
-			return new AppointmentWidget(row);
-		else
-			return new AppointmentWidget(appointments[column][row]);
+		appointmentWidget.setParameters(appointments[column][row], isSelected, hasFocus, row);
+		return appointmentWidget;
 	}
 }
 

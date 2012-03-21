@@ -27,8 +27,6 @@ public class AppointmentPanel extends JPanel {
 	
 	protected GridBagConstraints c;
 
-	protected JComboBox sortBox;
-	protected JList appointmentList;
 	protected JTextField titleField, locationField;
 	protected JComboBox hoursBox,dayBox, monthBox, yearBox, durationBox;
 	protected JTextArea descriptionField;
@@ -53,41 +51,13 @@ public class AppointmentPanel extends JPanel {
 		c.ipadx = 2;
 		c.ipady = 2;
 
-		// Add the sort by label:
-		JLabel sortLabel = new JLabel("Sort by:");
-		layout.setConstraints(sortLabel, c);
-		add(sortLabel);
-
-		// Add the sort box:
-		String[] sortType = { "Time", "Status" };
-		c.gridx++;
-		c.anchor = GridBagConstraints.WEST;
-		sortBox = new JComboBox(sortType);
-		layout.setConstraints(sortBox, c);
-		add(sortBox);
-		sortBox.addActionListener(new SortBoxListener());
-		
-
-		// Add the appointment list:
-		appointmentList = new JList();
-		appointmentList.setModel(new DefaultListModel());
-		JScrollPane scrollPane = new JScrollPane(appointmentList);
-		c.gridx = 0;
-		c.gridy++;
-		c.weighty = 1;
-		c.weightx = 0.7;
-		c.gridwidth = 2;
-		c.gridheight = GridBagConstraints.REMAINDER;
-		c.fill = GridBagConstraints.BOTH;
-		layout.setConstraints(scrollPane, c);
-		add(scrollPane);
-
 		// Add the panel heading label:
-		c.gridx = 2;
+		c.gridx = 0;
 		c.gridy = 0;
 		c.weighty = 0;
 		c.weightx = 0;
 		c.gridwidth = GridBagConstraints.REMAINDER;
+		c.anchor = GridBagConstraints.WEST;
 		c.gridheight = 1;
 
 		JLabel detailsLabel = new JLabel("Appointment details");
@@ -114,7 +84,7 @@ public class AppointmentPanel extends JPanel {
 		//add the date label
 		JLabel dateLabel = new JLabel("Date: ");
 		c.gridy++;
-		c.gridx = 2;
+		c.gridx = 0;
 		c.gridwidth = 1;
 		add(dateLabel, c);
 		
@@ -149,7 +119,7 @@ public class AppointmentPanel extends JPanel {
 		
 
 		// Add the time label:
-		c.gridx = 2;
+		c.gridx = 0;
 		c.gridy++;
 		JLabel timeLabel = new JLabel("Time:");
 		layout.setConstraints(timeLabel, c);
@@ -197,7 +167,7 @@ public class AppointmentPanel extends JPanel {
 		//add the location label
 		JLabel locationLabel = new JLabel("Location: ");
 		c.gridy++;
-		c.gridx = 2;
+		c.gridx = 0;
 		c.gridwidth = 1;
 		add(locationLabel, c);
 		
@@ -217,7 +187,7 @@ public class AppointmentPanel extends JPanel {
 		roomResButton.addActionListener(new RoomResButtonListener());
 
 		// Add the description label:
-		c.gridx = 2;
+		c.gridx = 0;
 		c.gridy++;
 		c.gridwidth = 2;
 		JLabel descriptionLabel = new JLabel("Description:");
@@ -286,23 +256,8 @@ public class AppointmentPanel extends JPanel {
 			monthBox.setSelectedItem(model.getStartTime().get(Calendar.MONTH));
 			yearBox.setSelectedItem(model.getStartTime().get(Calendar.YEAR));
 			hoursBox.setSelectedItem(model.getStartTime().get(Calendar.HOUR));
-			//no getter for duration in Appointment class
-			//no description field in Appointment class
-		}
-	}
-
-	
-	//create listener for the sort box
-	class SortBoxListener implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if (sortBox.getSelectedItem().equals("Time")) {
-				
-			}
-			else if (sortBox.getSelectedItem().equals("Status")) {
-				
-			}
+			durationBox.setSelectedItem(model.getDuration());
+			descriptionField.setText(model.getDescription());
 		}
 	}
 	
@@ -460,15 +415,6 @@ public class AppointmentPanel extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			ParticipantList listOfParticipants = new ParticipantList();
 			listOfParticipants.setVisible(true);
-		}
-	}
-	
-	//create listener for the appointment list
-	class AppointmentListListener implements ListSelectionListener {
-
-		@Override
-		public void valueChanged(ListSelectionEvent e) {
-			setModel((Appointment) appointmentList.getSelectedValue());
 		}
 	}
 }
