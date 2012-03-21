@@ -19,7 +19,7 @@ public class DBUser {
 	 * 
 	 * @param user
 	 * 			Takes a parameter user from a {@code User}
-	 * @return A positive integer if all went well, negative if an error occured.
+	 * @return A positive integer if all went well, negative if an error occurred.
 	 */
 	public static int addUser(User user){
 		String fName = user.getFirstname(); 
