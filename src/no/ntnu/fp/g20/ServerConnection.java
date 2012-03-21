@@ -144,6 +144,16 @@ public class ServerConnection
 	}
 
 	/**
+	 * Send appointment update to server.
+	 * @param appointment the appointment to update.
+	 */
+	public boolean updateAppointment(Appointment appointment)
+	{
+		// TODO: Implement me.
+		return false;
+	}
+
+	/**
 	 * Adds a listener to this server connection object.
 	 * @param listener the listener to add.
 	 */
