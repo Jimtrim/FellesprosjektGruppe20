@@ -124,20 +124,18 @@ public class ServerConnection
 		if(reply == null)
 			return null;
 		else {
-			if(!reply.startsWith("" + CalendarProtocol.STATUS_LOGIN_SUCCESS))
-				return null;
-			else {
+			if(reply.startsWith("" + CalendarProtocol.STATUS_LOGIN_SUCCESS))
+			{
 				StringTokenizer parser = new StringTokenizer(reply);
-
-//				if(!parser.nextToken().equals(CalendarProtocol.STATUS_LOGIN_SUCCESS))
-//					return null;
+				parser.nextToken(); // Discard status code.
 
 				int uid = Integer.parseInt(parser.nextToken());
 				String firstName = parser.nextToken();
 				String lastName = parser.nextToken();
 
 				return new User(uid, username, password, firstName, lastName);
-			}
+			 } else
+				return null;
 		}
 	}
 

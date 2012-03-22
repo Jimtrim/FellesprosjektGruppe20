@@ -50,10 +50,14 @@ public class CalendarApp implements Runnable
 				calendarUser = connection.login(loginDialog.getUsername(), loginDialog.getPassword());
 				if(calendarUser != null)
 					break;
+				else
+					JOptionPane.showMessageDialog(null, "Your username and password does not match!",
+						"Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 
-		calendarUser = new User(1, "skordal", "testpass", "Kristian", "Skordal");
+		JOptionPane.showMessageDialog(null, "Welcome, sir " + calendarUser.getLastName() + "!\n"
+			+ "Here is your calendar, please have fun!", "Welcome master!", JOptionPane.INFORMATION_MESSAGE);
 
 		calendarModel = new Calendar(calendarUser);
 

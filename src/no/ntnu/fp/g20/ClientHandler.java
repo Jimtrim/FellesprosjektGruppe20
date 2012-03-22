@@ -24,6 +24,7 @@ public class ClientHandler extends ReceiveWorker implements MessageListener
 	{
 		super(connection);
 		this.connection = connection;
+		this.dbConnection = dbConnection;
 		connectedUser = null;
 		System.out.println("Client connected.");
 
@@ -84,7 +85,12 @@ public class ClientHandler extends ReceiveWorker implements MessageListener
 	 */
 	private void handleLogin(String username, String password)
 	{
-		send(CalendarProtocol.STATUS_LOGIN_SUCCESS + "0 Kristian Skordal");
+		connectedUser = dbConnection.loginUser(username, password);
+		if(connectedUser == null)
+			send(CalendarProtocol.STATUS_LOGIN_ERROR + " invalid credentials");
+		else
+			send(CalendarProtocol.STATUS_LOGIN_SUCCESS + " " + connectedUser.getId() +
+				" " + connectedUser.getFirstName() + " " + connectedUser.getLastName());
 	}
 }
 

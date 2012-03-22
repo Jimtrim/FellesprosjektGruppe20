@@ -6,11 +6,14 @@ import no.ntnu.fp.g20.model.*;
 
 public class Database extends Connection
 {
-	private PreparedStatement insertAppointmentStatement;
+	private final static String LOGIN_STATEMENT = "SELECT id,firstname,lastname FROM users WHERE username LIKE ? AND password LIKE ?";
+	private PreparedStatement loginStmt;
 
-	public Database()
+	public Database() throws SQLException
 	{
 		super();
+
+		loginStmt = getConnection().prepareStatement(LOGIN_STATEMENT);
 	}
 
 	public boolean addAppointment(Appointment appt)
@@ -38,7 +41,22 @@ public class Database extends Connection
 
 	public User loginUser(String username, String password)
 	{
-		return null;
+		// TODO: Move to DBUser
+		try {
+			loginStmt.setString(1, username);
+			loginStmt.setString(2, password);
+	
+			ResultSet rs = loginStmt.executeQuery();
+	
+			if(!rs.next())
+				return null;
+			else
+				return new User(rs.getInt(1), username, password, rs.getString(2), rs.getString(3));
+		} catch(Exception error)
+		{
+			System.err.println(error.getMessage());
+			return null;
+		}
 	}
 	
 	public void editUser(){
