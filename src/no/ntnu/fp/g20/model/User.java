@@ -40,11 +40,11 @@ public class User {
 		this.password = password;
 	}
 	
-	public String getFirstname() {
+	public String getFirstName() {
 		return firstname;
 	}
 	
-	public void setFirstname(String firstname) {
+	public void setFirstName(String firstname) {
 		this.firstname = firstname;
 	}
 	
@@ -63,7 +63,7 @@ public class User {
 				System.err.println("ID was not the same");
 				return false;
 			}
-			else if (!this.firstname.equals(u.getFirstname())) {
+			else if (!this.firstname.equals(u.getFirstName())) {
 				System.err.println("Firstname was not the same");
 				return false;
 			

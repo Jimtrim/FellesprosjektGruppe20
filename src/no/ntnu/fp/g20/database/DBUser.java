@@ -22,7 +22,7 @@ public class DBUser {
 	 * @return A positive integer if all went well, negative if an error occurred.
 	 */
 	public static int addUser(User user){
-		String fName = user.getFirstname(); 
+		String fName = user.getFirstName(); 
 		String lName = user.getLastName(); 
 		String uName = user.getUsername();
 		String pwd = user.getPassword();
