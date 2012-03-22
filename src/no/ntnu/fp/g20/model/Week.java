@@ -1,8 +1,7 @@
 package no.ntnu.fp.g20.model;
 
+import no.ntnu.fp.g20.*;
 import java.util.ArrayList;
-
-import no.ntnu.fp.g20.database.DBAppointment;
 
 public class Week {
 	
@@ -14,7 +13,7 @@ public class Week {
 	public Week(){
 		
 		appsInThisWeek = new Appointment[12][7];
-		listOfAppointments = DBAppointment.getAllAppointments();
+		listOfAppointments = new ArrayList<Appointment>();
 	}
 	
 	public Appointment[][] getAppointmentsInWeek(int week) {
@@ -25,9 +24,8 @@ public class Week {
 				appsInThisWeek[a.getStartTime().HOUR_OF_DAY][a.getStartTime().DAY_OF_WEEK] = a;
 			}
 		}
+
+		return appsInThisWeek;
 	}
-
-		
-		week = app.getStartTime().WEEK_OF_YEAR;
-
 }
+
