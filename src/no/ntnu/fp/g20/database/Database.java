@@ -5,15 +5,12 @@ import no.ntnu.fp.g20.*;
 import no.ntnu.fp.g20.model.*;
 
 public class Database extends Connection
-{
-	private final static String LOGIN_STATEMENT = "SELECT id,firstname,lastname FROM users WHERE username LIKE ? AND password LIKE ?";
 	private PreparedStatement loginStmt;
 
 	public Database() throws SQLException
 	{
 		super();
-
-		loginStmt = getConnection().prepareStatement(LOGIN_STATEMENT);
+		loginStmt = getConnection().prepareStatement(DBUser.LOGIN_STATEMENT);
 	}
 
 	public boolean addAppointment(Appointment appt)

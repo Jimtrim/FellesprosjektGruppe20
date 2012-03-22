@@ -11,6 +11,9 @@ import no.ntnu.fp.g20.model.User;
  *
  */
 public class DBUser {
+	/** Statement executed to get user information when logging in. */
+	private final static String LOGIN_STATEMENT = "SELECT id,firstname,lastname FROM users WHERE username LIKE ? AND password LIKE ?";
+
 	/**
 	 * Does the same as the first {@code addUser} but it doesn't need a specific name
 	 * it is obtained from the {@code User} -object
