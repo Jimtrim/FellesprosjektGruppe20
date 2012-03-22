@@ -20,12 +20,6 @@ public class User {
 		this.lastName = lastName;
 	}
 
-	
-	
-	public User(String uName, String pwd, String fName, String lName) {
-		this(0, uName, pwd, fName, lName);
-	}
-
 	public int getId() {
 		return id;
 	}
