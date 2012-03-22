@@ -20,7 +20,7 @@ public class ServerConnection
 	private final static short LOCAL_PORT = 32000;
 
 	private ArrayList<ServerListener> listeners;
-	private Connection serverConnection;
+	private no.ntnu.fp.net.co.Connection serverConnection;
 	private boolean connected;
 
 	/**
@@ -117,7 +117,7 @@ public class ServerConnection
 			if(!connect())
 				return null;
 
-		if(!send("LOGIN " + username + " " + password))
+		if(!send(CalendarProtocol.CMD_LOGIN + " " + username + " " + password))
 			return null;
 
 		String reply = receive();
