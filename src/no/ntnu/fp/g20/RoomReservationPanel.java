@@ -24,6 +24,7 @@ import javax.swing.event.ListSelectionListener;
 import no.ntnu.fp.g20.database.DBRoom;
 import no.ntnu.fp.g20.model.Room;
 import no.ntnu.fp.g20.model.Room.RoomStatus;
+import no.ntnu.fp.g20.model.SortableRoomListModel;
 
 
 public class RoomReservationPanel extends JPanel implements ActionListener, ListSelectionListener, ItemListener {
@@ -33,7 +34,7 @@ public class RoomReservationPanel extends JPanel implements ActionListener, List
 	private JButton cancelButton;
 	private JButton cancelReservationButton;
 	private Room model;
-	private DefaultListModel listModel;
+	private SortableRoomListModel listModel;
 
 	public RoomReservationPanel(){
 		super();
@@ -67,7 +68,7 @@ public class RoomReservationPanel extends JPanel implements ActionListener, List
 		add(sortBox);
 
 		//Add the roomlist
-		listModel = new DefaultListModel();
+		listModel = new SortableRoomListModel();
 		roomList = new JList(listModel);
 		for (int i=0; i < DBRoom.getAllRooms().size(); i++) {
 			listModel.addElement(DBRoom.getRoom(i));
@@ -155,13 +156,13 @@ public class RoomReservationPanel extends JPanel implements ActionListener, List
 		}
 	}
 	@Override
-	//Handle listeners for sortbox
+	//Handle listeners for sort box
 	public void itemStateChanged(ItemEvent e) {
 		if (e.getStateChange() == ItemEvent.SELECTED) {
 			sortBox = (JComboBox)e.getSource();
 			int index = sortBox.getSelectedIndex();
 			if (sortBox.getSelectedItem().equals("Capacity")) {
-				//TODO: Sort list by capacity
+				listModel.sortByRoomCapacity();
 			}
 			if (sortBox.getSelectedItem().equals("Available")) {
 				//TODO: Sort list by Available
