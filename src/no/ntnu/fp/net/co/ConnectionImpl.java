@@ -279,8 +279,8 @@ public class ConnectionImpl extends AbstractConnection {
      */
     protected boolean isValid(KtnDatagram packet) {
     	// Check the sequence number:
-    	if(packet.getSeq_nr() != nextSequenceNo - 1)
-		return false;
+    	//if(packet.getSeq_nr() != nextSequenceNo - 1)
+	//	return false;
 	
 	// Check the checksum:
 	if(packet.getChecksum() != packet.calculateChecksum())
