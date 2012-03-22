@@ -1,6 +1,7 @@
 package no.ntnu.fp.g20.database;
 
 import java.sql.*;
+import no.ntnu.fp.g20.*;
 import no.ntnu.fp.g20.model.*;
 
 public class Database extends Connection
@@ -51,11 +52,11 @@ public class Database extends Connection
 		//TODO: Make this
 		
 	}
-	public void createRoom(String name, RoomStatus roomStatus, String description, int capacity){
+	public void createRoom(String name, Room.RoomStatus roomStatus, String description, int capacity){
 		boolean input = InputValidation.isRoomValid(name, description);
 		
 		if (input) {
-			this.currentRoom = new Room(name, roomStatus, description, capacity);
+//			this.currentRoom = new Room(name, roomStatus, description, capacity);
 //			this.currentRoom.setId(DBRoom.addRoom(this.currentRoom));
 		} else {
 			System.err.println("Something is wrong with the room input");
@@ -75,13 +76,6 @@ public class Database extends Connection
 		
 	}
 	
-	
-	
-
-	
-
-}
-
 	/**
 	 * Executes an update statement against the connected database. Statements
 	 * allowed are UPDATE, INSERT and DELETE. By default this method will not return the insert ID for new.
@@ -97,7 +91,6 @@ public class Database extends Connection
 	 *         updating the database, the positive integer may define a unique
 	 *         insert id if that is specified; otherwise {@code -1}.
 	 */
-/*
 	public static int executeUpdate(String query, boolean returnInsertID) {
 		PreparedStatement pstmt;
 
@@ -108,10 +101,10 @@ public class Database extends Connection
 
 			try {
 				//New query statement
-				Statement st = no.ntnu.fp.g20.database.Connection.getInstance().getConnection().createStatement();
+				Statement st = no.ntnu.fp.g20.database.Connection.getConnection().createStatement();
 
 				if (returnInsertID) {
-					pstmt = no.ntnu.fp.g20.database.Connection.getInstance().getConnection().prepareStatement(query,
+					pstmt = no.ntnu.fp.g20.database.Connection.getConnection().prepareStatement(query,
 							Statement.RETURN_GENERATED_KEYS);
 					// Execute query
 					pstmt.executeUpdate();
@@ -146,7 +139,7 @@ public class Database extends Connection
 		}
 
 		return result;
-	}*/
+	}
 /**
  * Executes the given sql string.
  * 
@@ -156,15 +149,15 @@ public class Database extends Connection
  * @return Returns a {@code ResultSet} with the requested data.
  * @throws SQLException
  */
-/*	public static ResultSet execute(String query) throws SQLException {
+	public static ResultSet execute(String query) throws SQLException {
 		// Create the query statement
-		Statement st = no.ntnu.fp.g20.database.Connection.getInstance().getConnection().createStatement();
+		Statement st = no.ntnu.fp.g20.database.Connection.getConnection().createStatement();
 
 		// Execute the query, and return ResultSet
 		ResultSet rs = st.executeQuery(query);
 
 		return rs;
-	}*/
+	}
 	/**
 	 * Executes an update statement against the database. Allowed statements
 	 * are; UPDATE, INSERT and DELETE. This method does not return an insert ID.
@@ -176,8 +169,7 @@ public class Database extends Connection
 	 * @return Returns {@code 1} if there was no error, a negative value
 	 * 		means that an error happened.
 	 */
-/*	public static int executeUpdate(String query) {
+	public static int executeUpdate(String query) {
 		return Database.executeUpdate(query, false);
 	}
-*/
 }

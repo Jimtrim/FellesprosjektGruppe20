@@ -2,9 +2,9 @@ package no.ntnu.fp.g20.database;
 import java.sql.DriverManager;
 
 public class Connection {
-	private java.sql.Connection conn;
+	private static java.sql.Connection conn;
 	
-	protected Connection(){
+	public Connection(){
 		if (conn == null) {
 			//Sets up a connection to the database
 			try {
@@ -18,7 +18,7 @@ public class Connection {
 		}
 	}
 
-	protected java.sql.Connection getConnection() {
+	static public java.sql.Connection getConnection() {
 		return conn;
 	}
 }
