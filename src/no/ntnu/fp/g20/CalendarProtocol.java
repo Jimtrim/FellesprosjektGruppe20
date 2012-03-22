@@ -27,7 +27,6 @@ public class CalendarProtocol {
 	public final static int STATUS_LOGIN_SUCCESS = 100;
 	public final static int STATUS_LOGIN_ERROR = 109;
 	public final static int STATUS_LOGOUT_SUCCESS = 190;
-	public final static int STATUS_LOGOUT_ERROR = 199;
 	
 	public final static int STATUS_APPOINTMENT_CREATE_SUCCESS = 200;
 	public final static int STATUS_APPOINTMENT_CREATE_ERROR = 209;

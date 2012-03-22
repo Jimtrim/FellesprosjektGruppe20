@@ -29,12 +29,13 @@ public class ServerApp {
 	public static void main(String[] args)
 	{
 		no.ntnu.fp.net.co.Connection connection = new no.ntnu.fp.net.co.ConnectionImpl(MY_PORT);
-		Database dbConnection = new Database();
 
 		Log serverLog = new Log();
 		serverLog.setLogName("SuperCalendar Server Application");
 
 		try {
+			Database dbConnection = new Database();
+
 			while(true)
 			{
 				Connection clientConnection = connection.accept();

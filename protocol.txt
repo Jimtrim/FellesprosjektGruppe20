@@ -35,15 +35,14 @@ Login:
 	Client request:
 		LOGIN <String: username> <String: password>
 	Server reply:
-		109 LOGIN FAILED
-		101 LOGIN OK <Int: userID> <String: firstName> <String: lastName>
+		109 <Explanation>
+		101 <Int: userID> <String: firstName> <String: lastName>
 
 Logout:
 	Client request:
 		LOGOUT
 	Server reply:
-		190 Logout SUCCESS
-		199 Logout ERROR
+		190
 
 
 -- 2xx : Appointment --
@@ -52,61 +51,61 @@ Create Appointment:
 		APPT CREATE <String: name> <String: description> <Long: startTime> 
 		   <Int: roomID> <Int: Duration> [ <String: participant> ... ]
 	Server reply:
-		200 Appointment CREATE SUCCESS <Int: id> <String: name>
-		209 Appointment CREATE ERROR <String: name>
+		200 <Int: id> <String: name>
+		209 <Explanation> 
 
 Update Appointment:
 	Client request:
 		APPT UPDATE <Int: id> <String:name> <String:description> <Long:startTime> <Int:roomID> <Int:Duration>
 		   [ <String: participant> ...]
 	Server reply:
-		210 Appointment UPDATE SUCCESS <Int: id> <String: name>
-		219 Appointment UPDATE ERROR
+		210 <Int: id> <String: name>
+		219 <Explanation>
 
 Delete Appointment:
 	Client request:
 		APPT DEL <Int: id>
 	Server reply:
-		290 Appointment DELETE SUCCESS <Int: id> <String: name>
-		299 Appointment DELETE ERROR
+		290 <Int: id> <String: name>
+		299 <Explanation>
 
 -- 3xx : Room --
 Create Room:
 	Client request:
 		ROOM CREATE <String: name> <String: descrition> <Int: Capacity> 
 	Server reply:
-		300 Room CREATE SUCCESS <Int: id> <String: name>
-		309 Room CREATE ERROR
+		300 <Int: id> <String: name>
+		309 <Explanation>
 
 Reserve Room:
 	Client request:
 		ROOM RES <Int: id>
 	Server reply:
-		310 Room RESERVE SUCCESS <Int: id> <String: name>
-		319 Room RESERVE ERROR
+		310 <Int: id> <String: name>
+		319 <Explanation>
 
 Unreserve Room:
 	Client request:
 		ROOM UNRES <Int: id>
 	Server reply:
-		320 Room UNRESERVE SUCCESS <Int: id> <String: name>
-		329 Room UNRESERVE ERROR
+		320 <Int: id> <String: name>
+		329 <Explanation>
 
 Delete Room:
 	Client request:
 		ROOM DEL <Int: id>
 	Server reply:
-		290 Room DELETE SUCCESS <Int: id> <String: name>
-		299 Room DELETE ERROR
+		290 <Int: id> <String: name>
+		299 <Explanation>
 
 -- 9xx : General --
 General check updates:
 	Client request:
 		UPDATE <Int: id>
 	Server reply:
-		910 NEW UPDATES <Int: number of updates>
-		911 NO UPDATES
+		910 <Int: number of updates>
+		911 <Ignored>                 Sent when no updates are available.
 	
 For any unspecific error, the server sends:
-		919 REQUEST ERROR
+		919 <Explanation>
 The client should probably retry the request.
