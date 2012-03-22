@@ -8,7 +8,7 @@ public class SortableUserListModel extends DefaultListModel{
 	
 	private boolean isValidInsertion(Object o){
 		if (!(o instanceof User)){
-			System.err.println("Tried to add non-User object to SortableRoomListModel. Cancelled.");
+			System.err.println("Tried to add non-User object to SortableUserListModel. Cancelled.");
 			return false;
 		}
 		return true;
@@ -36,9 +36,9 @@ public class SortableUserListModel extends DefaultListModel{
 	
 	public void sortByLastName(){
 		if (this.size()<2){ return; }
-		System.out.println("Sorting list: "+this);
+		System.out.println("Sorting list by User.lastName: "+this);
 		SortableUserListModel sorted = mergeSortByLastName(this);
-		System.out.println("Sorted list:  "+sorted);
+		System.out.println("Sorted list:                   "+sorted);
 		this.clear();
 		for (int i=0; i<sorted.size(); i++){
 			this.addElement(sorted.get(i));
@@ -67,12 +67,12 @@ public class SortableUserListModel extends DefaultListModel{
 	}
 	private static SortableUserListModel mergeByLastName(SortableUserListModel p0, SortableUserListModel p1){
 		SortableUserListModel merged = new SortableUserListModel();
-		int i=0;
-		int j=0;
+		int i=0; String p0_lastName;
+		int j=0; String p1_lastName;
 		//Merging:
 		while (i<p0.size() && j<p1.size()){
-			String p0_lastName = ((User)p0.getElementAt(i)).getLastName();
-			String p1_lastName = ((User)p1.getElementAt(j)).getLastName();
+			p0_lastName = ((User)p0.getElementAt(i)).getLastName();
+			p1_lastName = ((User)p1.getElementAt(j)).getLastName();
 			if (p0_lastName.compareToIgnoreCase(p1_lastName) <= 0){
 				merged.addElement(p0.getElementAt(i++));
 			} else {
@@ -91,6 +91,10 @@ public class SortableUserListModel extends DefaultListModel{
 	}
 	
 }
+
+
+
+
 
 
 

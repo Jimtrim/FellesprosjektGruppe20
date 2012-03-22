@@ -19,6 +19,8 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import no.ntnu.fp.g20.model.Appointment;
+import no.ntnu.fp.g20.model.SortableAppointmentListModel;
 import no.ntnu.fp.g20.model.SortableUserListModel;
 import no.ntnu.fp.g20.model.User;
 
@@ -38,6 +40,8 @@ public class ParticipantList extends JDialog{
 	
 	SortableUserListModel userListModel;
 	SortableUserListModel participantListModel;
+	
+	DefaultListModel testListModel;
 	
 	JButton addSelected;
 	JButton removeSelected;
@@ -167,26 +171,38 @@ public class ParticipantList extends JDialog{
 		
 		
 		//MODELS:
+		//TODO: UN-COMMENT THESE, THEY'RE IMPORTANT. COMMENTED ONLY FOR TESTS.
 		userListModel = new SortableUserListModel();
 		userList.setModel(userListModel);
 		participantListModel = new SortableUserListModel();
 		participantList.setModel(participantListModel);
 		
+		//TODO: The following are tests. Remove them and un-comment those above.
+//		testListModel = new SortableUserListModel();
+////		testListModel = new SortableAppointmentListModel();
+//		userList.setModel(testListModel);
 		
-		
-		
-		//TODO: 'Tis a test. Remove. Adds test persons to move around.
-		for (int i=0; i<15; i++){
-			userListModel.addElement(
-					new User(
-							i, 
-							"userName_"+i, 
-							"pwd"+i, 
-							""+(int)(Math.random()*10)+"-f", 
-							""+(int)(Math.random()*10)+"-l"
-							)
-					);
-		}
+//		//TODO: 'Tis a test. Remove. Adds test persons to move around.
+//		for (int i=0; i<15; i++){
+//			userListModel.addElement(
+//					new User(
+//							i, 
+//							"userName_"+i, 
+//							"pwd"+i, 
+//							""+(int)(Math.random()*10)+"-f", 
+//							""+(int)(Math.random()*10)+"-l"
+//							)
+//					);
+////					new Appointment(
+////							i, 
+////							Long.parseLong(""+(int)(i*100000*Math.random())), 
+////							(int) (10*Math.random()), 
+////							"Description #"+i, 
+////							"Title #"+i, 
+////							"Location #"+i
+////							)
+////					);
+//		}
 		
 		
 		

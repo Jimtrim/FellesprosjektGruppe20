@@ -49,7 +49,9 @@ public class SortableRoomListModel extends DefaultListModel{
 	
 	public void sortByRoomCapacity(){
 		if (this.size()<2){ return; }
+		System.out.println("Sorting list by Room.capacity: "+this);
 		SortableRoomListModel sorted = mergeSortByRoomField(this, SORT_BY_CAPACITY);
+		System.out.println("Sorted list:                   "+sorted);
 		if (sorted == null){
 			return;
 		}
@@ -60,7 +62,9 @@ public class SortableRoomListModel extends DefaultListModel{
 	}
 	public void sortByRoomName(){
 		if (this.size()<2){ return; }
+		System.out.println("Sorting list by Room.name: "+this);
 		SortableRoomListModel sorted = mergeSortByRoomField(this, SORT_BY_NAME);
+		System.out.println("Sorted list:               "+sorted);
 		if (sorted == null){
 			return;
 		}
@@ -71,6 +75,9 @@ public class SortableRoomListModel extends DefaultListModel{
 	}
 	
 	private static SortableRoomListModel mergeSortByRoomField(SortableRoomListModel list, int field) {
+		if (list.size()<2){
+			return list;
+		}
 		if (!isValidField(field)){ return null; }
 		int mid = (int) list.size()/2;
 		SortableRoomListModel p0 = new SortableRoomListModel();
@@ -90,13 +97,13 @@ public class SortableRoomListModel extends DefaultListModel{
 	}
 	private static SortableRoomListModel mergeByRoomField(SortableRoomListModel p0, SortableRoomListModel p1, int field){
 		SortableRoomListModel merged = new SortableRoomListModel();
-		int i=0;
-		int j=0;
+		int i=0; int p0_capacity;
+		int j=0; int p1_capacity;
 		//Merging:
 		if (field == SORT_BY_CAPACITY){
 			while (i<p0.size() && j<p1.size()){
-				int p0_capacity = ((Room)p0.getElementAt(i)).getCapacity();
-				int p1_capacity = ((Room)p1.getElementAt(j)).getCapacity();
+				p0_capacity = ((Room)p0.getElementAt(i)).getCapacity();
+				p1_capacity = ((Room)p1.getElementAt(j)).getCapacity();
 				if (p0_capacity < p1_capacity){
 					merged.addElement(p0.getElementAt(i++));
 				} else {

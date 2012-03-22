@@ -9,7 +9,7 @@ import no.ntnu.fp.g20.Status;
 public class SortableAppointmentListModel extends DefaultListModel{
 	private boolean isValidInsertion(Object o){
 		if (!(o instanceof Appointment)){
-			System.err.println("Tried to add non-Appointment object to SortableRoomListModel. Cancelled.");
+			System.err.println("Tried to add non-Appointment object to SortableAppointmentListModel. Cancelled.");
 			return false;
 		}
 		return true;
@@ -36,7 +36,10 @@ public class SortableAppointmentListModel extends DefaultListModel{
 	}
 	
 	public void sortByTime(){
+		if (this.size()<2){ return; }
+		System.out.println("Sorting Appointment list by time: "+this);
 		SortableAppointmentListModel sorted = mergeSortByTime(this);
+		System.out.println("Sorted list:                      "+sorted);
 		this.clear();
 		for (int i=0; i<sorted.size(); i++){
 			this.addElement(sorted.get(i));
@@ -46,11 +49,10 @@ public class SortableAppointmentListModel extends DefaultListModel{
 		if (list.size()<2){
 			return list;
 		}
+		int mid = (int) list.size()/2;
 		SortableAppointmentListModel p0 = new SortableAppointmentListModel();
 		SortableAppointmentListModel p1 = new SortableAppointmentListModel();
-		
 		//Splits:
-		int mid = (int) list.size()/2;
 		for (int i=0; i<mid; i++){
 			p0.addElement(list.get(i));
 		}
@@ -95,7 +97,7 @@ public class SortableAppointmentListModel extends DefaultListModel{
 		ArrayList<Appointment> rejected = new ArrayList<Appointment>();
 		ArrayList<Appointment> unconfirmed = new ArrayList<Appointment>();
 		ArrayList<Appointment> confirmed = new ArrayList<Appointment>();
-		DefaultListModel sorted = new DefaultListModel();
+		ArrayList<Appointment> sorted = new ArrayList<Appointment>();
 		int size = this.size();
 		boolean[] done = new boolean[size];
 		for (int i=0; i<size; i++){ done[i] = false; }
@@ -117,13 +119,13 @@ public class SortableAppointmentListModel extends DefaultListModel{
 			}
 		}
 		for (int i=0; i<rejected.size(); i++){
-			sorted.addElement(rejected.get(i));
+			sorted.add(rejected.get(i));
 		}
 		for (int i=0; i<unconfirmed.size(); i++){
-			sorted.addElement(unconfirmed.get(i));
+			sorted.add(unconfirmed.get(i));
 		}
 		for (int i=0; i<confirmed.size(); i++){
-			sorted.addElement(confirmed.get(i));
+			sorted.add(confirmed.get(i));
 		}
 		
 		this.clear();
