@@ -233,7 +233,7 @@ public class AppointmentPanel extends JPanel {
 	public void setModel(Appointment model) {
 		this.model = model;
 		if (model != null) {
-			titleField.setText(model.getName());
+			titleField.setText(model.getTitle());
 			locationField.setText(model.getLocation());
 			dayBox.setSelectedItem(model.getStartTime().get(Calendar.DAY_OF_MONTH));
 			monthBox.setSelectedItem(model.getStartTime().get(Calendar.MONTH));

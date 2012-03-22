@@ -37,7 +37,7 @@ public class Calendar extends AbstractTableModel
 		this.user = user;
 
 		appointments[4][4] = new Appointment();
-		appointments[4][4].setName("Test appointment");
+		appointments[4][4].setTitle("Test appointment");
 		appointments[4][4].setLocation("Funroom");
 	
 		// Create a start time:

@@ -4,7 +4,7 @@ public class CalendarProtocol {
 	/* CLIENT CODES */
 	public final static String CMD_LOGIN  = "LOGIN";
 	public final static String CMD_LOGOUT = "LOGOUT";
-g
+
 	public final static String CMD_APPOINTMENT_CREATE = "APPT CREATE";
 	public final static String CMD_APPOINTMENT_UPDATE = "APPT UPDATE";
 	public final static String CMD_APPOINTMENT_DELETE = "APPT DELETE";

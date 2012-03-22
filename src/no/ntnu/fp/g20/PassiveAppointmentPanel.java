@@ -64,13 +64,13 @@ public class PassiveAppointmentPanel extends AppointmentPanel {
 	public void setModel(Appointment model) {
 		this.model = model;
 		if (model != null) {
-			titleField.setText(model.getName());
+			titleField.setText(model.getTitle());
 		}
 	}
 	
 	public static void main(String[] args) {
 		Appointment a = new Appointment();
-		a.setName("test");
+		a.setTitle("test");
 		PassiveAppointmentPanel panel = new PassiveAppointmentPanel();
 		panel.setModel(a);
 		JFrame frame = new JFrame("PassiveAppointmentPanelTest");
