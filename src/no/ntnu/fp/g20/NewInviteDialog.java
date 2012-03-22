@@ -3,27 +3,17 @@ package no.ntnu.fp.g20;
 import javax.swing.JOptionPane;
 
 public class NewInviteDialog extends JOptionPane {
-	private String inviteMessage = "You have recieved a an invite";
-	private String inviteTitle = "New meeting";
+	private final static String inviteMessage = "You have recieved a an invite";
+	private final static String inviteTitle = "New meeting";
 	
-	String[] buttons = { "Show", "Cancel"};
+	private final static String[] buttons = { "Show", "Cancel"};
 	
 	/**
-	* @return Int, 0 for SHOW, 1 for CANCEL
-	*/
+	 * Shows the dialogue.
+	 * @return 0 for show, 1 for cancel.
+	 */
 	public int showDialog() {
-	    return super.showOptionDialog(null, inviteMessage, inviteTitle,
-	        super.INFORMATION_MESSAGE, super.INFORMATION_MESSAGE, null, buttons, buttons[0]);
+	    return showOptionDialog(null, inviteMessage, inviteTitle,
+	       INFORMATION_MESSAGE, INFORMATION_MESSAGE, null, buttons, buttons[0]);
 	}
-	
-	public static void main(String[] args)
-	{
-		NewInviteDialog dialog = new NewInviteDialog();
-		int input = dialog.showDialog();
-		System.out.println(input);
-		
-		String choice = (input==0 ? "OK" : "Cancel" ); 
-		System.out.println(choice);
-	}
-	
 }
