@@ -156,13 +156,13 @@ public class RoomReservationPanel extends JPanel implements ActionListener, List
 		}
 	}
 	@Override
-	//Handle listeners for sortbox
+	//Handle listeners for sort box
 	public void itemStateChanged(ItemEvent e) {
 		if (e.getStateChange() == ItemEvent.SELECTED) {
 			sortBox = (JComboBox)e.getSource();
 			int index = sortBox.getSelectedIndex();
 			if (sortBox.getSelectedItem().equals("Capacity")) {
-				//TODO: Sort list by capacity
+				listModel.sortByRoomCapacity();
 			}
 			if (sortBox.getSelectedItem().equals("Available")) {
 				//TODO: Sort list by Available
