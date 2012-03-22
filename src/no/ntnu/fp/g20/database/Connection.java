@@ -11,7 +11,7 @@ public class Connection {
 			try {
 				Class.forName("com.mysql.jdbc.Driver").newInstance();
 				this.conn = DriverManager.getConnection(
-						"jdbc:mysql://msyql.stud.ntnu.no/" + Config.SQL_DB
+						"jdbc:mysql://mysql.stud.ntnu.no/" + Config.SQL_DB
 							+ "?profileSQL=false", Config.SQL_USERNAME,Config.SQL_PASSWORD);
 			} catch (Exception e) {
 				e.printStackTrace();

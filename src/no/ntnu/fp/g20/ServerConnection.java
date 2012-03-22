@@ -124,15 +124,13 @@ public class ServerConnection
 		if(reply == null)
 			return null;
 		else {
-			if(!reply.startsWith("LOGIN OK"))
+			if(!reply.startsWith("" + CalendarProtocol.STATUS_LOGIN_SUCCESS))
 				return null;
 			else {
 				StringTokenizer parser = new StringTokenizer(reply);
 
-				if(!parser.nextToken().equals("LOGIN"))
-					return null;
-				if(!parser.nextToken().equals("OK"))
-					return null;
+//				if(!parser.nextToken().equals(CalendarProtocol.STATUS_LOGIN_SUCCESS))
+//					return null;
 
 				int uid = Integer.parseInt(parser.nextToken());
 				String firstName = parser.nextToken();
