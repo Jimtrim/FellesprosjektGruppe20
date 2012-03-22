@@ -5,6 +5,7 @@ import no.ntnu.fp.g20.*;
 import no.ntnu.fp.g20.model.*;
 
 public class Database extends Connection
+{
 	private PreparedStatement loginStmt;
 
 	public Database() throws SQLException
