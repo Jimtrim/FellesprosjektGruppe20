@@ -15,23 +15,23 @@ public class SortableAppointmentListModel extends DefaultListModel{
 		return true;
 	}
 	public void addElement(Object element){
-		if (isValidInsertion(element)) return;
+		if (!isValidInsertion(element)) return;
 		super.addElement(element);
 	}
 	public void add(int index, Object element){
-		if (isValidInsertion(element)) return;
+		if (!isValidInsertion(element)) return;
 		super.add(index, element);
 	}
 	public void insertElementAt(Object obj, int index){
-		if (isValidInsertion(obj)) return;
+		if (!isValidInsertion(obj)) return;
 		super.insertElementAt(obj, index);
 	}
 	public Object set(int index, Object element){
-		if (isValidInsertion(element)) return getElementAt(index);
+		if (!isValidInsertion(element)) return getElementAt(index);
 		return super.set(index, element);
 	}
 	public void setElementAt(Object obj, int index){
-		if (isValidInsertion(obj)) return;
+		if (!isValidInsertion(obj)) return;
 		super.setElementAt(obj, index);
 	}
 	
