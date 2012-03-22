@@ -29,38 +29,6 @@ public class Model {
 	private Appointment currentAppointment;
 	
 	/**
-	 * Returns an {@code ArrayList<User>} with all the users from the database
-	 * @return {@code ArrayList<User>} users
-	 */
-	public ArrayList<User> getUsers(){
-		this.users = DBUser.getAllUsers();
-		return this.users;
-	}
-	/**
-	 * Returns an {@code ArrayList<Room>} with all the rooms from the database
-	 * @return {@code ArrayList<Room>} rooms
-	 */
-	public ArrayList<Room> getRooms() {
-		this.rooms = DBRoom.getAllRooms();
-		return this.rooms;
-	}
-	/**
-	 * Returns an {@code ArrayList<Participants>} with all the participants from the database
-	 * @return {@code ArrayList<Participants>} participants
-	 */
-	public ArrayList<Participants> getParticipants() {
-		this.participants = DBParticipants.getAllParticipants();
-		return this.participants;
-	}
-	/**
-	 * Returns an {@code ArrayList<Appointment>} with all the appointments from the database
-	 * @return {@code ArrayList<Appointment>} appointments
-	 */
-	public ArrayList<Appointment> getAppointments(){
-		this.appointments = DBAppointment.getAllAppointments();
-		return this.appointments;
-	}
-	/**
 	 * Creates a new user and adds it to the database.
 	 * @param uName username
 	 * @param pwd password

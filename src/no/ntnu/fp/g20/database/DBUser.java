@@ -91,35 +91,7 @@ public class DBUser {
 		
 		return user;
 	}
-	/**
-	 * Returns all users from the Database
-	 * @author Kjetil Sletten
-	 * 
-	 * @return Returns an {@code ArrayList<User>} that contains all
-	 * users in the database.
-	 */
-	public static ArrayList<User> getAllUsers(){
-		ArrayList<User> users = new ArrayList<User>();
-		User user;
-		
-		String query = "SELECT * FROM users;";
-		
-		try {
-			ResultSet rs = Database.execute(query);
-			
-			while (rs.next()) {
-				//Construct user object ResultSet
-				user = makeUserObject(rs);
-				
-				//Add user to user list
-				users.add(user);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return users;
-	}
+
 	/**
 	 * Removes the customer from the database, returns {@code true} if removed correctly
 	 * 

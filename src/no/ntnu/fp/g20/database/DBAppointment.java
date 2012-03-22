@@ -42,26 +42,6 @@ public class DBAppointment {
 		return app;
 	}
 	
-	public static ArrayList<Appointment> getAllAppointments() {
-		ArrayList<Appointment> appointments = new ArrayList<Appointment>();
-		
-		String query = "SELECT * FROM appointments";
-		
-		ResultSet rs;
-		
-		try {
-			rs = Database.execute(query);
-			
-			while (rs.next()) {
-				appointments.add(makeAppointmentObject(rs));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return appointments;
-	}
-	
 	public static boolean removeAppointment(int id) {
 		String query = "DELETE FROM appointments WHERE id = '" + id + "'";
 		
@@ -96,7 +76,7 @@ public class DBAppointment {
 			String description = rs.getString("description");
 			String title = rs.getString("title");
 			String place = rs.getString("place");
-			int roomId = rs.getInt("room_id"); // TODO: Update the database to support!
+			int roomId = rs.getInt("room_id"); // TODO: Update the database to support this!
 			
 			if(place != null)
 				app = new Appointment(id, timestamp, duration, description, title, place);

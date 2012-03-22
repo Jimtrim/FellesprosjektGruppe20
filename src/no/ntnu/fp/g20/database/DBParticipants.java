@@ -43,27 +43,6 @@ public class DBParticipants {
 		return participant;
 	}
 	
-	public static ArrayList<Participants> getAllParticipants() {
-		ArrayList<Participants> participants = new ArrayList<Participants>();
-		Participants part;
-		
-		String query = "SELECT * FROM participants;";
-		
-		try {
-			ResultSet rs = Database.execute(query);
-			
-			while (rs.next()) {
-				part = makeParticipantObject(rs);
-				
-				participants.add(part);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return participants;
-	}
-	
 	public static boolean removeParticipant(int appointmentID, int userID) {
 		String query = "DELETE FROM participants WHERE appointment_id = '" + appointmentID
 				+ "'" + " AND user_id = '" + userID + "'";
