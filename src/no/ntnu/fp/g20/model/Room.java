@@ -1,6 +1,8 @@
 package no.ntnu.fp.g20.model;
 
 public class Room {
+	public String toString(){ return name+" ("+capacity+")"; }
+	
 	private int id;
 	private int appointmentID;
 	private String name;

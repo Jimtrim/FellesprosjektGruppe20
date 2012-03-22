@@ -1,16 +1,13 @@
 package no.ntnu.fp.g20.model;
 
 public class User {
+	public String toString(){ return (lastName+", "+firstname); }
 	
 	private int id;
 	private String username;
 	private String password;
 	private String firstname;
 	private String lastName;
-	
-	public User(){
-		id = 0;
-	}
 	
 	public User(int id, String username, String password, String firstname, String lastName) {
 		this.id = id;

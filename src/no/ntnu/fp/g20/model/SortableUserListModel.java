@@ -14,29 +14,31 @@ public class SortableUserListModel extends DefaultListModel{
 		return true;
 	}
 	public void addElement(Object element){
-		if (isValidInsertion(element)) return;
+		if (!isValidInsertion(element)) return;
 		super.addElement(element);
 	}
 	public void add(int index, Object element){
-		if (isValidInsertion(element)) return;
+		if (!isValidInsertion(element)) return;
 		super.add(index, element);
 	}
 	public void insertElementAt(Object obj, int index){
-		if (isValidInsertion(obj)) return;
+		if (!isValidInsertion(obj)) return;
 		super.insertElementAt(obj, index);
 	}
 	public Object set(int index, Object element){
-		if (isValidInsertion(element)) return getElementAt(index);
+		if (!isValidInsertion(element)) return getElementAt(index);
 		return super.set(index, element);
 	}
 	public void setElementAt(Object obj, int index){
-		if (isValidInsertion(obj)) return;
+		if (!isValidInsertion(obj)) return;
 		super.setElementAt(obj, index);
 	}
 	
 	public void sortByLastName(){
 		if (this.size()<2){ return; }
+		System.out.println("Sorting list: "+this);
 		SortableUserListModel sorted = mergeSortByLastName(this);
+		System.out.println("Sorted list:  "+sorted);
 		this.clear();
 		for (int i=0; i<sorted.size(); i++){
 			this.addElement(sorted.get(i));
@@ -44,6 +46,9 @@ public class SortableUserListModel extends DefaultListModel{
 	}
 
 	private static SortableUserListModel mergeSortByLastName(SortableUserListModel list) {
+		if (list.size()<2){
+			return list;
+		}
 		int mid = (int) list.size()/2;
 		SortableUserListModel p0 = new SortableUserListModel();
 		SortableUserListModel p1 = new SortableUserListModel();
@@ -67,8 +72,8 @@ public class SortableUserListModel extends DefaultListModel{
 		//Merging:
 		while (i<p0.size() && j<p1.size()){
 			String p0_lastName = ((User)p0.getElementAt(i)).getLastName();
-			String p1_lastName = ((User)p1.getElementAt(i)).getLastName();
-			if (p0_lastName.compareToIgnoreCase(p1_lastName) < 0){
+			String p1_lastName = ((User)p1.getElementAt(j)).getLastName();
+			if (p0_lastName.compareToIgnoreCase(p1_lastName) <= 0){
 				merged.addElement(p0.getElementAt(i++));
 			} else {
 				merged.addElement(p1.getElementAt(j++));
@@ -76,10 +81,10 @@ public class SortableUserListModel extends DefaultListModel{
 		}
 		//Adding rest once one part is empty:
 		while (i<p0.size()){
-			merged.addElement(i++);
+			merged.addElement(p0.get(i++));
 		}
 		while (j<p1.size()){
-			merged.addElement(j++);
+			merged.addElement(p1.get(j++));
 		}
 		//Returns merged result:
 		return merged;

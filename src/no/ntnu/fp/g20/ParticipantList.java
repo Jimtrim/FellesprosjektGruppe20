@@ -19,6 +19,9 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import no.ntnu.fp.g20.model.SortableUserListModel;
+import no.ntnu.fp.g20.model.User;
+
 
 public class ParticipantList extends JDialog{
 	
@@ -33,8 +36,8 @@ public class ParticipantList extends JDialog{
 	JList userList;
 	JList participantList;
 	
-	DefaultListModel userListModel;
-	DefaultListModel participantListModel;
+	SortableUserListModel userListModel;
+	SortableUserListModel participantListModel;
 	
 	JButton addSelected;
 	JButton removeSelected;
@@ -70,6 +73,7 @@ public class ParticipantList extends JDialog{
 		addSelected.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if (userList.isSelectionEmpty()) return;
 				int[] selectedIndices = userList.getSelectedIndices();
 				for (int i=0; i<selectedIndices.length; i++){
 					participantListModel.addElement(userListModel.getElementAt(selectedIndices[i]));
@@ -77,7 +81,7 @@ public class ParticipantList extends JDialog{
 				for (int i=selectedIndices.length-1; i>=0; i--){
 					userListModel.removeElementAt(selectedIndices[i]);
 				}
-				userList.setSelectedIndex(selectedIndices[0]);
+				userList.setSelectedIndex(selectedIndices[0]<userListModel.size() ? selectedIndices[0] : selectedIndices[0]-1);
 				//TODO(?): Sort participant list?
 			}
 		});
@@ -87,6 +91,7 @@ public class ParticipantList extends JDialog{
 		removeSelected.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if (participantList.isSelectionEmpty()) return;
 				int[] selectedIndices = participantList.getSelectedIndices();
 				for (int i=0; i<selectedIndices.length; i++){
 					userListModel.addElement(participantListModel.getElementAt(selectedIndices[i]));
@@ -94,7 +99,7 @@ public class ParticipantList extends JDialog{
 				for (int i=selectedIndices.length-1; i>=0; i--){
 					participantListModel.removeElementAt(selectedIndices[i]);
 				}
-				participantList.setSelectedIndex(selectedIndices[0]);
+				participantList.setSelectedIndex(selectedIndices[0]<participantListModel.size() ? selectedIndices[0] : selectedIndices[0]-1);
 				//TODO(?): Sort user list?
 			}
 		});
@@ -104,6 +109,7 @@ public class ParticipantList extends JDialog{
 		addAll.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if (userListModel.size()<1) return;
 				int[] allIndices = new int[userListModel.size()];
 				for (int i=0; i<userListModel.size(); i++){
 					allIndices[i] = i;
@@ -119,6 +125,7 @@ public class ParticipantList extends JDialog{
 		removeAll.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if (participantListModel.size()<1) return;
 				int[] allIndices = new int[participantListModel.size()];
 				for (int i=0; i<participantListModel.size(); i++){
 					allIndices[i] = i;
@@ -146,6 +153,8 @@ public class ParticipantList extends JDialog{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Close dialog (without saving)
+				System.out.println("\n\nSORT TEST:__________________________________________________");
+				userListModel.sortByLastName();
 			}
 		});
 		
@@ -158,15 +167,28 @@ public class ParticipantList extends JDialog{
 		
 		
 		//MODELS:
-		userListModel = new DefaultListModel();
+		userListModel = new SortableUserListModel();
 		userList.setModel(userListModel);
-		participantListModel = new DefaultListModel();
+		participantListModel = new SortableUserListModel();
 		participantList.setModel(participantListModel);
 		
+		
+		
+		
 		//TODO: 'Tis a test. Remove. Adds test persons to move around.
-//		for (Person p : new ExamplePersonArrayList()){
-//			userListModel.addElement(p);
-//		}
+		for (int i=0; i<15; i++){
+			userListModel.addElement(
+					new User(
+							i, 
+							"userName_"+i, 
+							"pwd"+i, 
+							""+(int)(Math.random()*10)+"-f", 
+							""+(int)(Math.random()*10)+"-l"
+							)
+					);
+		}
+		
+		
 		
 		
 		//ADDING:
