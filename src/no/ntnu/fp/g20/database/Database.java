@@ -6,23 +6,11 @@ import no.ntnu.fp.g20.model.*;
 
 public class Database extends Connection
 {
-	private final static String APPT_INSERT_STMT = "INSERT INTO appointments (start, duration, description, title, location)"
-		+ "VALUES (?, ?, ?, ?, ?)";
-	private final static String APPT_GET_STMT = "SELECT * FROM appointments WHERE id = ?";
-	private final static String APPT_UPDATE_STMT = "UPDATE appointments SET title = ?, start = ?, duration = ?, "
-		+ "description = ?, location = ?";
-
 	private PreparedStatement insertAppointmentStatement;
 
 	public Database()
 	{
 		super();
-		try {
-			insertAppointmentStatement = getConnection().prepareStatement(APPT_INSERT_STMT);
-		} catch(Exception error)
-		{
-			// Ignore for now.
-		}
 	}
 
 	public boolean addAppointment(Appointment appt)
@@ -46,6 +34,11 @@ public class Database extends Connection
 		} else {
 			System.err.println("Something is wrong with the user input!");
 		}
+	}
+
+	public User loginUser(String username, String password)
+	{
+		return null;
 	}
 	
 	public void editUser(){
@@ -101,10 +94,10 @@ public class Database extends Connection
 
 			try {
 				//New query statement
-				Statement st = no.ntnu.fp.g20.database.Connection.getConnection().createStatement();
+				Statement st = no.ntnu.fp.g20.database.Connection.getInstance().getConnection().createStatement();
 
 				if (returnInsertID) {
-					pstmt = no.ntnu.fp.g20.database.Connection.getConnection().prepareStatement(query,
+					pstmt = no.ntnu.fp.g20.database.Connection.getInstance().getConnection().prepareStatement(query,
 							Statement.RETURN_GENERATED_KEYS);
 					// Execute query
 					pstmt.executeUpdate();
@@ -151,7 +144,7 @@ public class Database extends Connection
  */
 	public static ResultSet execute(String query) throws SQLException {
 		// Create the query statement
-		Statement st = no.ntnu.fp.g20.database.Connection.getConnection().createStatement();
+		Statement st = no.ntnu.fp.g20.database.Connection.getInstance().getConnection().createStatement();
 
 		// Execute the query, and return ResultSet
 		ResultSet rs = st.executeQuery(query);
