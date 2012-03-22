@@ -42,6 +42,22 @@ public class DBRoom {
 		return room;
 	}
 	
+	public static ArrayList<Room> getAllRooms() {
+		ArrayList<Room> rooms = new ArrayList<Room>();
+		String query = "SELECT * FROM rooms;";
+		
+		try {
+			ResultSet rs = Database.execute(query);
+			
+			while (rs.next()) {
+				rooms.add(makeRoomObject(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return rooms;
+	}
+	
 	public static int updateRoomStatus(int roomID, RoomStatus roomStatus) {
 		String query = "UPDATE rooms SET available ='" + roomStatus.name() + "' WHERE id='" + roomID + "'";
 		int roomId = Database.executeUpdate(query, true);
