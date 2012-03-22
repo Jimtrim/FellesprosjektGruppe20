@@ -42,22 +42,6 @@ public class DBRoom {
 		return room;
 	}
 	
-	public static ArrayList<Room> getAllRooms() {
-		ArrayList<Room> rooms = new ArrayList<Room>();
-		String query = "SELECT * FROM rooms;";
-		
-		try {
-			ResultSet rs = Database.execute(query);
-			
-			while (rs.next()) {
-				rooms.add(makeRoomObject(rs));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return rooms;
-	}
-	
 	public static int updateRoomStatus(int roomID, RoomStatus roomStatus) {
 		String query = "UPDATE rooms SET available ='" + roomStatus.name() + "' WHERE id='" + roomID + "'";
 		int roomId = Database.executeUpdate(query, true);
@@ -72,10 +56,11 @@ public class DBRoom {
 			int appointment_id = rs.getInt("appointment_id");
 			String roomName = rs.getString("name");
 			Room.RoomStatus roomStatus = Room.RoomStatus.valueOf(rs.getString("available"));
+			String description = rs.getString("description");
 			int capacity = rs.getInt("capacity");
 			
 			//TODO: Make appropriate Constructor
-			room = new Room(room_id, appointment_id, roomName, roomStatus, capacity);
+			room = new Room(room_id, appointment_id, roomName, roomStatus, description, capacity);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

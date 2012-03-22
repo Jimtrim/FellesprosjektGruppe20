@@ -39,7 +39,6 @@ public class AppointmentListPanel extends JPanel {
 		c.gridx = 0;
 		c.gridy = 0;
 		
-		
 		// Add the sort by label:
 		sortLabel = new JLabel("Sort by: ");
 		add(sortLabel, c);
@@ -47,11 +46,9 @@ public class AppointmentListPanel extends JPanel {
 		// Add the sort box:
 		String[] sortType = { "Time", "Status" };
 		c.gridx++;
-		c.anchor = GridBagConstraints.WEST;
 		sortBox = new JComboBox(sortType);
 		add(sortBox, c);
 		sortBox.addActionListener(new SortBoxListener());
-		
 		
 		// Add the appointment list:
 		appointmentList = new JList();
@@ -61,7 +58,7 @@ public class AppointmentListPanel extends JPanel {
 		c.gridx = 0;
 		c.gridy++;
 		c.weighty = 1;
-		c.weightx = 0.7;
+		c.weightx = 0.4;
 		c.gridwidth = 2;
 		c.gridheight = GridBagConstraints.REMAINDER;
 		c.fill = GridBagConstraints.BOTH;
@@ -71,6 +68,7 @@ public class AppointmentListPanel extends JPanel {
 		editablePanel = new AppointmentPanel();
 		c.gridy = 0;
 		c.gridx = 2;
+		c.weightx = 0.6;
 		add(editablePanel, c);
 		editablePanel.setVisible(true);
 		

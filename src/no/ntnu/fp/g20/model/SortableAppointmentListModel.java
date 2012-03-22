@@ -7,7 +7,6 @@ import javax.swing.DefaultListModel;
 import no.ntnu.fp.g20.Status;
 
 public class SortableAppointmentListModel extends DefaultListModel{
-	
 	private boolean isValidInsertion(Object o){
 		if (!(o instanceof Appointment)){
 			System.err.println("Tried to add non-Appointment object to SortableRoomListModel. Cancelled.");

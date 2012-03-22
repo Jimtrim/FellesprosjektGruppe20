@@ -9,13 +9,12 @@ import no.ntnu.fp.g20.model.Room;
 
 public class DBAppointment {
 	
-	public static int addAppointment(String description, String title, Room room, long timestamp, int duration){
+	public static int addAppointment(long start, int duration, String description, String title, Room room){
 		String query = "INSERT INTO appointments "
 				+ "(start, duration, description, title, place) VALUES "
-				+ "('" + timestamp + "','" + duration + "','" + description 
+				+ "('" + start + "','" + duration + "','" + description 
 				+ title + "','" + room.getName() + "')";
 		
-		//TODO: Implement sanity check on input
 		
 		return Database.executeUpdate(query, true);
 	}
@@ -23,7 +22,7 @@ public class DBAppointment {
 	public static int addAppointment(Appointment a){
 		//TODO: FIX ME
 //		return addAppointment(a.getDescription(), a.getName(), a.getLocation(), a.getStartTime(), a.getDuration());
-		
+		return 0;
 	}
 	
 	public static Appointment getAppointment(int id) {
@@ -43,26 +42,6 @@ public class DBAppointment {
 		return app;
 	}
 	
-	public static ArrayList<Appointment> getAllAppointments() {
-		ArrayList<Appointment> appointments = new ArrayList<Appointment>();
-		
-		String query = "SELECT * FROM appointments";
-		
-		ResultSet rs;
-		
-		try {
-			rs = Database.execute(query);
-			
-			while (rs.next()) {
-				appointments.add(makeAppointmentObject(rs));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return appointments;
-	}
-	
 	public static boolean removeAppointment(int id) {
 		String query = "DELETE FROM appointments WHERE id = '" + id + "'";
 		
@@ -75,7 +54,7 @@ public class DBAppointment {
 	
 	//TODO: Make appropriate Appointment
 	public static boolean editAppointment(Appointment a) {
-		String query = "UPDATE appointments SET title = '" + a.getName() + "', start = '"
+		String query = "UPDATE appointments SET title = '" + a.getTitle() + "', start = '"
 				+ a.getStartTime() + "', duration = '" + a.getDuration() + "', description = '"
 				+ a.getDescription() + "', place = '" + a.getLocation() + "'"
 				+ "WHERE id = '" + a.getID() + "'";
@@ -97,9 +76,12 @@ public class DBAppointment {
 			String description = rs.getString("description");
 			String title = rs.getString("title");
 			String place = rs.getString("place");
+			int roomId = rs.getInt("room_id"); // TODO: Update the database to support this!
 			
-			//TODO: Make appropriate constructor
-			app = new Appointment(id, timestamp, duration, description, title, place);
+			if(place != null)
+				app = new Appointment(id, timestamp, duration, description, title, place);
+			else
+				app = new Appointment(id, timestamp, duration, description, title, DBRoom.getRoom(roomId));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

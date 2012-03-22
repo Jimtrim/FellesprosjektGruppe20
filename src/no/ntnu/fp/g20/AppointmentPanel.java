@@ -46,20 +46,15 @@ public class AppointmentPanel extends JPanel {
 
 		c = new GridBagConstraints();
 
-		c.gridx = 0;
-		c.gridy = 0;
 		c.ipadx = 2;
 		c.ipady = 2;
-
-		// Add the panel heading label:
+		c.anchor = GridBagConstraints.LINE_START;
 		c.gridx = 0;
 		c.gridy = 0;
-		c.weighty = 0;
-		c.weightx = 0;
-		c.gridwidth = GridBagConstraints.REMAINDER;
-		c.anchor = GridBagConstraints.WEST;
-		c.gridheight = 1;
 
+		// Add the panel heading label:
+		c.gridwidth = GridBagConstraints.REMAINDER;
+		c.weightx = 1;
 		JLabel detailsLabel = new JLabel("Appointment details");
 		layout.setConstraints(detailsLabel, c);
 		add(detailsLabel);
@@ -67,22 +62,23 @@ public class AppointmentPanel extends JPanel {
 		// Add the title label:
 		c.gridy++;
 		c.gridwidth = 1;
+		c.weightx = 0;
 		JLabel titleLabel = new JLabel("Title:");
 		layout.setConstraints(titleLabel, c);
 		add(titleLabel);
 
 		// Add the title field:
 		c.gridx++;
-		c.gridwidth = 5;
-		c.fill = GridBagConstraints.NONE;
-		c.anchor = GridBagConstraints.WEST;
+		c.gridwidth = GridBagConstraints.REMAINDER;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 1;
 		titleField = new JTextField(20);
 		layout.setConstraints(titleField, c);
 		add(titleField);
 		titleField.addKeyListener(new TitleFieldListener());
 		
 		//add the date label
-		JLabel dateLabel = new JLabel("Date: ");
+		JLabel dateLabel = new JLabel("Time: ");
 		c.gridy++;
 		c.gridx = 0;
 		c.gridwidth = 1;
@@ -90,26 +86,21 @@ public class AppointmentPanel extends JPanel {
 		
 		//add the date combo boxes
 		dayBox = new JComboBox();
-		for (int i = 1; i<32; i++) {
+		for (int i = 1; i<32; i++)
 			dayBox.addItem(i);
-		}
 		c.gridx++;
-		c.anchor = GridBagConstraints.EAST;
 		add(dayBox, c);
 		
 		String[] months = {"January", "February", "March", "April", "May", "June", "July",
 				"August", "September", "October", "November", "December"};
 		monthBox = new JComboBox(months);
 		c.gridx++;
-		c.fill = GridBagConstraints.HORIZONTAL;
 		add(monthBox, c);
 		
 		yearBox = new JComboBox();
 		yearBox.addItem(2012);
-		c.gridx = c.gridx + c.gridwidth;
+		c.gridx++;
 		c.gridwidth = 1;
-		c.fill = GridBagConstraints.NONE;
-		c.anchor = GridBagConstraints.WEST;
 		add(yearBox, c);
 		
 		//add listeners to the date boxes
@@ -119,26 +110,18 @@ public class AppointmentPanel extends JPanel {
 		
 
 		// Add the time label:
-		c.gridx = 0;
-		c.gridy++;
-		JLabel timeLabel = new JLabel("Time:");
+		c.gridx++;
+		JLabel timeLabel = new JLabel(" at ");
 		layout.setConstraints(timeLabel, c);
 		add(timeLabel);
 
 		//add the hours box
 		hoursBox = new JComboBox();
-		for (int i = 7; i < 19; i++) {
-			hoursBox.addItem(i);
-		}
-		c.anchor = GridBagConstraints.EAST;
+		for (int i = no.ntnu.fp.g20.model.Calendar.START_HOUR; i < no.ntnu.fp.g20.model.Calendar.HOURS; i++)
+			hoursBox.addItem(String.format("%1$2d:00", i));
+
 		c.gridx++;
 		add(hoursBox, c);
-		
-		//add minutes label
-		JLabel minutesLabel = new JLabel(" :00");
-		c.gridx++;
-		c.anchor = GridBagConstraints.WEST;
-		add(minutesLabel, c);
 		
 		//add listeners to the time boxes
 		hoursBox.addActionListener(new HoursBoxListener());
@@ -168,21 +151,21 @@ public class AppointmentPanel extends JPanel {
 		JLabel locationLabel = new JLabel("Location: ");
 		c.gridy++;
 		c.gridx = 0;
-		c.gridwidth = 1;
 		add(locationLabel, c);
 		
 		//add the location field
 		locationField = new JTextField(20);
 		c.gridx++;
-		c.gridwidth = 5;
+		c.weightx = 1;
+		c.gridwidth = GridBagConstraints.RELATIVE;
 		add(locationField, c);
 		locationField.addKeyListener(new LocationFieldListener());
 		
 		//add room reservation button
 		roomResButton = new JButton("Room");
-		c.gridx = c.gridx + c.gridwidth;
-		c.gridwidth = 1;
-		c.anchor = GridBagConstraints.WEST;
+		c.gridx = GridBagConstraints.RELATIVE;
+		c.weightx = 0;
+		c.gridwidth = GridBagConstraints.REMAINDER;
 		add(roomResButton, c);
 		roomResButton.addActionListener(new RoomResButtonListener());
 

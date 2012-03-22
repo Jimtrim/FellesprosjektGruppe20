@@ -8,6 +8,10 @@ public class User {
 	private String firstname;
 	private String lastName;
 	
+	public User(){
+		id = 0;
+	}
+	
 	public User(int id, String username, String password, String firstname, String lastName) {
 		this.id = id;
 		this.username = username;
@@ -16,11 +20,12 @@ public class User {
 		this.lastName = lastName;
 	}
 
-	public User()
-	{
-		id = 0;
-	}
 	
+	
+	public User(String uName, String pwd, String fName, String lName) {
+		this(0, uName, pwd, fName, lName);
+	}
+
 	public int getId() {
 		return id;
 	}

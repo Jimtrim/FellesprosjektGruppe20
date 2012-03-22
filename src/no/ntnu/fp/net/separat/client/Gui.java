@@ -100,7 +100,7 @@ public class Gui extends JFrame {
     }
 
     /**
-     * tar inn en array list av String objekter og viser den til høyre.
+     * tar inn en array list av String objekter og viser den til hoyre.
      * 
      * @param liste
      */
@@ -109,8 +109,8 @@ public class Gui extends JFrame {
     }
 
     /**
-     * En metode som kaller sendMessage i hovedmodulen for å sende melding. Den
-     * kalles når man skriver inn tekst og trykker enter.
+     * En metode som kaller sendMessage i hovedmodulen for a sende melding. Den
+     * kalles nar man skriver inn tekst og trykker enter.
      * 
      * @param message
      */
