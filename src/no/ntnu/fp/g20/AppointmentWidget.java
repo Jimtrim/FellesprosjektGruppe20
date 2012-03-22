@@ -108,7 +108,7 @@ public class AppointmentWidget extends JComponent
 
 			g.setFont(getFont());
 			g.setColor(Color.BLACK);
-			g.drawString(appointment.getName(), 0, titleY);
+			g.drawString(appointment.getTitle(), 0, titleY);
 
 			titleY += metrics.getHeight();
 
