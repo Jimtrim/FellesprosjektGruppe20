@@ -1,12 +1,74 @@
 package no.ntnu.fp.g20.database;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import no.ntnu.fp.g20.*;
+import no.ntnu.fp.g20.model.*;
 
-public class Database {
+public class Database extends Connection
+{
+	private PreparedStatement insertAppointmentStatement;
 
+	public Database()
+	{
+		super();
+	}
+
+	public boolean addAppointment(Appointment appt)
+	{
+		return false;
+	}
+
+	/**
+	 * Creates a new user and adds it to the database.
+	 * @param uName username
+	 * @param pwd password
+	 * @param fName firstname
+	 * @param lName lastname
+	 */
+	public void createUser(String uName, String pwd, String fName, String lName){
+		boolean input = InputValidation.isUserValid(uName, pwd, fName, lName);
+		
+		if (input) {
+//			this.currentUser = new User(uName, pwd, fName, lName);
+//			this.currentUser.setId(DBUser.addUser(this.currentUser));
+		} else {
+			System.err.println("Something is wrong with the user input!");
+		}
+	}
+
+	public User loginUser(String username, String password)
+	{
+		return null;
+	}
+	
+	public void editUser(){
+		//TODO: Make this
+		
+	}
+	public void createRoom(String name, Room.RoomStatus roomStatus, String description, int capacity){
+		boolean input = InputValidation.isRoomValid(name, description);
+		
+		if (input) {
+//			this.currentRoom = new Room(name, roomStatus, description, capacity);
+//			this.currentRoom.setId(DBRoom.addRoom(this.currentRoom));
+		} else {
+			System.err.println("Something is wrong with the room input");
+		}
+	}
+	public void editRoom(){
+		
+	}
+	public void createParticipants(){
+		
+	}
+	
+	public void editParticipants(){
+		
+	}
+	public void createAppointment(){
+		
+	}
+	
 	/**
 	 * Executes an update statement against the connected database. Statements
 	 * allowed are UPDATE, INSERT and DELETE. By default this method will not return the insert ID for new.
@@ -22,7 +84,6 @@ public class Database {
 	 *         updating the database, the positive integer may define a unique
 	 *         insert id if that is specified; otherwise {@code -1}.
 	 */
-
 	public static int executeUpdate(String query, boolean returnInsertID) {
 		PreparedStatement pstmt;
 
@@ -104,5 +165,4 @@ public class Database {
 	public static int executeUpdate(String query) {
 		return Database.executeUpdate(query, false);
 	}
-
 }

@@ -10,6 +10,8 @@ import no.ntnu.fp.net.admin.Log;
 import no.ntnu.fp.net.co.Connection;
 import no.ntnu.fp.net.co.ConnectionImpl;
 
+import no.ntnu.fp.g20.database.*;
+
 /** 
  * Class to handle requests from a client
  * 
@@ -21,32 +23,13 @@ public class ServerApp {
 	public final static int MY_PORT = 26700;
 	
 	/**
-	 * ?
-	 * @param payload
-	 * @return a constant int to select proper action
-	 */
-	private int selectAction(String payload) {
-		String command = "";
-		for (char c : payload.toCharArray()){
-			if (c==' ') break;
-			command += c;
-		}
-		int commandCode = Integer.parseInt(command);
-		// commandCode will be compared to protocol-codes
-		// It will contain all numbers before first space
-		// in the payload
-		
-		
-		return 0;
-	}
-
-	/**
 	 * Main application entry point.
 	 * @param args command line arguments.
 	 */
 	public static void main(String[] args)
 	{
-		Connection connection = new ConnectionImpl(MY_PORT);
+		no.ntnu.fp.net.co.Connection connection = new no.ntnu.fp.net.co.ConnectionImpl(MY_PORT);
+		Database dbConnection = new Database();
 
 		Log serverLog = new Log();
 		serverLog.setLogName("SuperCalendar Server Application");
@@ -55,7 +38,7 @@ public class ServerApp {
 			while(true)
 			{
 				Connection clientConnection = connection.accept();
-				(new ClientHandler(clientConnection)).start();
+				(new ClientHandler(clientConnection, dbConnection)).start();
 			}
 		} catch(EOFException error)
 		{

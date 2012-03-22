@@ -20,7 +20,7 @@ public class ServerConnection
 	private final static short LOCAL_PORT = 32000;
 
 	private ArrayList<ServerListener> listeners;
-	private Connection serverConnection;
+	private no.ntnu.fp.net.co.Connection serverConnection;
 	private boolean connected;
 
 	/**
@@ -117,22 +117,20 @@ public class ServerConnection
 			if(!connect())
 				return null;
 
-		if(!send("LOGIN " + username + " " + password))
+		if(!send(CalendarProtocol.CMD_LOGIN + " " + username + " " + password))
 			return null;
 
 		String reply = receive();
 		if(reply == null)
 			return null;
 		else {
-			if(!reply.startsWith("LOGIN OK"))
+			if(!reply.startsWith("" + CalendarProtocol.STATUS_LOGIN_SUCCESS))
 				return null;
 			else {
 				StringTokenizer parser = new StringTokenizer(reply);
 
-				if(!parser.nextToken().equals("LOGIN"))
-					return null;
-				if(!parser.nextToken().equals("OK"))
-					return null;
+//				if(!parser.nextToken().equals(CalendarProtocol.STATUS_LOGIN_SUCCESS))
+//					return null;
 
 				int uid = Integer.parseInt(parser.nextToken());
 				String firstName = parser.nextToken();

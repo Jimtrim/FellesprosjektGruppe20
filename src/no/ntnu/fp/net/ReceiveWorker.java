@@ -1,4 +1,5 @@
 package no.ntnu.fp.net;
+import no.ntnu.fp.net.co.Connection;
 
 import java.util.ArrayList;
 import java.util.Iterator;
