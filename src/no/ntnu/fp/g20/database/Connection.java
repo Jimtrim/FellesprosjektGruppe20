@@ -2,32 +2,23 @@ package no.ntnu.fp.g20.database;
 import java.sql.DriverManager;
 
 public class Connection {
-	
 	private java.sql.Connection conn;
 	
-	private Connection(){
-		if (this.conn == null) {
+	protected Connection(){
+		if (conn == null) {
 			//Sets up a connection to the database
 			try {
 				Class.forName("com.mysql.jdbc.Driver").newInstance();
-				this.conn = DriverManager.getConnection(
-						"jdbc:mysql://msyql.stud.ntnu.no/" + Config.SQL_DB
-							+ "?profileSQL=false", Config.SQL_USERNAME,Config.SQL_PASSWORD);
+				conn = DriverManager.getConnection("jdbc:mysql://msyql.stud.ntnu.no/" + Config.SQL_DB
+					+ "?profileSQL=false", Config.SQL_USERNAME, Config.SQL_PASSWORD);
 			} catch (Exception e) {
 				e.printStackTrace();
-				this.conn = null;
+				conn = null;
 			}
 		}
 	}
-	private static class ConnectionHolder {
-		public static final Connection INSTANCE = new Connection();
-	}
-	public static Connection getInstance() {
-		return ConnectionHolder.INSTANCE;
-	}
-	public java.sql.Connection getConnection() {
-		return this.conn;
-	}
-	
 
+	protected java.sql.Connection getConnection() {
+		return conn;
+	}
 }

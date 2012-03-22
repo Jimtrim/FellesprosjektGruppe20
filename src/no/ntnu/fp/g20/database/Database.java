@@ -1,11 +1,86 @@
 package no.ntnu.fp.g20.database;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import no.ntnu.fp.g20.model.*;
 
-public class Database {
+public class Database extends Connection
+{
+	private final static String APPT_INSERT_STMT = "INSERT INTO appointments (start, duration, description, title, location)"
+		+ "VALUES (?, ?, ?, ?, ?)";
+	private final static String APPT_GET_STMT = "SELECT * FROM appointments WHERE id = ?";
+	private final static String APPT_UPDATE_STMT = "UPDATE appointments SET title = ?, start = ?, duration = ?, "
+		+ "description = ?, location = ?";
+
+	private PreparedStatement insertAppointmentStatement;
+
+	public Database()
+	{
+		super();
+		try {
+			insertAppointmentStatement = getConnection().prepareStatement(APPT_INSERT_STMT);
+		} catch(Exception error)
+		{
+			// Ignore for now.
+		}
+	}
+
+	public boolean addAppointment(Appointment appt)
+	{
+		return false;
+	}
+
+	/**
+	 * Creates a new user and adds it to the database.
+	 * @param uName username
+	 * @param pwd password
+	 * @param fName firstname
+	 * @param lName lastname
+	 */
+	public void createUser(String uName, String pwd, String fName, String lName){
+		boolean input = InputValidation.isUserValid(uName, pwd, fName, lName);
+		
+		if (input) {
+//			this.currentUser = new User(uName, pwd, fName, lName);
+//			this.currentUser.setId(DBUser.addUser(this.currentUser));
+		} else {
+			System.err.println("Something is wrong with the user input!");
+		}
+	}
+	
+	public void editUser(){
+		//TODO: Make this
+		
+	}
+	public void createRoom(String name, RoomStatus roomStatus, String description, int capacity){
+		boolean input = InputValidation.isRoomValid(name, description);
+		
+		if (input) {
+			this.currentRoom = new Room(name, roomStatus, description, capacity);
+//			this.currentRoom.setId(DBRoom.addRoom(this.currentRoom));
+		} else {
+			System.err.println("Something is wrong with the room input");
+		}
+	}
+	public void editRoom(){
+		
+	}
+	public void createParticipants(){
+		
+	}
+	
+	public void editParticipants(){
+		
+	}
+	public void createAppointment(){
+		
+	}
+	
+	
+	
+
+	
+
+}
 
 	/**
 	 * Executes an update statement against the connected database. Statements
@@ -22,7 +97,7 @@ public class Database {
 	 *         updating the database, the positive integer may define a unique
 	 *         insert id if that is specified; otherwise {@code -1}.
 	 */
-
+/*
 	public static int executeUpdate(String query, boolean returnInsertID) {
 		PreparedStatement pstmt;
 
@@ -71,7 +146,7 @@ public class Database {
 		}
 
 		return result;
-	}
+	}*/
 /**
  * Executes the given sql string.
  * 
@@ -81,7 +156,7 @@ public class Database {
  * @return Returns a {@code ResultSet} with the requested data.
  * @throws SQLException
  */
-	public static ResultSet execute(String query) throws SQLException {
+/*	public static ResultSet execute(String query) throws SQLException {
 		// Create the query statement
 		Statement st = no.ntnu.fp.g20.database.Connection.getInstance().getConnection().createStatement();
 
@@ -89,7 +164,7 @@ public class Database {
 		ResultSet rs = st.executeQuery(query);
 
 		return rs;
-	}
+	}*/
 	/**
 	 * Executes an update statement against the database. Allowed statements
 	 * are; UPDATE, INSERT and DELETE. This method does not return an insert ID.
@@ -101,8 +176,8 @@ public class Database {
 	 * @return Returns {@code 1} if there was no error, a negative value
 	 * 		means that an error happened.
 	 */
-	public static int executeUpdate(String query) {
+/*	public static int executeUpdate(String query) {
 		return Database.executeUpdate(query, false);
 	}
-
+*/
 }
