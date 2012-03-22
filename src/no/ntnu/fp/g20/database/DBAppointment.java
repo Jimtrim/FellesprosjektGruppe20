@@ -22,7 +22,6 @@ public class DBAppointment {
 	public static int addAppointment(Appointment a){
 		//TODO: FIX ME
 //		return addAppointment(a.getDescription(), a.getName(), a.getLocation(), a.getStartTime(), a.getDuration());
-		
 		return 0;
 	}
 	
@@ -75,7 +74,7 @@ public class DBAppointment {
 	
 	//TODO: Make appropriate Appointment
 	public static boolean editAppointment(Appointment a) {
-		String query = "UPDATE appointments SET title = '" + a.getName() + "', start = '"
+		String query = "UPDATE appointments SET title = '" + a.getTitle() + "', start = '"
 				+ a.getStartTime() + "', duration = '" + a.getDuration() + "', description = '"
 				+ a.getDescription() + "', place = '" + a.getLocation() + "'"
 				+ "WHERE id = '" + a.getID() + "'";
@@ -97,9 +96,12 @@ public class DBAppointment {
 			String description = rs.getString("description");
 			String title = rs.getString("title");
 			String place = rs.getString("place");
+			int roomId = rs.getInt("room_id"); // TODO: Update the database to support!
 			
-			//TODO: Make appropriate constructor
-		//	app = new Appointment(id, timestamp, duration, description, title, place);
+			if(place != null)
+				app = new Appointment(id, timestamp, duration, description, title, place);
+			else
+				app = new Appointment(id, timestamp, duration, description, title, DBRoom.getRoom(roomId));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

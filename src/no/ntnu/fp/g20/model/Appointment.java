@@ -1,8 +1,7 @@
 package no.ntnu.fp.g20.model;
 
 import java.beans.*;
-import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.*;
 
 import no.ntnu.fp.g20.Status;
 
@@ -17,8 +16,8 @@ public class Appointment
 	public final static String LOCATION_PROPERTY = "LocationProperty";
 
 	private int id;
-	private String name;
-	private Calendar startTime;
+	private String title;
+	private java.util.Calendar startTime;
 	private int duration;
 	private String location;
 	private String description;
@@ -35,8 +34,32 @@ public class Appointment
 		listOfParticipants = new ArrayList<User>();
 		status = Status.UNCONFIRMED;
 		pcs = new PropertyChangeSupport(this);
+		this.startTime = java.util.Calendar.getInstance();
 	}
 
+	public Appointment(int id, long startTime, int duration, String description, String title, String location)
+	{
+		this();
+		this.id = id;
+		this.startTime.setTime(new Date(startTime));
+		this.duration = duration;
+		this.description = description;
+		this.title = title;
+		this.location = location;
+		this.room = null;
+	}
+
+	public Appointment(int id, long startTime, int duration, String description, String title, Room location)
+	{
+		this();
+		this.id = id;
+		this.startTime.setTime(new Date(startTime));
+		this.duration = duration;
+		this.description = description;
+		this.title = title;
+		this.location = null;
+		this.room = location;
+	}
 	public void addParticipant(User participant)
 	{
 		listOfParticipants.add(participant);
@@ -47,7 +70,7 @@ public class Appointment
 		listOfParticipants.remove(participant);
 	}
 
-	public Calendar getStartTime()
+	public java.util.Calendar getStartTime()
 	{
 		return startTime;
 	}
@@ -65,14 +88,14 @@ public class Appointment
 		return id;
 	}
 
-	public String getName()
+	public String getTitle()
 	{
-		return name;
+		return title;
 	}
 
-	public void setName(String name)
+	public void setTitle(String title)
 	{
-		this.name = name;
+		this.title = title;
 	}
 
 	public String getDescription() {
@@ -96,7 +119,7 @@ public class Appointment
 		this.location = location;
 	}
 
-	public void setStartTime(Calendar startTime)
+	public void setStartTime(java.util.Calendar startTime)
 	{
 		this.startTime = startTime;
 	}
