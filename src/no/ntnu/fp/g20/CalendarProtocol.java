@@ -1,10 +1,15 @@
 package no.ntnu.fp.g20;
 
+/**
+ * Calendar protocol constants class.
+ * See the {@code protocol.txt} file for more information.
+ * @author Jim
+ */
 public class CalendarProtocol {
-	/* CLIENT CODES */
+	/* Client commands: */
 	public final static String CMD_LOGIN  = "LOGIN";
 	public final static String CMD_LOGOUT = "LOGOUT";
-g
+
 	public final static String CMD_APPOINTMENT_CREATE = "APPT CREATE";
 	public final static String CMD_APPOINTMENT_UPDATE = "APPT UPDATE";
 	public final static String CMD_APPOINTMENT_DELETE = "APPT DELETE";
@@ -16,7 +21,7 @@ g
 
 	public final static String CMD_REQUEST_UPDATE 	= "UPDATE";
 	
-	/* Status codes */
+	/* Status codes: */
 	public final static int STATUS_LOGIN_SUCCESS = 100;
 	public final static int STATUS_LOGIN_ERROR = 109;
 	public final static int STATUS_LOGOUT_SUCCESS = 190;
