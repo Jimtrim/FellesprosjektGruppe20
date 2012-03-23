@@ -1,26 +1,19 @@
 package no.ntnu.fp.g20;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import no.ntnu.fp.g20.model.Appointment;
-import no.ntnu.fp.g20.model.SortableAppointmentListModel;
 import no.ntnu.fp.g20.model.SortableUserListModel;
 import no.ntnu.fp.g20.model.User;
 
@@ -40,8 +33,6 @@ public class ParticipantListPanel extends JDialog{
 	
 	SortableUserListModel userListModel;
 	SortableUserListModel participantListModel;
-	
-	DefaultListModel testListModel;
 	
 	JButton addSelected;
 	JButton removeSelected;
@@ -86,7 +77,8 @@ public class ParticipantListPanel extends JDialog{
 					userListModel.removeElementAt(selectedIndices[i]);
 				}
 				userList.setSelectedIndex(selectedIndices[0]<userListModel.size() ? selectedIndices[0] : selectedIndices[0]-1);
-				//TODO(?): Sort participant list?
+				
+				participantListModel.sortByLastName();
 			}
 		});
 		
@@ -104,7 +96,8 @@ public class ParticipantListPanel extends JDialog{
 					participantListModel.removeElementAt(selectedIndices[i]);
 				}
 				participantList.setSelectedIndex(selectedIndices[0]<participantListModel.size() ? selectedIndices[0] : selectedIndices[0]-1);
-				//TODO(?): Sort user list?
+				
+				userListModel.sortByLastName();
 			}
 		});
 		
@@ -120,7 +113,8 @@ public class ParticipantListPanel extends JDialog{
 				}
 				userList.setSelectedIndices(allIndices);
 				addSelected.doClick();
-				//TODO(?): Sort participant list?
+				
+				participantListModel.sortByLastName();
 			}
 		});
 		
@@ -136,7 +130,8 @@ public class ParticipantListPanel extends JDialog{
 				}
 				participantList.setSelectedIndices(allIndices);
 				removeSelected.doClick();
-				//TODO(?): Sort user list?
+				
+				userListModel.sortByLastName();
 			}
 		});
 		
@@ -157,8 +152,6 @@ public class ParticipantListPanel extends JDialog{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Close dialog (without saving)
-				System.out.println("\n\nSORT TEST:__________________________________________________");
-				userListModel.sortByLastName();
 			}
 		});
 		
@@ -171,38 +164,28 @@ public class ParticipantListPanel extends JDialog{
 		
 		
 		//MODELS:
-		//TODO: UN-COMMENT THESE, THEY'RE IMPORTANT. COMMENTED ONLY FOR TESTS.
 		userListModel = new SortableUserListModel();
 		userList.setModel(userListModel);
 		participantListModel = new SortableUserListModel();
 		participantList.setModel(participantListModel);
 		
-		//TODO: The following are tests. Remove them and un-comment those above.
-//		testListModel = new SortableUserListModel();
-////		testListModel = new SortableAppointmentListModel();
-//		userList.setModel(testListModel);
 		
-//		//TODO: 'Tis a test. Remove. Adds test persons to move around.
-//		for (int i=0; i<15; i++){
-//			userListModel.addElement(
-//					new User(
-//							i, 
-//							"userName_"+i, 
-//							"pwd"+i, 
-//							""+(int)(Math.random()*10)+"-f", 
-//							""+(int)(Math.random()*10)+"-l"
-//							)
-//					);
-////					new Appointment(
-////							i, 
-////							Long.parseLong(""+(int)(i*100000*Math.random())), 
-////							(int) (10*Math.random()), 
-////							"Description #"+i, 
-////							"Title #"+i, 
-////							"Location #"+i
-////							)
-////					);
-//		}
+		
+		
+		
+		//Adds test Users. Remove this when we don't need/want 'em anymore. (TODO)
+		for (int i=0; i<15; i++){
+			userListModel.addElement(
+					new User(
+							i, 
+							"userName_"+i, 
+							"pwd"+i, 
+							""+(int)(Math.random()*10)+"-f", 
+							""+(int)(Math.random()*10)+"-l"
+					)
+			);
+		}
+		
 		
 		
 		

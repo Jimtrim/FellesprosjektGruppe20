@@ -1,7 +1,6 @@
 package no.ntnu.fp.g20.model;
 
 import java.beans.*;
-import java.text.DateFormat;
 import java.util.*;
 
 import no.ntnu.fp.g20.Status;
@@ -155,4 +154,24 @@ public class Appointment
 		listOfInvitations.get(listOfInvitations.indexOf(invitation)).setStatus(Status.REJECTED);
 	}
 
+	public String toString(){ 
+		String dayOfMonth = ""+startTime.get(java.util.Calendar.DAY_OF_MONTH);
+		String month = ""+(startTime.get(java.util.Calendar.MONTH)+1);
+		String year = ""+startTime.get(java.util.Calendar.YEAR);
+		
+		if (dayOfMonth.length()<2) dayOfMonth = "0"+dayOfMonth;
+		if (month.length()<2) month = "0"+month;
+		
+		char status;
+		if (getStatus() == Status.REJECTED){
+			status = 'R';
+		} else if (getStatus() == Status.UNCONFIRMED){
+			status = 'U';
+		} else {
+			status = 'C';
+		}
+		
+		return "["+dayOfMonth+"."+month+"."+year+", "+duration+" hrs] "+"("+status+") "+title+"   ("+getLocation()+")";
+	}
+	
 }

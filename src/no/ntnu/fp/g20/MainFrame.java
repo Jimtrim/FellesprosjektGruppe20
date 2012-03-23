@@ -5,6 +5,7 @@ import no.ntnu.fp.g20.model.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.util.Calendar;
 
 /**
  * Main frame for the calendar.
@@ -16,12 +17,13 @@ public class MainFrame extends JFrame {
 	private JComboBox calendarBox;
 	private AppointmentListPanel appointmentPanel;
 	private CalendarPanel calendar;
-	private Calendar model;
+	private CalendarModel model;
+	private int week;
 	
 	/**
 	 * Constructs a new MainFrame window.
 	 */
-	public MainFrame(String title, Calendar model)
+	public MainFrame(String title, CalendarModel model)
 	{
 		super(title);
 		this.model = model;
@@ -175,7 +177,7 @@ public class MainFrame extends JFrame {
 
 		public void actionPerformed(ActionEvent event)
 		{
-			
+			getModel().setAppointmentsInWeek(getModel().getWeek() + 1);
 		}
 	}
 
@@ -191,15 +193,18 @@ public class MainFrame extends JFrame {
 
 		public void actionPerformed(ActionEvent event)
 		{
-
+			getModel().setAppointmentsInWeek(getModel().getWeek() - 1);
 		}
 	}
 	
-	public Calendar getModel() {
+	public CalendarModel getModel() {
 		return model;
 	}
 	
-	public void setModel(Calendar model) {
+	public void setModel(CalendarModel model) {
 		this.model = model;
+	}
+	
+	public static void main(String[] args) {
 	}
 }
