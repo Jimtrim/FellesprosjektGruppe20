@@ -28,6 +28,71 @@ public class AppointmentPanel extends JPanel {
 	protected GridBagConstraints c;
 
 	protected JTextField titleField, locationField;
+	
+	public String getTitle() {
+		return titleField.getText();
+	}
+
+	public void setTitle(String title) {
+		this.titleField.setText(title);
+	}
+
+	public String getLocation() {
+		return locationField.getText();
+	}
+
+	public void setLocationField(JTextField locationField) {
+		this.locationField = locationField;
+	}
+
+	public JComboBox getHoursBox() {
+		return hoursBox;
+	}
+
+	public void setHoursBox(JComboBox hoursBox) {
+		this.hoursBox = hoursBox;
+	}
+
+	public JComboBox getDayBox() {
+		return dayBox;
+	}
+
+	public void setDayBox(JComboBox dayBox) {
+		this.dayBox = dayBox;
+	}
+
+	public JComboBox getMonthBox() {
+		return monthBox;
+	}
+
+	public void setMonthBox(JComboBox monthBox) {
+		this.monthBox = monthBox;
+	}
+
+	public JComboBox getYearBox() {
+		return yearBox;
+	}
+
+	public void setYearBox(JComboBox yearBox) {
+		this.yearBox = yearBox;
+	}
+
+	public int getDurationBox() {
+		return (int) durationBox.getSelectedItem();
+	}
+
+	public void setDurationBox(int durationBox) {
+		this.durationBox.setSelectedItem(durationBox);
+	}
+
+	public String getDescriptionField() {
+		return descriptionField.getText();
+	}
+
+	public void setDescriptionField(String descriptionField) {
+		this.descriptionField.setText(descriptionField);
+	}
+
 	protected JComboBox hoursBox,dayBox, monthBox, yearBox, durationBox;
 	protected JTextArea descriptionField;
 	protected JButton participantsButton, roomResButton, saveButton, deleteButton;
@@ -396,7 +461,7 @@ public class AppointmentPanel extends JPanel {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			ParticipantList listOfParticipants = new ParticipantList();
+			ParticipantListPanel listOfParticipants = new ParticipantListPanel();
 			listOfParticipants.setVisible(true);
 		}
 	}
