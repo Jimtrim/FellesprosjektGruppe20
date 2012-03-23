@@ -5,31 +5,32 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import no.ntnu.fp.g20.Status;
-import no.ntnu.fp.g20.model.Participants;
+import no.ntnu.fp.g20.model.Participant;
 
 
 public class DBParticipants {
 	
-	public static int addParticipants(int appointmentID, int userID, Status status ){
+	public static int addParticipant(int appointmentID, int userID, Status status ){
 		String query = "INSERT INTO participants "
 				+ "(appointment_id, user_id, status) VALUES ('" 
 				+ appointmentID + "','" + userID + "','" + status + "')";
 		
-		return Database.executeUpdate(query, true);
+//		return Database.executeUpdate(query, true);
+		return 0;
 		
 	}
 	
-	public static int addParticipants(Participants p){
-		return addParticipants(p.getAppointmentID(), p.getUserID(), p.getStatus());
+	public static int addParticipant(Participant p){
+		return addParticipant(p.getAppointmentID(), p.getId(), p.getStatus());
 		
 	}
 	
-	public static Participants getParticipant(int appointmentID, int userID){
+	public static Participant getParticipant(int appointmentID, int userID){
 		String query = "SELECT * FROM participants WHERE appointment_id = '" + appointmentID
 				+ "'" + " AND user_id = '" + userID + "'";
-		Participants participant = null;
+		Participant participant = null;
 		
-		try {
+/*		try {
 			ResultSet rs = Database.execute(query);
 			
 			if (rs.next()) {
@@ -38,7 +39,7 @@ public class DBParticipants {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
+		} */
 		
 		return participant;
 	}
@@ -47,17 +48,17 @@ public class DBParticipants {
 		String query = "DELETE FROM participants WHERE appointment_id = '" + appointmentID
 				+ "'" + " AND user_id = '" + userID + "'";
 		
-		if (Database.executeUpdate(query) == 1) {
-			return true;
-		} else {
+//		if (Database.executeUpdate(query) == 1) {
+//			return true;
+//		} else {
 			return false;
-		}
+//		}
 	}
 
-	private static Participants makeParticipantObject(ResultSet rs) {
-		Participants part = null;
+	private static Participant makeParticipantObject(ResultSet rs) {
+		Participant part = null;
 		
-		try {
+/*		try {
 			int appointmentID = rs.getInt("appointment_id");
 			int userID = rs.getInt("user_id");
 			Status status = Status.valueOf(rs.getString("status"));
@@ -66,7 +67,7 @@ public class DBParticipants {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		} */
 		return part;
 	}
 	

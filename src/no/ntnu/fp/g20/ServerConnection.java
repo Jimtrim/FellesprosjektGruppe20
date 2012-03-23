@@ -22,7 +22,7 @@ public class ServerConnection implements MessageListener
 	private final static short SERVER_PORT = 26700;
 	private final static short LOCAL_PORT = 32000;
 
-	private ArrayList<ServerListener> listeners;
+	private ArrayList<AppointmentListener> appointmentListeners;
 	private no.ntnu.fp.net.co.Connection serverConnection;
 	private ReceiveWorker receiver;
 	private boolean connected;
@@ -45,7 +45,7 @@ public class ServerConnection implements MessageListener
 	 */
 	public void messageReceived(String message)
 	{
-
+		System.out.println("Message received: " + message);
 	}
 
 	/**
@@ -58,6 +58,7 @@ public class ServerConnection implements MessageListener
 		try {
 			serverConnection.connect(InetAddress.getByName(SERVER_HOST), SERVER_PORT);
 			connected = true;
+			receiver.start();
 		} catch(SocketTimeoutException error)
 		{
 			JOptionPane.showMessageDialog(null, "Timeout when attempting to connect to server!",
@@ -186,32 +187,30 @@ public class ServerConnection implements MessageListener
 	}
 
 	/**
+	 * Gets the initial data from the server.
+	 */
+	public void getInitialData()
+	{
+		send(CalendarProtocol.CMD_UPDATE_INIT);
+	}
+
+	/**
+	 * Gets all appointments for the specified week.
+	 * @return an array with all the appointments for the specified week.
+	 */
+	public Appointment[][] getAppointmentsForWeek(int week)
+	{
+		return null;
+	}
+
+	/**
 	 * Deletes an appointment.
 	 * @param appointment the appointment to delete.
 	 * @return true if successful, false otherwise.
 	 */
 	public boolean deleteAppointment(Appointment appointment)
 	{
-		// TODO: Implement me.
-		return false;
-	}
-
-	/**
-	 * Adds a listener to this server connection object.
-	 * @param listener the listener to add.
-	 */
-	public void addServerListener(ServerListener listener)
-	{
-		listeners.add(listener);
-	}
-
-	/**
-	 * Removes a listener from this server connection object.
-	 * @param listener the listener to remove.
-	 */
-	public void removeServerListener(ServerListener listener)
-	{
-		listeners.remove(listener);
+		return send(CalendarProtocol.makeCommand(CalendarProtocol.CMD_APPOINTMENT_DELETE, appointment.getID()));
 	}
 }
 

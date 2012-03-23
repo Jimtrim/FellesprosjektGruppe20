@@ -182,7 +182,7 @@ public class ConnectionImpl extends AbstractConnection {
     public String receive() throws ConnectException, IOException {
         KtnDatagram packet = receivePacket(false);
         if (isValid(packet)) {
-	        sendAck(packet, true);
+	        sendAck(packet, false);
 	        System.out.println("Packet: Valid!");
 	        return stripParityBits((String) packet.getPayload());
         } else {
