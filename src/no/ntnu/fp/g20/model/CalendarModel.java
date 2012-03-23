@@ -9,7 +9,7 @@ import javax.swing.table.AbstractTableModel;
 import no.ntnu.fp.g20.AppointmentListener;
 
 public class CalendarModel extends AbstractTableModel implements AppointmentListener {
-	private Appointment[12][7] appointments;
+	private Appointment[][] appointments;
 	private User user;
 	private PropertyChangeSupport pcs;
 	
