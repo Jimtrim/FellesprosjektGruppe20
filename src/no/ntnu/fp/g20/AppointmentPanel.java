@@ -75,7 +75,6 @@ public class AppointmentPanel extends JPanel {
 		titleField = new JTextField(20);
 		layout.setConstraints(titleField, c);
 		add(titleField);
-		titleField.addKeyListener(new TitleFieldListener());
 		
 		//add the date label
 		JLabel dateLabel = new JLabel("Time: ");
@@ -101,13 +100,7 @@ public class AppointmentPanel extends JPanel {
 		yearBox.addItem(2012);
 		c.gridx++;
 		c.gridwidth = 1;
-		add(yearBox, c);
-		
-		//add listeners to the date boxes
-		dayBox.addActionListener(new DayBoxListener());
-		monthBox.addActionListener(new MonthBoxListener());
-		yearBox.addActionListener(new YearBoxListener());
-		
+		add(yearBox, c);	
 
 		// Add the time label:
 		c.gridx++;
@@ -123,9 +116,6 @@ public class AppointmentPanel extends JPanel {
 		c.gridx++;
 		add(hoursBox, c);
 		
-		//add listeners to the time boxes
-		hoursBox.addActionListener(new HoursBoxListener());
-		
 		// Add the duration label:
 		JLabel durationLabel = new JLabel("Duration: ");
 		layout.setConstraints(durationLabel, c);
@@ -139,7 +129,6 @@ public class AppointmentPanel extends JPanel {
 		}
 		c.gridx++;
 		add(durationBox, c);
-		durationBox.addActionListener(new DurationBoxListener());
 
 		// Add the hours label:
 		JLabel hourLabel = new JLabel("hour(s)");
@@ -159,7 +148,6 @@ public class AppointmentPanel extends JPanel {
 		c.weightx = 1;
 		c.gridwidth = GridBagConstraints.RELATIVE;
 		add(locationField, c);
-		locationField.addKeyListener(new LocationFieldListener());
 		
 		//add room reservation button
 		roomResButton = new JButton("Room");
@@ -189,7 +177,6 @@ public class AppointmentPanel extends JPanel {
 		descriptionField.setWrapStyleWord(true);
 		layout.setConstraints(descriptionField, c);
 		add(descriptionField);
-		descriptionField.addKeyListener(new DescriptionFieldListener());
 
 		// Add the button box:
 		buttonBox = Box.createHorizontalBox();
@@ -342,129 +329,11 @@ public class AppointmentPanel extends JPanel {
 		}
 	}
 	
-	//create listener for the title field
-	class TitleFieldListener implements KeyListener {
-
-		@Override
-		public void keyTyped(KeyEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void keyPressed(KeyEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void keyReleased(KeyEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-		
-	}
-	
-	//create listener for location field
-	class LocationFieldListener implements KeyListener {
-
-		@Override
-		public void keyTyped(KeyEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void keyPressed(KeyEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void keyReleased(KeyEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-		
-	}
-	
-	//create listener for description field
-	class DescriptionFieldListener implements KeyListener {
-
-		@Override
-		public void keyTyped(KeyEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void keyPressed(KeyEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void keyReleased(KeyEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-		
-	}
-	
 	//create listener for room reservation button
 	class RoomResButtonListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			JFrame roomResFrame = new JFrame();
-			roomResFrame.add(new RoomReservationPanel());
-			roomResFrame.pack();
-			roomResFrame.setVisible(true);
-		}
-	}
-	
-	//create listeners for the date boxes
-	class DayBoxListener implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-	}
-	
-	class MonthBoxListener implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-	}
-	
-	class YearBoxListener implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			
-		}	
-	}
-	
-	//create listeners for the time boxes
-	class HoursBoxListener implements ActionListener {
-		
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			
-		}
-	}
-	
-	class DurationBoxListener implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
 			
 		}
 	}
@@ -494,8 +363,7 @@ public class AppointmentPanel extends JPanel {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			ParticipantListPanel listOfParticipants = new ParticipantListPanel();
-			listOfParticipants.setVisible(true);
+			
 		}
 	}
 }
