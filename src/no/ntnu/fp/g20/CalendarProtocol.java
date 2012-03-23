@@ -51,15 +51,13 @@ public class CalendarProtocol {
 	 * @param args arguments to the command.
 	 * @return a pretty little command string.
 	 */
-	public static String makeCommand(String command, String ... arguments)
+	public static String makeCommand(String command, Object ... arguments)
 	{
-		String[] args = arguments;
+		Object[] args = arguments;
 		String retval = command;
 
-		for(String argument : args)
-		{
+		for(Object argument : args)
 			retval += " " + argument;
-		}
 
 		return retval;
 	}

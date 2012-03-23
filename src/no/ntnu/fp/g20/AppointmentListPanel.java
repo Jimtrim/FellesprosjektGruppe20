@@ -14,8 +14,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.util.Calendar;
 
 import no.ntnu.fp.g20.model.Appointment;
+import no.ntnu.fp.g20.model.Room;
 import no.ntnu.fp.g20.model.SortableAppointmentListModel;
 
 public class AppointmentListPanel extends JPanel {
@@ -105,12 +107,17 @@ public class AppointmentListPanel extends JPanel {
 	
 	public Appointment getAppointmentDetails() {
 		Appointment a = new Appointment();
+		Calendar c = Calendar.getInstance();
+		c.set(Calendar.DAY_OF_MONTH, editablePanel.getDay());
+		c.set(Calendar.MONTH, editablePanel.getMonth());
+		c.set(Calendar.YEAR, editablePanel.getYear());
+		
 		a.setTitle(editablePanel.getTitle());
-		a.setDescription(editablePanel.getDescriptionField());
-		a.setDuration(editablePanel.getDurationBox());
-//		a.setLocation(editablePanel.getLocationText());
-//		a.setStartTime();
-		//a.setStatus(Status.UNCONFIRMED);
+		a.setDescription(editablePanel.getDescription());
+		a.setDuration(editablePanel.getDuration());
+		a.setLocation(editablePanel.getLocationText());
+		a.setStartTime(c);
+
 		return a;
 	}
 	

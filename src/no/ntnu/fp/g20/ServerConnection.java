@@ -58,6 +58,7 @@ public class ServerConnection implements MessageListener
 		try {
 			serverConnection.connect(InetAddress.getByName(SERVER_HOST), SERVER_PORT);
 			connected = true;
+			receiver.start();
 		} catch(SocketTimeoutException error)
 		{
 			JOptionPane.showMessageDialog(null, "Timeout when attempting to connect to server!",
@@ -194,14 +195,22 @@ public class ServerConnection implements MessageListener
 	}
 
 	/**
+	 * Gets all appointments for the specified week.
+	 * @return an array with all the appointments for the specified week.
+	 */
+	public Appointment[][] getAppointmentsForWeek(int week)
+	{
+		return null;
+	}
+
+	/**
 	 * Deletes an appointment.
 	 * @param appointment the appointment to delete.
 	 * @return true if successful, false otherwise.
 	 */
 	public boolean deleteAppointment(Appointment appointment)
 	{
-		// TODO: Implement me.
-		return false;
+		return send(CalendarProtocol.makeCommand(CalendarProtocol.CMD_APPOINTMENT_DELETE, appointment.getID()));
 	}
 
 	/**
