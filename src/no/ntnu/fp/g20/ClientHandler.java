@@ -59,6 +59,11 @@ public class ClientHandler extends ReceiveWorker implements MessageListener
 		{
 			try {
 				connection.close();
+				if(connectedUser != null)
+				{
+					ServerApp.clientMap.remove(connectedUser);
+					connectedUser = null;
+				}
 			} catch(Exception error)
 			{
 				// Ignore, we are closing anyways!
@@ -88,9 +93,22 @@ public class ClientHandler extends ReceiveWorker implements MessageListener
 		connectedUser = dbConnection.loginUser(username, password);
 		if(connectedUser == null)
 			send(CalendarProtocol.STATUS_LOGIN_ERROR + " invalid credentials");
-		else
+		else {
 			send(CalendarProtocol.STATUS_LOGIN_SUCCESS + " " + connectedUser.getId() +
 				" " + connectedUser.getFirstName() + " " + connectedUser.getLastName());
+		}
+	}
+
+	/**
+	 * Handles a logout request.
+	 */
+	private void handleLogout()
+	{
+		if(connectedUser != null)
+		{
+			ServerApp.clientMap.remove(connectedUser);
+			connectedUser = null;
+		}
 	}
 }
 

@@ -59,10 +59,19 @@ public class CalendarApp implements Runnable
 		JOptionPane.showMessageDialog(null, "Welcome, sir " + calendarUser.getLastName() + "!\n"
 			+ "Here is your calendar, please have fun!", "Welcome master!", JOptionPane.INFORMATION_MESSAGE);
 
-		calendarModel = new Calendar(calendarUser);
+		calendarModel = new Calendar(calendarUser, true);
 
 		mainWindow = new MainFrame("Calendar Application", calendarModel);
 		mainWindow.setVisible(true);
+	}
+
+	/**
+	 * Returns the application's connection to the server.
+	 * @return the connection to the server.
+	 */
+	public ServerConnection getConnection()
+	{
+		return connection;
 	}
 
 	/**

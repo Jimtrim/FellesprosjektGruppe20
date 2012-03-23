@@ -21,12 +21,14 @@ public class AppointmentWidget extends JComponent
 	private Appointment appointment;
 	private boolean selected;
 	private boolean focused;
+	private boolean editable;
 
 	/**
 	 * Constructs a new appointment widget without an appointment.
 	 */
-	public AppointmentWidget()
+	public AppointmentWidget(boolean editable)
 	{
+		this.editable = editable;
 	}
 
 	/**

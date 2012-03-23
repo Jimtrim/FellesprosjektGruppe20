@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.SocketTimeoutException;
+import java.util.concurrent.*;
 
 import no.ntnu.fp.net.admin.Log;
 import no.ntnu.fp.net.co.Connection;
@@ -21,7 +22,9 @@ import no.ntnu.fp.g20.database.*;
 public class ServerApp {
 	/** Server port: */
 	public final static int MY_PORT = 26700;
-	
+	/** List of logged in users: */
+	public final static ConcurrentHashMap<String, ClientHandler> clientMap = new ConcurrentHashMap<String, ClientHandler>();
+
 	/**
 	 * Main application entry point.
 	 * @param args command line arguments.

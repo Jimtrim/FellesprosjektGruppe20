@@ -69,6 +69,12 @@ Delete Appointment:
 		290 <Int: id> <String: name>
 		299 <Explanation>
 
+Appointment information from server:
+	Server sends:
+		APPT <id> <name> <description> <startTime> <duration> [<participant> ...]
+	Client responds:
+		220 <id>
+
 -- 3xx : Room --
 Create Room:
 	Client request:

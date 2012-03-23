@@ -2,8 +2,10 @@
 
 package no.ntnu.fp.g20;
 
-import no.ntnu.fp.g20.model.*;
+import no.ntnu.fp.net.*;
 import no.ntnu.fp.net.co.*;
+
+import no.ntnu.fp.g20.model.*;
 
 import java.net.*;
 import java.util.*;
@@ -12,8 +14,9 @@ import javax.swing.*;
 /**
  * Class for maintaining a connection to the server.
  * @author Kristian Klomsten Skordal
+ * @see MessageListener
  */
-public class ServerConnection
+public class ServerConnection implements MessageListener
 {
 	private final static String SERVER_HOST = "localhost";
 	private final static short SERVER_PORT = 26700;
@@ -21,6 +24,7 @@ public class ServerConnection
 
 	private ArrayList<ServerListener> listeners;
 	private no.ntnu.fp.net.co.Connection serverConnection;
+	private ReceiveWorker receiver;
 	private boolean connected;
 
 	/**
@@ -29,7 +33,19 @@ public class ServerConnection
 	public ServerConnection()
 	{
 		serverConnection = new ConnectionImpl(LOCAL_PORT);
+		receiver = new ReceiveWorker(serverConnection);
+		receiver.addMessageListener(this);
 		connected = false;
+	}
+
+	/**
+	 * Called when a message is received from the server.
+	 * @param message the message received.
+	 * @see MessageListener
+	 */
+	public void messageReceived(String message)
+	{
+
 	}
 
 	/**
@@ -117,7 +133,7 @@ public class ServerConnection
 			if(!connect())
 				return null;
 
-		if(!send(CalendarProtocol.CMD_LOGIN + " " + username + " " + password))
+		if(!send(CalendarProtocol.makeCommand(CalendarProtocol.CMD_LOGIN, username, password)))
 			return null;
 
 		String reply = receive();
@@ -140,11 +156,11 @@ public class ServerConnection
 	}
 
 	/**
-	 * Sends an update request to the server.
+	 * Logs the user out and closes the connection.
 	 */
-	public void requestUpdate()
+	public void logout()
 	{
-
+		send(CalendarProtocol.CMD_LOGOUT);
 	}
 
 	/**

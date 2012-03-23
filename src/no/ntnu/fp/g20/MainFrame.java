@@ -32,7 +32,8 @@ public class MainFrame extends JFrame {
 
 		toolBar.addSeparator();
 
-		String[] calendarList = { "My calendar" };
+		//String[] calendarList = { "My calendar" };
+		String[] calendarList = { model.getUser().getFirstName() + " " + model.getUser().getLastName() + "'s Calendar"};
 		calendarBox = new JComboBox(calendarList);
 		toolBar.add(calendarBox);
 		toolBar.add(new AddCalendarAction());
@@ -138,7 +139,9 @@ public class MainFrame extends JFrame {
 
 		public void actionPerformed(ActionEvent event)
 		{
+			CalendarApp.getApplication().getConnection().logout();
 			setVisible(false);
+			System.exit(0);
 		}
 	}
 
