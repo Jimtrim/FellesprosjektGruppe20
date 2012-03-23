@@ -187,19 +187,14 @@ public class ServerConnection implements MessageListener
 	}
 
 	/**
-	 * Gets the initial data from the server.
-	 */
-	public void getInitialData()
-	{
-		send(CalendarProtocol.CMD_UPDATE_INIT);
-	}
-
-	/**
 	 * Gets all appointments for the specified week.
+	 * @param week the specified week.
+	 * @param year the year of the week.
 	 * @return an array with all the appointments for the specified week.
 	 */
-	public Appointment[][] getAppointmentsForWeek(int week)
+	public Appointment[][] getAppointmentsForWeek(int week, int year)
 	{
+		send(CalendarProtocol.makeCommand(CalendarProtocol.CMD_APPOINTMENT_WEEK, week, year));
 		return null;
 	}
 

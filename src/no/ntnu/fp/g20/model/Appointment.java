@@ -12,13 +12,6 @@ import no.ntnu.fp.g20.Status;
  */
 public class Appointment
 {	
-	public String toString(){ 
-		int dayOfMonth = startTime.get(java.util.Calendar.DAY_OF_MONTH);
-		int month = startTime.get(java.util.Calendar.MONTH);
-		int year = startTime.get(java.util.Calendar.YEAR);
-		return "["+dayOfMonth+"."+month+"."+year+", "+duration+" hrs] "+title+"   ("+getLocation()+")";
-	}
-	
 	public final static String DURATION_PROPERTY = "DurationProperty";
 	public final static String START_TIME_PROPERTY = "StartTimeProperty";
 	public final static String LOCATION_PROPERTY = "LocationProperty";
