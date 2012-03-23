@@ -178,18 +178,20 @@ public class Calendar extends AbstractTableModel
 	@Override
 	public void appointmentAdded(Appointment appointment) {
 		
+		CalendarApp.getApplication().getConnection().createAppointment(appointment);
+		
 		
 	}
 
 	@Override
 	public void appointmentUpdated(Appointment appointment) {
-		// TODO Auto-generated method stub
+		CalendarApp.getApplication().getConnection().updateAppointment(appointment);
 		
 	}
 
 	@Override
 	public void appointmentDeleted(Appointment appointment) {
-		// TODO Auto-generated method stub
+		CalendarApp.getApplication().getConnection().deleteAppointment(appointment);
 		
 	}
 }

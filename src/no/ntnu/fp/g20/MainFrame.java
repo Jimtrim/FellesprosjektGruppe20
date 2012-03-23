@@ -77,7 +77,7 @@ public class MainFrame extends JFrame {
 		
 		public void actionPerformed(ActionEvent event)
 		{
-			
+			getModel().appointmentAdded(appointmentPanel.getAppointmentDetails());
 		}
 	}
 
@@ -93,7 +93,7 @@ public class MainFrame extends JFrame {
 
 		public void actionPerformed(ActionEvent event)
 		{
-
+			getModel().appointmentDeleted(appointmentPanel.getAppointmentDetails());	
 		}
 	}
 
@@ -175,7 +175,7 @@ public class MainFrame extends JFrame {
 
 		public void actionPerformed(ActionEvent event)
 		{
-
+			
 		}
 	}
 
