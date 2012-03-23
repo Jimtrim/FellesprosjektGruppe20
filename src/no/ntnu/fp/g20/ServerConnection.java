@@ -45,7 +45,7 @@ public class ServerConnection implements MessageListener
 	 */
 	public void messageReceived(String message)
 	{
-
+		System.out.println("Message received: " + message);
 	}
 
 	/**
@@ -183,6 +183,14 @@ public class ServerConnection implements MessageListener
 	{
 		// TODO: Implement me.
 		return false;
+	}
+
+	/**
+	 * Gets the initial data from the server.
+	 */
+	public void getInitialData()
+	{
+		send(CalendarProtocol.CMD_UPDATE_INIT);
 	}
 
 	/**

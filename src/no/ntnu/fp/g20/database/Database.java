@@ -10,12 +10,12 @@ public class Database extends Connection
 {
 	private PreparedStatement loginStmt;
 	private PreparedStatement getAppointmentStmt;
+	private PreparedStatement getParticipantStmt;
 
 	public Database() throws SQLException
 	{
 		super();
 		loginStmt = getConnection().prepareStatement(DBUser.LOGIN_STATEMENT);
-		// TODO: Move string statement below.
 		getAppointmentStmt = getConnection().prepareStatement("SELECT * FROM appointments WHERE owner = ?");
 	}
 
@@ -52,6 +52,11 @@ public class Database extends Connection
 	 * @param apptID the ID of the appointment whose users you would like.
 	 * @return an array of users who are participants of the specified appointment.
 	 */
+	public ArrayList<User> getParticipantsForAppointment(int apptID)
+	{
+		ArrayList<User> retval = new ArrayList<User>();
+		return retval;
+	}
 
 	/**
 	 * Gets the appointments for a specified user.
