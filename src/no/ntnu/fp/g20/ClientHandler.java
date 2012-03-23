@@ -79,11 +79,14 @@ public class ClientHandler extends ReceiveWorker implements MessageListener
 			String password = dataParser.nextToken();
 
 			handleLogin(username, password);
+		} else if(command.startsWith(CalendarProtocol.CMD_LOGOUT))
+		{
+			handleLogout();
 		} else if(command.startsWith(CalendarProtocol.CMD_UPDATE))
 		{
 			if(!dataParser.hasMoreElements()) // General update request
 			{
-
+				send(CalendarProtocol.makeCommand(CalendarProtocol.STATUS_GENERAL_REQUEST_ERROR, "Invalid command"));
 			} else { // Initial update request
 				ArrayList<Appointment> appointments = dbConnection.getAppointmentsForUser(connectedUser.getId());
 				for(Appointment a : appointments)
@@ -94,6 +97,14 @@ public class ClientHandler extends ReceiveWorker implements MessageListener
 				}
 			}
 		}
+	}
+
+	/**
+	 * Handles an {@code UPDATE INIT} request.
+	 */
+	public void handleUpdateInit()
+	{
+		
 	}
 
 	/**
