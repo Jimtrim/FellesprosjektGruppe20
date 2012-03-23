@@ -174,17 +174,17 @@ public class ParticipantListPanel extends JDialog{
 		
 		
 		//Adds test Users. Remove this when we don't need/want 'em anymore. (TODO)
-		for (int i=0; i<15; i++){
-			userListModel.addElement(
-					new User(
-							i, 
-							"userName_"+i, 
-							"pwd"+i, 
-							""+(int)(Math.random()*10)+"-f", 
-							""+(int)(Math.random()*10)+"-l"
-					)
-			);
-		}
+//		for (int i=0; i<15; i++){
+//			userListModel.addElement(
+//					new User(
+//							i, 
+//							"userName_"+i, 
+//							"pwd"+i, 
+//							""+(int)(Math.random()*10)+"-f", 
+//							""+(int)(Math.random()*10)+"-l"
+//					)
+//			);
+//		}
 		
 		
 		
