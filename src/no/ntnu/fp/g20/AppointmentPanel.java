@@ -220,6 +220,104 @@ public class AppointmentPanel extends JPanel {
 		participantsButton.addActionListener(new ParticipantsButtonListener());
 	}
 	
+	
+	
+	public String getTitle() {
+		return titleField.getText();
+	}
+
+
+
+	public void setTitle(String title) {
+		this.titleField.setText(title);
+	}
+
+
+
+	public String getLocationText() {
+		return locationField.getText();
+	}
+
+
+
+	public void setLocationText(String location) {
+		this.locationField.setText(location);
+	}
+
+
+
+	public int getHours() {
+		return hoursBox.getSelectedIndex() + 1;
+	}
+
+
+
+	public void setHours(int hours) {
+		this.hoursBox.setSelectedIndex(hours - 1);
+	}
+
+
+
+	public int getDay() {
+		return dayBox.getSelectedIndex() + 1;
+	}
+
+
+
+	public void setDay(int day) {
+		this.dayBox.setSelectedIndex(day - 1);
+	}
+
+
+
+	public int getMonth() {
+		return monthBox.getSelectedIndex() + 1;
+	}
+
+
+
+	public void setMonth(int month) {
+		this.monthBox.setSelectedIndex(month - 1);
+	}
+
+
+
+	public int getYear() {
+		return (Integer) yearBox.getSelectedItem();
+	}
+
+
+
+	public void setYear(int year) {
+		this.yearBox.setSelectedItem(year);
+	}
+
+
+
+	public int getDuration() {
+		return durationBox.getSelectedIndex() + 1;
+	}
+
+
+
+	public void setDuration(int duration) {
+		this.durationBox.setSelectedIndex(duration - 1);
+	}
+
+
+
+	public String getDescription() {
+		return descriptionField.getText();
+	}
+
+
+
+	public void setDescription(String description) {
+		this.descriptionField.setText(description);
+	}
+
+
+
 	/**
 	 * Return the panels Appointment model
 	 */
