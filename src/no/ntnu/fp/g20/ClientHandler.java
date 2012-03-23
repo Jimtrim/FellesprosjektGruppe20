@@ -79,6 +79,15 @@ public class ClientHandler extends ReceiveWorker implements MessageListener
 			String password = dataParser.nextToken();
 
 			handleLogin(username, password);
+		} else if(command.startsWith(CalendarProtocol.CMD_UPDATE))
+		{
+			if(!dataParser.hasMoreElements()) // General update request
+			{
+
+			} else { // Initial update request
+				ArrayList<Appointment> appointments;
+				ArrayList<Room> rooms;
+			}
 		}
 	}
 
@@ -94,6 +103,7 @@ public class ClientHandler extends ReceiveWorker implements MessageListener
 		if(connectedUser == null)
 			send(CalendarProtocol.STATUS_LOGIN_ERROR + " invalid credentials");
 		else {
+			ServerApp.clientMap.put(username, this);
 			send(CalendarProtocol.STATUS_LOGIN_SUCCESS + " " + connectedUser.getId() +
 				" " + connectedUser.getFirstName() + " " + connectedUser.getLastName());
 		}

@@ -61,26 +61,7 @@ public class Database extends Connection
 		//TODO: Make this
 		
 	}
-	public void createRoom(String name, Room.RoomStatus roomStatus, String description, int capacity){
-		boolean input = InputValidation.isRoomValid(name, description);
-		
-		if (input) {
-//			this.currentRoom = new Room(name, roomStatus, description, capacity);
-//			this.currentRoom.setId(DBRoom.addRoom(this.currentRoom));
-		} else {
-			System.err.println("Something is wrong with the room input");
-		}
-	}
-	public void editRoom(){
-		
-	}
-	public void createParticipants(){
-		
-	}
-	
-	public void editParticipants(){
-		
-	}
+
 	public void createAppointment(){
 		
 	}
