@@ -1,19 +1,20 @@
 package no.ntnu.fp.g20.database;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Calendar;
 
-import no.ntnu.fp.g20.*;
-import no.ntnu.fp.g20.model.User;
 import no.ntnu.fp.g20.model.Appointment;
+import no.ntnu.fp.g20.model.Room;
+import no.ntnu.fp.g20.model.User;
 
 public class Database extends Connection
 {
 	private PreparedStatement loginStmt;
 	private PreparedStatement getAppointmentStmt;
 	private PreparedStatement getParticipantStmt;
-	private PreparedStatement getRoomStmt;
-	private PreparedStatement newAppointmentStmt;
 	private PreparedStatement getAppointmentsForWeekStmt;
 
 	public Database() throws SQLException
@@ -21,50 +22,13 @@ public class Database extends Connection
 		super();
 		loginStmt = getConnection().prepareStatement(DBUser.LOGIN_STATEMENT);
 		getAppointmentStmt = getConnection().prepareStatement("SELECT * FROM appointments WHERE owner = ?");
-		getRoomStmt = getConnection().prepareStatement("SELECT * FROM rooms WHERE room_id = ?");
-		newAppointmentStmt = getConnection().prepareStatement("INSERT " +
-				"INTO appointments (title, start, duration, description, location, owner)" +
-				"VALUES(?, ?, ?, ?, ?, ?)");
 		getAppointmentsForWeekStmt = getConnection().prepareStatement("SELECT * FROM appointments WHERE owner = ? AND startTime BETWEEN ? AND ?");
 	}
 
-	public boolean addAppointment(Appointment appt, int userid)
+	public boolean addAppointment(Appointment appt)
 	{
-		try { 
-			newAppointmentStmt.setString(1, appt.getTitle());
-			newAppointmentStmt.setString(2, ""+appt.getStartTime().getTimeInMillis());
-			newAppointmentStmt.setString(3, ""+appt.getDuration());
-			newAppointmentStmt.setString(4, appt.getDescription());
-			newAppointmentStmt.setString(5, appt.getLocation());
-			newAppointmentStmt.setString(6, ""+userid);
-			
-			newAppointmentStmt.executeQuery();
-			
-			return true;
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
-			return false;
-		}
-		
-		
-		
-		
+		return false;
 	}
-	// ubrukt, atm
-	public Room getRoomById(int id){
-		try {
-			getRoomStmt.setString(1, ""+id);
-			
-			ResultSet rs = getAppointmentStmt.executeQuery();
-			return new Room(rs.getInt("room_id"), rs.getString("name"),
-						rs.getString("description"), rs.getInt("capacity"));		
-		} catch (SQLException e) {
-			System.err.println(e.getMessage());
-			return null;
-		}
-		
-	}
-	
 
 	/**
 	 * Logs a user in.
@@ -178,5 +142,8 @@ public class Database extends Connection
 		
 	}
 
-
+	public void createAppointment(){
+		
+	}
 }
+
