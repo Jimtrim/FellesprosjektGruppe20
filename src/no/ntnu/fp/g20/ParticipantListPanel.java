@@ -25,10 +25,10 @@ import no.ntnu.fp.g20.model.SortableUserListModel;
 import no.ntnu.fp.g20.model.User;
 
 
-public class ParticipantList extends JDialog{
+public class ParticipantListPanel extends JDialog{
 	
 	public static void main(String[] args){
-		ParticipantList participantList = new ParticipantList();
+		ParticipantListPanel participantList = new ParticipantListPanel();
 		participantList.setVisible(true);
 	}
 	
@@ -55,7 +55,7 @@ public class ParticipantList extends JDialog{
 	
 	GridBagConstraints c;
 	
-	public ParticipantList(){
+	public ParticipantListPanel(){
 		this.setLayout(new GridBagLayout());
 		this.setTitle("Add/remove participants");
 		

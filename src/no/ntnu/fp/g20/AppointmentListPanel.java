@@ -103,6 +103,17 @@ public class AppointmentListPanel extends JPanel {
 		}
 	}
 	
+	public Appointment getAppointmentDetails() {
+		Appointment a = new Appointment();
+		a.setTitle(editablePanel.getTitle());
+		a.setDescription(editablePanel.getDescriptionField());
+		a.setDuration(editablePanel.getDurationBox());
+//		a.setLocation(editablePanel.getLocationText());
+//		a.setStartTime();
+		//a.setStatus(Status.UNCONFIRMED);
+		return a;
+	}
+	
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		frame.add(new AppointmentListPanel());

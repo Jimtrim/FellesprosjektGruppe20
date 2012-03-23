@@ -16,7 +16,7 @@ import javax.swing.table.*;
  * @author Kristian Klomsten Skordal
  */
 public class Calendar extends AbstractTableModel
-	implements PropertyChangeListener, TableCellRenderer, ListSelectionListener
+	implements PropertyChangeListener, TableCellRenderer, ListSelectionListener, AppointmentListener
 {
 	public final static int HOURS = 12;
 	public final static int START_HOUR = 7;
@@ -40,15 +40,10 @@ public class Calendar extends AbstractTableModel
 
 		CalendarApp.getApplication().getConnection().getInitialData();
 
-		appointments[4][4] = new Appointment();
-		appointments[4][4].setTitle("Test appointment");
-		appointments[4][4].setLocation("Funroom");
-	
 		// Create a start time:
 		java.util.Calendar startTime = java.util.Calendar.getInstance();
 		startTime.set(2012, 3, 19, 4, 0);
 
-		appointments[4][4].setStartTime(startTime);
 
 		appointmentWidget = new AppointmentWidget(editable);
 	}
@@ -178,6 +173,24 @@ public class Calendar extends AbstractTableModel
 	{
 		appointmentWidget.setParameters(appointments[column][row], isSelected, hasFocus, row);
 		return appointmentWidget;
+	}
+
+	@Override
+	public void appointmentAdded(Appointment appointment) {
+		
+		
+	}
+
+	@Override
+	public void appointmentUpdated(Appointment appointment) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void appointmentDeleted(Appointment appointment) {
+		// TODO Auto-generated method stub
+		
 	}
 }
 
