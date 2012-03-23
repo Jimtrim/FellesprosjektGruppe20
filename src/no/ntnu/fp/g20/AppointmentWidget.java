@@ -64,7 +64,7 @@ public class AppointmentWidget extends JComponent
 		Graphics2D g = (Graphics2D) graphics;
 		Font hourFont = getFont().deriveFont(8.0f);
 		FontMetrics metrics = g.getFontMetrics(hourFont);
-		String timeString = String.format("%1$2d:00", no.ntnu.fp.g20.model.Calendar.START_HOUR + hour);
+		String timeString = String.format("%1$2d:00", no.ntnu.fp.g20.model.CalendarModel.START_HOUR + hour);
 
 		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
 			RenderingHints.VALUE_TEXT_ANTIALIAS_ON);

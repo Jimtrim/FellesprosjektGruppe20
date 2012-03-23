@@ -15,7 +15,7 @@ public class CalendarApp implements Runnable
 
 	private LoginDialog loginDialog;
 	private ServerConnection connection;
-	private Calendar calendarModel;
+	private CalendarModel calendarModel;
 	private MainFrame mainWindow;
 	private User calendarUser;
 
@@ -59,7 +59,7 @@ public class CalendarApp implements Runnable
 		JOptionPane.showMessageDialog(null, "Welcome, sir " + calendarUser.getLastName() + "!\n"
 			+ "Here is your calendar, please have fun!", "Welcome master!", JOptionPane.INFORMATION_MESSAGE);
 
-		calendarModel = new Calendar(calendarUser, true);
+		calendarModel = new CalendarModel(calendarUser, true);
 
 		mainWindow = new MainFrame("Calendar Application", calendarModel);
 		mainWindow.setVisible(true);
