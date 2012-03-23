@@ -6,7 +6,7 @@ package no.ntnu.fp.g20;
  * @author Jim
  */
 public class CalendarProtocol {
-	/* Client commands: */
+	/* Client/server commands: */
 	public final static String CMD_LOGIN  = "LOGIN";
 	public final static String CMD_LOGOUT = "LOGOUT";
 
@@ -22,6 +22,7 @@ public class CalendarProtocol {
 	public final static String CMD_ROOM_DELETE 	= "ROOM DEL";
 
 	public final static String CMD_UPDATE 	= "UPDATE";
+	public final static String CMD_UPDATE_INIT = "UPDATE INIT";
 	
 	/* Status codes: */
 	public final static int STATUS_LOGIN_SUCCESS = 100;
@@ -35,14 +36,10 @@ public class CalendarProtocol {
 	public final static int STATUS_APPOINTMENT_DELETE_SUCCESS = 290;
 	public final static int STATUS_APPOINTMENT_DELETE_ERROR = 299;
 	
-	public final static int STATUS_ROOM_CREATE_SUCCESS = 300;
-	public final static int STATUS_ROOM_CREATE_ERROR = 309;
 	public final static int STATUS_ROOM_RESERVE_SUCCESS = 310;
 	public final static int STATUS_ROOM_RESERVE_ERROR = 319;
 	public final static int STATUS_ROOM_UNRESERVE_SUCCESS = 320;
 	public final static int STATUS_ROOM_UNRESERVE_ERROR = 329;
-	public final static int STATUS_ROOM_DELETE_SUCCESS = 390;
-	public final static int STATUS_ROOM_DELETE_ERROR = 391;
 	
 	public final static int STATUS_GENERAL_NEW_UPDATES = 910;
 	public final static int STATUS_GENERAL_NO_UPDATES = 911;

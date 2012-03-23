@@ -5,7 +5,5 @@ package no.ntnu.fp.net;
  *
  */
 public interface MessageListener {
-
 	public void messageReceived(String message);
-	
 }

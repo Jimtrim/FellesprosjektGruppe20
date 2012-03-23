@@ -16,7 +16,8 @@ public class DBAppointment {
 				+ title + "','" + room.getName() + "')";
 		
 		
-		return Database.executeUpdate(query, true);
+//		return Database.executeUpdate(query, true);
+		return 0;
 	}
 	
 	public static int addAppointment(Appointment a){
@@ -29,7 +30,7 @@ public class DBAppointment {
 		String query = "SELECT * FROM appointments WHERE id = '" + id + "'";
 		Appointment app = null;
 		
-		try {
+/*		try {
 			ResultSet rs = Database.execute(query);
 			if (rs.next()) {
 				//Make appointment object from ResultSet
@@ -37,7 +38,7 @@ public class DBAppointment {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
+		}*/
 		
 		return app;
 	}
@@ -45,11 +46,11 @@ public class DBAppointment {
 	public static boolean removeAppointment(int id) {
 		String query = "DELETE FROM appointments WHERE id = '" + id + "'";
 		
-		if (Database.executeUpdate(query) == 1) {
-			return true;
-		} else {
+//		if (Database.executeUpdate(query) == 1) {
+//			return true;
+//		} else {
 			return false;
-		}
+//		}
 	}
 	
 	//TODO: Make appropriate Appointment
@@ -59,17 +60,17 @@ public class DBAppointment {
 				+ a.getDescription() + "', place = '" + a.getLocation() + "'"
 				+ "WHERE id = '" + a.getID() + "'";
 		
-		if (Database.executeUpdate(query) == 1) {
-			return true;
-		} else {
+//		if (Database.executeUpdate(query) == 1) {
+//			return true;
+//		} else {
 			return false;
-		}
+//		}
 	}
 
 	private static Appointment makeAppointmentObject(ResultSet rs) {
 		Appointment app = null;
 		
-		try {
+/*		try {
 			int id = rs.getInt("id");
 			long timestamp = rs.getLong("start");
 			int duration = rs.getInt("duration");
@@ -84,7 +85,7 @@ public class DBAppointment {
 				app = new Appointment(id, timestamp, duration, description, title, DBRoom.getRoom(roomId));
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 		
 		return app;
 	}

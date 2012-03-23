@@ -25,23 +25,25 @@ public class Calendar extends AbstractTableModel
 	private Appointment[][] appointments;
 	private AppointmentWidget appointmentWidget;
 	private User user;
+	private boolean editable;
 
 	/**
 	 * Constructs a new calendar model class.
 	 * @param user the user the calendar belongs to.
 	 */
-	public Calendar(User user)
+	public Calendar(User user, boolean editable)
 	{
 		pcs = new PropertyChangeSupport(this);
 		appointments = new Appointment[7][HOURS];
 		this.user = user;
+		this.editable = editable;
 
 		// Create a start time:
 		java.util.Calendar startTime = java.util.Calendar.getInstance();
 		startTime.set(2012, 3, 19, 4, 0);
 
 
-		appointmentWidget = new AppointmentWidget();
+		appointmentWidget = new AppointmentWidget(editable);
 	}
 
 	/**
@@ -75,6 +77,15 @@ public class Calendar extends AbstractTableModel
 
 			}
 		}
+	}
+
+	/**
+	 * Gets the user object for the current calendar.
+	 * @return the user this calendar belongs to.
+	 */
+	public User getUser()
+	{
+		return user;
 	}
 
 	/**

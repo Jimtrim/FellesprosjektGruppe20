@@ -69,13 +69,17 @@ Delete Appointment:
 		290 <Int: id> <String: name>
 		299 <Explanation>
 
+Appointment information from server:
+	Server sends:
+		APPT <id> <name> <description> <startTime> <duration> [<participant> ...]
+	Client responds:
+		220 <id>
+
 -- 3xx : Room --
-Create Room:
-	Client request:
-		ROOM CREATE <String: name> <String: descrition> <Int: Capacity> 
-	Server reply:
-		300 <Int: id> <String: name>
-		309 <Explanation>
+Room:
+	Server sends:
+		ROOM <String: name> <String: description> <Int: Capacity> 
+//		309 <Explanation>
 
 Reserve Room:
 	Client request:
@@ -91,20 +95,20 @@ Unreserve Room:
 		320 <Int: id> <String: name>
 		329 <Explanation>
 
-Delete Room:
-	Client request:
-		ROOM DEL <Int: id>
-	Server reply:
-		290 <Int: id> <String: name>
-		299 <Explanation>
-
 -- 9xx : General --
 General check updates:
 	Client request:
-		UPDATE <Int: id>
+		UPDATE
 	Server reply:
 		910 <Int: number of updates>
 		911 <Ignored>                 Sent when no updates are available.
+
+Request initial data:
+		UPDATE INIT
+	Server reply:
+		920 <Number of appointments>
+		921 <Number of rooms>
+		928 End of list
 	
 For any unspecific error, the server sends:
 		919 <Explanation>

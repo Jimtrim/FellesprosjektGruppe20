@@ -59,6 +59,11 @@ public class ClientHandler extends ReceiveWorker implements MessageListener
 		{
 			try {
 				connection.close();
+				if(connectedUser != null)
+				{
+					ServerApp.clientMap.remove(connectedUser);
+					connectedUser = null;
+				}
 			} catch(Exception error)
 			{
 				// Ignore, we are closing anyways!
@@ -74,6 +79,20 @@ public class ClientHandler extends ReceiveWorker implements MessageListener
 			String password = dataParser.nextToken();
 
 			handleLogin(username, password);
+		} else if(command.startsWith(CalendarProtocol.CMD_UPDATE))
+		{
+			if(!dataParser.hasMoreElements()) // General update request
+			{
+
+			} else { // Initial update request
+				ArrayList<Appointment> appointments = dbConnection.getAppointmentsForUser(connectedUser.getId());
+				for(Appointment a : appointments)
+				{
+					// TODO: send participants too + start time is a Calendar object, not log.
+					send(CalendarProtocol.makeCommand(CalendarProtocol.CMD_APPOINTMENT_ROOT,
+						"" + a.getID(), a.getTitle(), a.getDescription(), "" + a.getStartTime(), "" + a.getDuration()));
+				}
+			}
 		}
 	}
 
@@ -88,9 +107,23 @@ public class ClientHandler extends ReceiveWorker implements MessageListener
 		connectedUser = dbConnection.loginUser(username, password);
 		if(connectedUser == null)
 			send(CalendarProtocol.STATUS_LOGIN_ERROR + " invalid credentials");
-		else
+		else {
+			ServerApp.clientMap.put(username, this);
 			send(CalendarProtocol.STATUS_LOGIN_SUCCESS + " " + connectedUser.getId() +
 				" " + connectedUser.getFirstName() + " " + connectedUser.getLastName());
+		}
+	}
+
+	/**
+	 * Handles a logout request.
+	 */
+	private void handleLogout()
+	{
+		if(connectedUser != null)
+		{
+			ServerApp.clientMap.remove(connectedUser);
+			connectedUser = null;
+		}
 	}
 }
 
