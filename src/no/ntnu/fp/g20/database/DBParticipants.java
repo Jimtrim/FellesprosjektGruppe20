@@ -5,12 +5,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import no.ntnu.fp.g20.Status;
-import no.ntnu.fp.g20.model.Participants;
+import no.ntnu.fp.g20.model.Participant;
 
 
 public class DBParticipants {
 	
-	public static int addParticipants(int appointmentID, int userID, Status status ){
+	public static int addParticipant(int appointmentID, int userID, Status status ){
 		String query = "INSERT INTO participants "
 				+ "(appointment_id, user_id, status) VALUES ('" 
 				+ appointmentID + "','" + userID + "','" + status + "')";
@@ -20,15 +20,15 @@ public class DBParticipants {
 		
 	}
 	
-	public static int addParticipants(Participants p){
-		return addParticipants(p.getAppointmentID(), p.getUserID(), p.getStatus());
+	public static int addParticipant(Participant p){
+		return addParticipant(p.getAppointmentID(), p.getId(), p.getStatus());
 		
 	}
 	
-	public static Participants getParticipant(int appointmentID, int userID){
+	public static Participant getParticipant(int appointmentID, int userID){
 		String query = "SELECT * FROM participants WHERE appointment_id = '" + appointmentID
 				+ "'" + " AND user_id = '" + userID + "'";
-		Participants participant = null;
+		Participant participant = null;
 		
 /*		try {
 			ResultSet rs = Database.execute(query);
@@ -55,8 +55,8 @@ public class DBParticipants {
 //		}
 	}
 
-	private static Participants makeParticipantObject(ResultSet rs) {
-		Participants part = null;
+	private static Participant makeParticipantObject(ResultSet rs) {
+		Participant part = null;
 		
 /*		try {
 			int appointmentID = rs.getInt("appointment_id");

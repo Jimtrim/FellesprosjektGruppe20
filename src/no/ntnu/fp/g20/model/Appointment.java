@@ -33,7 +33,7 @@ public class Appointment
 	private User owner;
 	private ArrayList<User> listOfParticipants;
 	private Status status;
-	private ArrayList<Participants> listOfInvitations;
+	private ArrayList<Participant> listOfInvitations;
 	
 	private PropertyChangeSupport pcs;
 
@@ -152,12 +152,12 @@ public class Appointment
 		return false;
 	}
 
-	public void invitationConfirmed(Participants invitation)
+	public void invitationConfirmed(Participant invitation)
 	{
 		listOfInvitations.get(listOfInvitations.indexOf(invitation)).setStatus(Status.CONFIRMED);
 	}
 
-	public void invitationRejected(Participants invitation)
+	public void invitationRejected(Participant invitation)
 	{
 		listOfInvitations.get(listOfInvitations.indexOf(invitation)).setStatus(Status.REJECTED);
 	}

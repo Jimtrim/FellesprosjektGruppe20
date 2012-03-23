@@ -38,6 +38,8 @@ public class Calendar extends AbstractTableModel
 		this.user = user;
 		this.editable = editable;
 
+		CalendarApp.getApplication().getConnection().getInitialData();
+
 		appointments[4][4] = new Appointment();
 		appointments[4][4].setTitle("Test appointment");
 		appointments[4][4].setLocation("Funroom");

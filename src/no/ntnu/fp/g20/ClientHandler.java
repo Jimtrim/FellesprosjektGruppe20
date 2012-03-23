@@ -88,9 +88,9 @@ public class ClientHandler extends ReceiveWorker implements MessageListener
 				ArrayList<Appointment> appointments = dbConnection.getAppointmentsForUser(connectedUser.getId());
 				for(Appointment a : appointments)
 				{
-					// TODO: send participants too + start time is a Calendar object, not log.
 					send(CalendarProtocol.makeCommand(CalendarProtocol.CMD_APPOINTMENT_ROOT,
-						"" + a.getID(), a.getTitle(), a.getDescription(), "" + a.getStartTime(), "" + a.getDuration()));
+						"" + a.getID(), a.getTitle(), a.getDescription(),
+						"" + a.getStartTime(), "" + a.getDuration()));
 				}
 			}
 		}
