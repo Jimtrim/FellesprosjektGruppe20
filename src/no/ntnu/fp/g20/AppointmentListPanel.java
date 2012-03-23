@@ -78,7 +78,6 @@ public class AppointmentListPanel extends JPanel {
 		notEditablePanel = new PassiveAppointmentPanel();
 		add(notEditablePanel, c);
 		notEditablePanel.setVisible(false);
-		
 	}
 	
 	//create listener for the sort box
