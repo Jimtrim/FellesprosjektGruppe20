@@ -83,17 +83,28 @@ public class ClientHandler extends ReceiveWorker implements MessageListener
 		{
 			handleLogout();
 		} else if(command.startsWith(CalendarProtocol.CMD_APPOINTMENT_CREATE)) {
-			String name = dataParser.nextToken();
-			String description = dataParser.nextToken();
-			long startTime = Long.parseLong(dataParser.nextToken());
-			int roomId = Integer.parseInt(dataParser.nextToken());
-			int duration = Integer.parseInt(dataParser.nextToken());
+			String name 		= dataParser.nextToken();
+			String description 	= dataParser.nextToken();
+			long startTime 		= Long.parseLong(dataParser.nextToken());
+			int roomId 			= Integer.parseInt(dataParser.nextToken());
+			String location		= dataParser.nextToken();
+			int duration 		= Integer.parseInt(dataParser.nextToken());
 			ArrayList<String> participants = new ArrayList<String>();
 			
 			while (dataParser.hasMoreElements()){
 				participants.add(dataParser.nextToken());
 			}
-			// TODO: make appt-model, and call dbConnection.<create appt somehow>
+			
+			if (roomId != 0) {
+				location = "null";
+			}
+			
+			dbConnection.addAppointment(new Appointment(0, 
+						startTime, 
+						duration, 
+						description, 
+						name,
+						location), connectedUser.getId());
 			
 		} else if(command.startsWith(CalendarProtocol.CMD_UPDATE))
 		{
