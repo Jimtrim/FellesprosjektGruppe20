@@ -106,6 +106,12 @@ public class ClientHandler extends ReceiveWorker implements MessageListener
 						name,
 						location), connectedUser.getId());
 			
+		} else if(command.startsWith(CalendarProtocol.CMD_APPOINTMENT_WEEK))
+		{
+			int week = Integer.parseInt(dataParser.nextToken());
+			int year = Integer.parseInt(dataParser.nextToken());
+
+			ArrayList<Appointment> appointments = dbConnection.getAppointmentsForWeek(connectedUser.getId(), week, year);
 		} else if(command.startsWith(CalendarProtocol.CMD_UPDATE))
 		{
 			if(!dataParser.hasMoreElements()) // General update request
@@ -121,14 +127,6 @@ public class ClientHandler extends ReceiveWorker implements MessageListener
 				}
 			}
 		}
-	}
-
-	/**
-	 * Handles an {@code UPDATE INIT} request.
-	 */
-	public void handleUpdateInit()
-	{
-		
 	}
 
 	/**

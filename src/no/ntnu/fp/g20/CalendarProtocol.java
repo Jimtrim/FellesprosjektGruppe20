@@ -14,6 +14,7 @@ public class CalendarProtocol {
 	public final static String CMD_APPOINTMENT_CREATE = "APPT CREATE";
 	public final static String CMD_APPOINTMENT_UPDATE = "APPT UPDATE";
 	public final static String CMD_APPOINTMENT_DELETE = "APPT DELETE";
+	public final static String CMD_APPOINTMENT_WEEK = "APPT WEEK";
 
 	public final static String CMD_ROOM_ROOT	= "ROOM";
 	public final static String CMD_ROOM_CREATE 	= "ROOM CREATE";

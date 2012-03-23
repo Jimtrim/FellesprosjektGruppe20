@@ -16,13 +16,13 @@ public class CalendarPanel extends JPanel
 	implements ComponentListener, PropertyChangeListener
 {
 	private JTable calendarTable;
-	private Calendar model;
+	private CalendarModel model;
 
 	/**
 	 * Constructs a calendar view using the specified model.
 	 * @param model the model to associate with this calendar view.
 	 */
-	public CalendarPanel(Calendar model)
+	public CalendarPanel(CalendarModel model)
 	{
 		this.model = model;
 		GridBagLayout layout = new GridBagLayout();

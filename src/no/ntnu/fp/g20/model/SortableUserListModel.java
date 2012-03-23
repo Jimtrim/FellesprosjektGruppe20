@@ -1,7 +1,5 @@
 package no.ntnu.fp.g20.model;
 
-import java.util.ArrayList;
-
 import javax.swing.DefaultListModel;
 
 public class SortableUserListModel extends DefaultListModel{
