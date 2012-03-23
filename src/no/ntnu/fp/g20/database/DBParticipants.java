@@ -15,7 +15,8 @@ public class DBParticipants {
 				+ "(appointment_id, user_id, status) VALUES ('" 
 				+ appointmentID + "','" + userID + "','" + status + "')";
 		
-		return Database.executeUpdate(query, true);
+//		return Database.executeUpdate(query, true);
+		return 0;
 		
 	}
 	
@@ -29,7 +30,7 @@ public class DBParticipants {
 				+ "'" + " AND user_id = '" + userID + "'";
 		Participants participant = null;
 		
-		try {
+/*		try {
 			ResultSet rs = Database.execute(query);
 			
 			if (rs.next()) {
@@ -38,7 +39,7 @@ public class DBParticipants {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
+		} */
 		
 		return participant;
 	}
@@ -47,17 +48,17 @@ public class DBParticipants {
 		String query = "DELETE FROM participants WHERE appointment_id = '" + appointmentID
 				+ "'" + " AND user_id = '" + userID + "'";
 		
-		if (Database.executeUpdate(query) == 1) {
-			return true;
-		} else {
+//		if (Database.executeUpdate(query) == 1) {
+//			return true;
+//		} else {
 			return false;
-		}
+//		}
 	}
 
 	private static Participants makeParticipantObject(ResultSet rs) {
 		Participants part = null;
 		
-		try {
+/*		try {
 			int appointmentID = rs.getInt("appointment_id");
 			int userID = rs.getInt("user_id");
 			Status status = Status.valueOf(rs.getString("status"));
@@ -66,7 +67,7 @@ public class DBParticipants {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		} */
 		return part;
 	}
 	
