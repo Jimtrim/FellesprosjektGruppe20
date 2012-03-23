@@ -86,14 +86,14 @@ public class ClientHandler extends ReceiveWorker implements MessageListener
 		{
 			if(!dataParser.hasMoreElements()) // General update request
 			{
-				send(CalendarProtocol.makeCommand(CalendarProtocol.STATUS_GENERAL_REQUEST_ERROR, "Invalid command"));
+				send(CalendarProtocol.makeCommand("" + CalendarProtocol.STATUS_GENERAL_REQUEST_ERROR, "Invalid command"));
 			} else { // Initial update request
 				ArrayList<Appointment> appointments = dbConnection.getAppointmentsForUser(connectedUser.getId());
 				for(Appointment a : appointments)
 				{
 					send(CalendarProtocol.makeCommand(CalendarProtocol.CMD_APPOINTMENT_ROOT,
 						"" + a.getID(), a.getTitle(), a.getDescription(),
-						"" + a.getStartTime(), "" + a.getDuration()));
+						"" + a.getStartTime().getTimeInMillis(), "" + a.getDuration()));
 				}
 			}
 		}
