@@ -99,12 +99,12 @@ public class ClientHandler extends ReceiveWorker implements MessageListener
 				location = "null";
 			}
 			
-			dbConnection.addAppointment(new Appointment(0, 
-						startTime, 
-						duration, 
-						description, 
-						name,
-						location), connectedUser.getId());
+//			dbConnection.addAppointment(new Appointment(0, 
+//						startTime, 
+//						duration, 
+//						description, 
+//						name,
+//						location), connectedUser.getId());
 			
 		} else if(command.startsWith(CalendarProtocol.CMD_APPOINTMENT_WEEK))
 		{
