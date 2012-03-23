@@ -36,18 +36,11 @@ public class CalendarModel extends AbstractTableModel
 	public CalendarModel(User user, boolean editable)
 	{
 		pcs = new PropertyChangeSupport(this);
-		appointments = new Appointment[HOURS][7];
+		appointments = new Appointment[7][HOURS];
 		this.user = user;
 		this.editable = editable;
 		this.week = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
 		setAppointmentsInWeek(week);
-
-		CalendarApp.getApplication().getConnection().getInitialData();
-
-		// Create a start time: do we need this?
-//		java.util.Calendar startTime = java.util.Calendar.getInstance();
-//		startTime.set(2012, 3, 19, 4, 0);
-
 
 		appointmentWidget = new AppointmentWidget(editable);
 	}
@@ -204,7 +197,8 @@ public class CalendarModel extends AbstractTableModel
 	}
 	
 	public void setAppointmentsInWeek(int week) {
-		this.appointments = CalendarApp.getApplication().getConnection().getAppointmentsForWeek(week);
+//		this.appointments = CalendarApp.getApplication().getConnection().getAppointmentsForWeek(week, 2012);
+		appointments = new Appointment[7][HOURS];
 		setWeek(week);
 	}
 	
