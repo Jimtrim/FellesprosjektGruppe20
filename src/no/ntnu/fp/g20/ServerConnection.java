@@ -212,23 +212,5 @@ public class ServerConnection implements MessageListener
 	{
 		return send(CalendarProtocol.makeCommand(CalendarProtocol.CMD_APPOINTMENT_DELETE, appointment.getID()));
 	}
-
-	/**
-	 * Adds a listener to this server connection object.
-	 * @param listener the listener to add.
-	 */
-	public void addServerListener(ServerListener listener)
-	{
-		listeners.add(listener);
-	}
-
-	/**
-	 * Removes a listener from this server connection object.
-	 * @param listener the listener to remove.
-	 */
-	public void removeServerListener(ServerListener listener)
-	{
-		listeners.remove(listener);
-	}
 }
 
