@@ -4,19 +4,22 @@ import java.sql.*;
 import java.util.*;
 
 import no.ntnu.fp.g20.*;
-import no.ntnu.fp.g20.model.*;
+import no.ntnu.fp.g20.model.User;
+import no.ntnu.fp.g20.model.Appointment;
 
 public class Database extends Connection
 {
 	private PreparedStatement loginStmt;
 	private PreparedStatement getAppointmentStmt;
 	private PreparedStatement getParticipantStmt;
+	private PreparedStatement getAppointmentsForWeekStmt;
 
 	public Database() throws SQLException
 	{
 		super();
 		loginStmt = getConnection().prepareStatement(DBUser.LOGIN_STATEMENT);
 		getAppointmentStmt = getConnection().prepareStatement("SELECT * FROM appointments WHERE owner = ?");
+		getAppointmentsForWeekStmt = getConnection().prepareStatement("SELECT * FROM appointments WHERE owner = ? AND startTime BETWEEN ? AND ?");
 	}
 
 	public boolean addAppointment(Appointment appt)
@@ -76,6 +79,51 @@ public class Database extends Connection
 				retval.add(new Appointment(rs.getInt(1), rs.getLong(2), rs.getInt(3), rs.getString(4),
 					rs.getString(5), rs.getString(6)));
 //				getAppointmentParticipants(rs.getInt(1));
+			}
+		} catch(Exception error)
+		{
+			System.err.println(error.getMessage());
+			return null;
+		}
+
+		return retval;
+	}
+
+	/**
+	 * Gets the appointments for a specified week.
+	 * @param user the user ID.
+	 * @param week the week.
+	 * @param year the year.
+	 * @return a list of the appointments for a specified week.
+	 */
+	public ArrayList<Appointment> getAppointmentsForWeek(int user, int week, int year)
+	{
+		ArrayList<Appointment> retval = new ArrayList<Appointment>();
+		Calendar calendar = Calendar.getInstance();
+		long weekStart;
+		long weekEnd;
+
+		calendar.clear();
+		calendar.set(Calendar.YEAR, year);
+		calendar.set(Calendar.WEEK_OF_YEAR, week);
+		calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
+
+		weekStart = calendar.getTimeInMillis();
+
+		calendar.set(Calendar.WEEK_OF_YEAR, week + 1);
+		weekEnd = calendar.getTimeInMillis();
+
+		System.out.println("Requesting appointments for time interval: " + weekStart + " - " + weekEnd);
+
+		try {
+			getAppointmentsForWeekStmt.setInt(1, user);
+			getAppointmentsForWeekStmt.setLong(2, weekStart);
+			getAppointmentsForWeekStmt.setLong(3, weekStart);
+			ResultSet rs = getAppointmentsForWeekStmt.executeQuery();
+			while(rs.next())
+			{
+				retval.add(new Appointment(rs.getInt(1), rs.getLong(2), rs.getInt(3), rs.getString(4),
+					rs.getString(5), rs.getString(6)));
 			}
 		} catch(Exception error)
 		{
