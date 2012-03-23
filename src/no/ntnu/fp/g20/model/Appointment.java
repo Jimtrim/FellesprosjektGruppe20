@@ -68,6 +68,7 @@ public class Appointment
 		this.location = null;
 		this.room = location;
 	}
+
 	public void addParticipant(User participant)
 	{
 		listOfParticipants.add(participant);
