@@ -18,7 +18,6 @@ public class MainFrame extends JFrame {
 	private AppointmentListPanel appointmentPanel;
 	private CalendarPanel calendar;
 	private CalendarModel model;
-	private int week;
 	
 	/**
 	 * Constructs a new MainFrame window.
