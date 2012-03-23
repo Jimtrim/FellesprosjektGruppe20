@@ -106,8 +106,8 @@ public class AppointmentListPanel extends JPanel {
 	public Appointment getAppointmentDetails() {
 		Appointment a = new Appointment();
 		a.setTitle(editablePanel.getTitle());
-		a.setDescription(editablePanel.getDescriptionField());
-		a.setDuration(editablePanel.getDurationBox());
+//		a.setDescription(editablePanel.getDescriptionField());
+		//a.setDuration(editablePanel.getDurationBox());
 //		a.setLocation(editablePanel.getLocationText());
 //		a.setStartTime();
 		//a.setStatus(Status.UNCONFIRMED);

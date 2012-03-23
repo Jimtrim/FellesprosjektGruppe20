@@ -66,7 +66,7 @@ Delete Appointment:
 	Client request:
 		APPT DEL <Int: id>
 	Server reply:
-		290 <Int: id> <String: name>
+		290 
 		299 <Explanation>
 
 Appointment information from server:
@@ -96,13 +96,6 @@ Unreserve Room:
 		329 <Explanation>
 
 -- 9xx : General --
-General check updates:
-	Client request:
-		UPDATE
-	Server reply:
-		910 <Int: number of updates>
-		911 <Ignored>                 Sent when no updates are available.
-
 Request initial data:
 		UPDATE INIT
 	Server reply:
