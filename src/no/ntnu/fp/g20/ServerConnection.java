@@ -22,7 +22,7 @@ public class ServerConnection implements MessageListener
 	private final static short SERVER_PORT = 26700;
 	private final static short LOCAL_PORT = 32000;
 
-	private ArrayList<ServerListener> listeners;
+	private ArrayList<AppointmentListener> appointmentListeners;
 	private no.ntnu.fp.net.co.Connection serverConnection;
 	private ReceiveWorker receiver;
 	private boolean connected;
