@@ -1,7 +1,6 @@
 package no.ntnu.fp.g20.model;
 
 import java.beans.*;
-import java.text.DateFormat;
 import java.util.*;
 
 import no.ntnu.fp.g20.Status;
@@ -13,10 +12,23 @@ import no.ntnu.fp.g20.Status;
 public class Appointment
 {	
 	public String toString(){ 
-		int dayOfMonth = startTime.get(java.util.Calendar.DAY_OF_MONTH);
-		int month = startTime.get(java.util.Calendar.MONTH);
-		int year = startTime.get(java.util.Calendar.YEAR);
-		return "["+dayOfMonth+"."+month+"."+year+", "+duration+" hrs] "+title+"   ("+getLocation()+")";
+		String dayOfMonth = ""+startTime.get(java.util.Calendar.DAY_OF_MONTH);
+		String month = ""+(startTime.get(java.util.Calendar.MONTH)+1);
+		String year = ""+startTime.get(java.util.Calendar.YEAR);
+		
+		if (dayOfMonth.length()<2) dayOfMonth = "0"+dayOfMonth;
+		if (month.length()<2) month = "0"+month;
+		
+		char status;
+		if (getStatus() == Status.REJECTED){
+			status = 'R';
+		} else if (getStatus() == Status.UNCONFIRMED){
+			status = 'U';
+		} else {
+			status = 'C';
+		}
+		
+		return "["+dayOfMonth+"."+month+"."+year+", "+duration+" hrs] "+"("+status+") "+title+"   ("+getLocation()+")";
 	}
 	
 	public final static String DURATION_PROPERTY = "DurationProperty";
