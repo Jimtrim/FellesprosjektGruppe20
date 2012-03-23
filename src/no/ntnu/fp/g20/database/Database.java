@@ -1,12 +1,14 @@
 package no.ntnu.fp.g20.database;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Calendar;
 
-import no.ntnu.fp.g20.*;
-import no.ntnu.fp.g20.model.User;
 import no.ntnu.fp.g20.model.Appointment;
 import no.ntnu.fp.g20.model.Room;
+import no.ntnu.fp.g20.model.User;
 
 public class Database extends Connection
 {
@@ -144,3 +146,4 @@ public class Database extends Connection
 		
 	}
 }
+
