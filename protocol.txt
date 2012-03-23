@@ -75,22 +75,30 @@ Appointment information from server:
 	Client responds:
 		220 <id>
 
+Request for appointments for a specified week:
+	Client sends:
+		APPT WEEK <Int: week number>
+	Server sends:
+		230 <number of appointments>
+			appointment list (see "Appointment information from server")
+		231 End of list
+
 -- 3xx : Room --
 Room:
 	Server sends:
 		ROOM <String: name> <String: description> <Int: Capacity> 
-//		309 <Explanation>
+		309 <Explanation>
 
 Reserve Room:
 	Client request:
-		ROOM RES <Int: id>
+		ROOM RES <Int: id> <Int: appointment ID>
 	Server reply:
 		310 <Int: id> <String: name>
 		319 <Explanation>
 
 Unreserve Room:
 	Client request:
-		ROOM UNRES <Int: id>
+		ROOM UNRES <Int: id> <Int: appointment ID>
 	Server reply:
 		320 <Int: id> <String: name>
 		329 <Explanation>
