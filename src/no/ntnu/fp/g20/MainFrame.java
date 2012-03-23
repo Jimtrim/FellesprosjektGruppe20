@@ -21,7 +21,10 @@ public class MainFrame extends JFrame {
 	/**
 	 * Constructs a new MainFrame window.
 	 */
-	public MainFrame() {
+	public MainFrame(String title, Calendar model)
+	{
+		super(title);
+		this.model = model;
 
 		JToolBar toolBar = new JToolBar("Main menu");
 		add(toolBar, BorderLayout.NORTH);
@@ -198,10 +201,5 @@ public class MainFrame extends JFrame {
 	
 	public void setModel(Calendar model) {
 		this.model = model;
-	}
-	
-	public static void main(String[] args) {
-		MainFrame frame = new MainFrame();
-		frame.setVisible(true);
 	}
 }
