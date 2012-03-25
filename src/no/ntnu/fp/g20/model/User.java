@@ -1,20 +1,26 @@
 package no.ntnu.fp.g20.model;
 
 public class User {
-	public String toString(){ return (lastName+", "+firstname); }
-	
 	private int id;
 	private String username;
 	private String password;
 	private String firstname;
-	private String lastName;
+	private String lastname;
 	
-	public User(int id, String username, String password, String firstname, String lastName) {
+	public User(int id, String username, String password, String firstname, String lastname) {
 		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.firstname = firstname;
-		this.lastName = lastName;
+		this.lastname = lastname;
+	}
+
+	public User(int id, String username, String firstname, String lastname)
+	{
+		this.id = id;
+		this.username = username;
+		this.firstname = firstname;
+		this.lastname = lastname;
 	}
 
 	public int getId() {
@@ -50,34 +56,34 @@ public class User {
 	}
 	
 	public String getLastName() {
-		return lastName;
+		return lastname;
 	}
 	
 	public void setLastName(String lastName) {
-		this.lastName = lastName;
+		this.lastname = lastname;
 	}
 	
 	public boolean equals(Object ob){
 		if (ob instanceof User) {
 			User u = (User) ob;
-			if (this.id != u.getId()) {
+			if (id != u.getId()) {
 				System.err.println("ID was not the same");
 				return false;
 			}
-			else if (!this.firstname.equals(u.getFirstName())) {
+			else if (!firstname.equals(u.getFirstName())) {
 				System.err.println("Firstname was not the same");
 				return false;
 			
 			}
-			else if (!this.lastName.equals(u.getLastName())) {
+			else if (!lastname.equals(u.getLastName())) {
 				System.err.println("Lastname was not the same");
 				return false;
 			
-			} else if (!this.password.equals(u.password)) {
+			} else if (!password.equals(u.password)) {
 				System.err.println("Password was not the same");
 				return false;
 				
-			} else if (!this.username.equals(u.username)) {
+			} else if (!username.equals(u.username)) {
 				System.err.println("Username was not the same");
 				return false;
 			} else {
@@ -89,10 +95,9 @@ public class User {
 		}
 	}
 	
-	public void login(String username, String password){
-		
+	public String toString()
+	{
+		return (lastname + ", " + firstname);
 	}
-	
-	
 
 }
