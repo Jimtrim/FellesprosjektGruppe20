@@ -73,16 +73,20 @@ public class ClientHandler extends ReceiveWorker implements MessageListener
 		StringTokenizer dataParser = new StringTokenizer(message);
 		String command = dataParser.nextToken();
 
-		if(command.startsWith(CalendarProtocol.CMD_LOGIN))
+		if(command.startsWith(CalendarProtocol.CMD_LOGIN))			// Handle LOGIN
 		{
 			String username = dataParser.nextToken();
 			String password = dataParser.nextToken();
 
 			handleLogin(username, password);
-		} else if(command.startsWith(CalendarProtocol.CMD_LOGOUT))
+		} else if(command.startsWith(CalendarProtocol.CMD_LOGOUT))		// Handle LOGOUT
 		{
 			handleLogout();
-		} else if(command.startsWith(CalendarProtocol.CMD_APPOINTMENT_CREATE)) {
+		} else if(command.startsWith(CalendarProtocol.CMD_INIT))		// Handle INIT
+		{
+			handleInit();
+		} if(command.startsWith(CalendarProtocol.CMD_APPOINTMENT_CREATE))	// Handle APPT CREATE
+		{
 			String name 		= dataParser.nextToken();
 			String description 	= dataParser.nextToken();
 			long startTime 		= Long.parseLong(dataParser.nextToken());
@@ -106,27 +110,21 @@ public class ClientHandler extends ReceiveWorker implements MessageListener
 //						name,
 //						location), connectedUser.getId());
 			
-		} else if(command.startsWith(CalendarProtocol.CMD_APPOINTMENT_WEEK))
-		{
-			int week = Integer.parseInt(dataParser.nextToken());
-			int year = Integer.parseInt(dataParser.nextToken());
-
-			ArrayList<Appointment> appointments = dbConnection.getAppointmentsForWeek(connectedUser.getId(), week, year);
-		} else if(command.startsWith(CalendarProtocol.CMD_UPDATE))
-		{
-			if(!dataParser.hasMoreElements()) // General update request
-			{
-				send(CalendarProtocol.makeCommand("" + CalendarProtocol.STATUS_GENERAL_REQUEST_ERROR, "Invalid command"));
-			} else { // Initial update request
-				ArrayList<Appointment> appointments = dbConnection.getAppointmentsForUser(connectedUser.getId());
-				for(Appointment a : appointments)
-				{
-					send(CalendarProtocol.makeCommand(CalendarProtocol.CMD_APPOINTMENT_ROOT,
-						"" + a.getID(), a.getTitle(), a.getDescription(),
-						"" + a.getStartTime().getTimeInMillis(), "" + a.getDuration()));
-				}
-			}
-		}
+		} // else if(command.startsWith(CalendarProtocol.CMD_UPDATE))
+//		{
+//			if(!dataParser.hasMoreElements()) // General update request
+//			{
+//				send(CalendarProtocol.makeCommand("" + CalendarProtocol.STATUS_GENERAL_REQUEST_ERROR, "Invalid command"));
+//			} else { // Initial update request
+//				ArrayList<Appointment> appointments = dbConnection.getAppointmentsForUser(connectedUser.getId());
+//				for(Appointment a : appointments)
+//				{
+//					send(CalendarProtocol.makeCommand(CalendarProtocol.CMD_APPOINTMENT_ROOT,
+//						"" + a.getID(), a.getTitle(), a.getDescription(),
+//						"" + a.getStartTime().getTimeInMillis(), "" + a.getDuration()));
+//				}
+//			}
+//		}
 	}
 
 	/**
@@ -157,6 +155,32 @@ public class ClientHandler extends ReceiveWorker implements MessageListener
 			ServerApp.clientMap.remove(connectedUser);
 			connectedUser = null;
 		}
+	}
+
+	/**
+	 * Handles a request for initial data.
+	 */
+	private void handleInit()
+	{
+		LinkedList<User> subscriptions = dbConnection.getSubscriptions(connectedUser.getId());
+		LinkedList<Room> rooms = new LinkedList<Room>(); // Temporary
+		LinkedList<Appointment> appointments = new LinkedList<Appointment>(); // Temporary
+
+		send("" + CalendarProtocol.STATUS_INIT_LIST + " " + subscriptions.size() + " " +
+			rooms.size() + " " + appointments.size());
+
+		for(User sub : subscriptions)
+			send(CalendarProtocol.makeCommand(CalendarProtocol.CMD_SUBSCRIBER, sub.getId(), sub.getUsername(),
+				sub.getFirstName(), sub.getLastName()));
+		for(Room room : rooms)
+			send(CalendarProtocol.makeCommand(CalendarProtocol.CMD_ROOM, room.getName(), room.getDescription(),
+				room.getCapacity()));
+		for(Appointment appt : appointments)
+			send(CalendarProtocol.makeCommand(CalendarProtocol.CMD_APPOINTMENT, appt.getID(), appt.getTitle(),
+				appt.getDescription(), appt.getStartTime().getTimeInMillis(), appt.getDuration(),
+				appt.getRoom() == null ? appt.getLocation() : "NULL",
+				appt.getRoom() == null ? "NULL" : appt.getRoom()));
+		send("" + CalendarProtocol.STATUS_INIT_EOL + " End of list");
 	}
 }
 

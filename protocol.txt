@@ -71,23 +71,12 @@ Delete Appointment:
 
 Appointment information from server:
 	Server sends:
-		APPT <id> <name> <description> <startTime> <duration> [<participant> ...]
-	Client responds:
-		220 <id>
-
-Request for appointments for a specified week:
-	Client sends:
-		APPT WEEK <Int: week number> <Int: year>
-	Server sends:
-		230 <number of appointments>
-			appointment list (see "Appointment information from server")
-		231 End of list
+		APPT <id> <name> <description> <startTime> <duration> <location> <room> [<participant> ...]
 
 -- 3xx : Room --
 Room:
 	Server sends:
 		ROOM <String: name> <String: description> <Int: Capacity> 
-		309 <Explanation>
 
 Reserve Room:
 	Client request:
@@ -103,14 +92,29 @@ Unreserve Room:
 		320 <Int: id> <String: name>
 		329 <Explanation>
 
+-- 4xx : Subscriptions --
+Subscription:
+	Server sends:
+		SUBS <Int: user ID> <String: username> <String: first name> <String: last name>
+
 -- 9xx : General --
 Request initial data:
-		UPDATE INIT
+		INIT
 	Server reply:
-		920 <Number of appointments>
-		921 <Number of rooms>
-		928 End of list
+		921 <Number of subscriptions> <Number of rooms> <Number of appointments>
+			<Subscription lines>
+			<Room data>
+			<List of appointments>
+		922 End of list
+		
+		929 <Error explanation>
+
+Request appointment data for another user:
+		APPT LIST <Int: User ID>
+		931 <Number of appointments>
+			<List of appointments>
+		938 End of list
 	
 For any unspecific error, the server sends:
-		919 <Explanation>
+		999 <Explanation>
 The client should probably retry the request.

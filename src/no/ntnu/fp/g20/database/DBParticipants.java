@@ -9,6 +9,9 @@ import no.ntnu.fp.g20.model.Participant;
 
 
 public class DBParticipants {
+	public final static String GET_PARTICIPANTS_STATEMENT = "SELECT id,username,firstname,lastname,participants.status FROM users "
+		+ "JOIN participants ON users.id = participants.user_id "
+		+ "WHERE participants.appointment_id = ?";
 	
 	public static int addParticipant(int appointmentID, int userID, Status status ){
 		String query = "INSERT INTO participants "

@@ -27,7 +27,6 @@ public class CalendarApp implements Runnable
 	{
 		loginDialog = new LoginDialog(mainWindow);
 		loginDialog.setModal(true);
-		connection = new ServerConnection();
 	}
 
 	/**
@@ -47,15 +46,20 @@ public class CalendarApp implements Runnable
 				|| loginDialog.getCloseReason() == LoginDialog.CloseReason.CLOSE_BUTTON)
 				System.exit(0);
 			else {
-				calendarUser = connection.login(loginDialog.getUsername(), loginDialog.getPassword());
-				if(calendarUser != null)
+				connection = ServerConnection.login(loginDialog.getUsername(), loginDialog.getPassword());
+				if(connection != null)
+				{
+					loggedIn = true;
 					break;
-				else
+				} else
 					JOptionPane.showMessageDialog(null, "Your username and password does not match!",
 						"Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 
+		calendarUser = connection.getLoggedInUser();
+
+		// A very informative and polite message box:
 		JOptionPane.showMessageDialog(null, "Welcome, sir " + calendarUser.getLastName() + "!\n"
 			+ "Here is your calendar, please have fun!", "Welcome master!", JOptionPane.INFORMATION_MESSAGE);
 

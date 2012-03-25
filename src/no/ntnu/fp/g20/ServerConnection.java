@@ -23,8 +23,12 @@ public class ServerConnection implements MessageListener
 	private final static short LOCAL_PORT = 32000;
 
 	private ArrayList<AppointmentListener> appointmentListeners;
+	private LinkedList<Appointment> appointments;
+	private LinkedList<Room> rooms;
+	private LinkedList<User> subscriptions;
 	private no.ntnu.fp.net.co.Connection serverConnection;
-	private ReceiveWorker receiver;
+	private User loggedInUser;
+	private ReceiveWorker receiveThread;
 	private boolean connected;
 
 	/**
@@ -33,8 +37,10 @@ public class ServerConnection implements MessageListener
 	public ServerConnection()
 	{
 		serverConnection = new ConnectionImpl(LOCAL_PORT);
-		receiver = new ReceiveWorker(serverConnection);
-		receiver.addMessageListener(this);
+		appointments = new LinkedList<Appointment>();
+		rooms = new LinkedList<Room>();
+		subscriptions = new LinkedList<User>();
+//		receiveThread = new ReceiveWorker(serverConnection);
 		connected = false;
 	}
 
@@ -49,6 +55,24 @@ public class ServerConnection implements MessageListener
 	}
 
 	/**
+	 * Gets the list of subscriptions from the server.
+	 * @return a linked list of subscriptions.
+	 */
+	public LinkedList<User> getSubscriptions()
+	{
+		return subscriptions;
+	}
+
+	/**
+	 * Gets the user object for the currently logged in user.
+	 * @return the user object for the logged in user.
+	 */
+	public User getLoggedInUser()
+	{
+		return loggedInUser;
+	}
+
+	/**
 	 * Connects the the server using {@link SERVER_HOST} as host and {@link SERVER_PORT} as port.
 	 * This function shows an error dialogue if something goes wrong.
 	 * @return true if successful, false otherwise.
@@ -58,7 +82,6 @@ public class ServerConnection implements MessageListener
 		try {
 			serverConnection.connect(InetAddress.getByName(SERVER_HOST), SERVER_PORT);
 			connected = true;
-			receiver.start();
 		} catch(SocketTimeoutException error)
 		{
 			JOptionPane.showMessageDialog(null, "Timeout when attempting to connect to server!",
@@ -125,22 +148,97 @@ public class ServerConnection implements MessageListener
 	}
 
 	/**
-	 * Attempts to log a user in.
-	 * @return the user object corresponding to the logged in user or null if an error occurred.
+	 * Receives a message from the server and splits it into an array.
+	 * @return an array of the words received from the server.
 	 */
-	public User login(String username, String password)
+	private String[] receiveAsArray()
 	{
-		if(!connected)
-			if(!connect())
-				return null;
-
-		if(!send(CalendarProtocol.makeCommand(CalendarProtocol.CMD_LOGIN, username, password)))
+		String message = receive();
+		if(message == null)
 			return null;
 
-		String reply = receive();
+		return message.split("\\s+");
+	}
+
+
+	/**
+	 * Gets the initial state information from the server.
+	 * @return true if successful, false if an error occurred.
+	 */
+	private boolean initialize()
+	{
+		if(!send(CalendarProtocol.CMD_INIT))
+			return false;
+
+		String[] message = receiveAsArray();
+		if(message == null)
+			return false;
+
+		if(!message[0].equals(CalendarProtocol.STATUS_INIT_LIST) || message.length != 4)
+			return false;
+
+		int numSubscriptions = Integer.parseInt(message[1]);
+		int numRooms = Integer.parseInt(message[2]);
+		int numAppointments = Integer.parseInt(message[3]);
+
+		System.out.println("Receiving:");
+		System.out.println("\tSubscriptions: " + numSubscriptions);
+		System.out.println("\tRooms: " + numRooms);
+		System.out.println("\tAppointments: " + numAppointments);
+
+		// Receive all subscriptions:
+		for(int subs = 0; subs < numSubscriptions; ++subs)
+		{
+			User temp;
+			String[] msg = receiveAsArray();
+
+			if(msg == null || msg.length != 5 || !msg[0].equals(CalendarProtocol.CMD_SUBSCRIBER))
+				return false;
+			else {
+				System.out.println("Subscriber added: " + msg[3] + " " + msg[4]);
+				subscriptions.add(new User(Integer.parseInt(msg[1]), msg[2], msg[3], msg[4]));
+			}
+		}
+
+		// Receive all rooms:
+		for(int room = 0; room < numRooms; ++room)
+		{
+
+		}
+
+		// Receive all appointments:
+		for(int appt = 0; appt < numAppointments; ++appt)
+		{
+		}
+
+		// Receive the EOL:
+		String eol = receive(); // TODO: Maybe check if this really _is_ the EOL.
+_endOfList:
+
+		return true;
+	}
+
+	/**
+	 * Attempts to log a user in.
+	 * @param username the name of the user logging in.
+	 * @param password the password of the user logging in (in clear-text).
+	 * @return a logged in ServerConnection.
+	 */
+	public static ServerConnection login(String username, String password)
+	{
+		ServerConnection retval = new ServerConnection();
+
+		if(!retval.connect())
+			return null;
+
+		if(!retval.send(CalendarProtocol.makeCommand(CalendarProtocol.CMD_LOGIN, username, password)))
+			return null;
+
+		String reply = retval.receive();
 		if(reply == null)
 			return null;
 		else {
+			System.out.println(reply);
 			if(reply.startsWith("" + CalendarProtocol.STATUS_LOGIN_SUCCESS))
 			{
 				StringTokenizer parser = new StringTokenizer(reply);
@@ -150,7 +248,9 @@ public class ServerConnection implements MessageListener
 				String firstName = parser.nextToken();
 				String lastName = parser.nextToken();
 
-				return new User(uid, username, password, firstName, lastName);
+				retval.loggedInUser = new User(uid, username, password, firstName, lastName);
+				retval.initialize();
+				return retval;
 			 } else
 				return null;
 		}
@@ -171,7 +271,7 @@ public class ServerConnection implements MessageListener
 	 */
 	public boolean createAppointment(Appointment appointment)
 	{
-		// TODO: Implement me.
+		// TODO: Implement and use me.
 		return false;
 	}
 
@@ -182,7 +282,7 @@ public class ServerConnection implements MessageListener
 	 */
 	public boolean updateAppointment(Appointment appointment)
 	{
-		// TODO: Implement me.
+		// TODO: Implement and use me.
 		return false;
 	}
 
@@ -194,7 +294,7 @@ public class ServerConnection implements MessageListener
 	 */
 	public Appointment[][] getAppointmentsForWeek(int week, int year)
 	{
-		send(CalendarProtocol.makeCommand(CalendarProtocol.CMD_APPOINTMENT_WEEK, week, year));
+	//	send(CalendarProtocol.makeCommand(CalendarProtocol.CMD_APPOINTMENT_WEEK, week, year));
 		return null;
 	}
 
@@ -206,6 +306,52 @@ public class ServerConnection implements MessageListener
 	public boolean deleteAppointment(Appointment appointment)
 	{
 		return send(CalendarProtocol.makeCommand(CalendarProtocol.CMD_APPOINTMENT_DELETE, appointment.getID()));
+	}
+
+	/**
+	 * Attempts to reserve a room.
+	 * @param room the room you wish to reserve.
+	 * @param appointment the appointment you wish to reserve the room for.
+	 * @return true if the room was reserved, false otherwise.
+	 */
+	public boolean reserveRoom(Room room, Appointment appointment)
+	{
+		// TODO: implement and use me.
+		return false;
+	}
+
+	/**
+	 * Attempts to unreserve a room.
+	 * @param room the room you wish to unreserve.
+	 * @param appointment the appointment you wish to unreserve the room for.
+	 * @return true if the room was unreserved, false otherwise.
+	 */
+	public boolean unreserveRoom(Room room, Appointment appointment)
+	{
+		// TODO: implement and use me.
+		return false;
+	}
+
+	/**
+	 * Adds a subscription to a user.
+	 * @param user the user to subscribe to.
+	 * @return true if successful.
+	 */
+	public boolean addSubscription(User user)
+	{
+		// TODO: implement and use me.
+		return false;
+	}
+
+	/**
+	 * Removes a subscription to a user.
+	 * @param user the user whom you want to remove from the subscription list.
+	 * @return true if successful.
+	 */
+	public boolean removeSubscription(User user)
+	{
+		// TODO: implement and use me.
+		return false;
 	}
 }
 

@@ -69,20 +69,15 @@ public class User {
 			if (id != u.getId()) {
 				System.err.println("ID was not the same");
 				return false;
-			}
-			else if (!firstname.equals(u.getFirstName())) {
+			} else if (!firstname.equals(u.getFirstName())) {
 				System.err.println("Firstname was not the same");
 				return false;
-			
-			}
-			else if (!lastname.equals(u.getLastName())) {
+			} else if (!lastname.equals(u.getLastName())) {
 				System.err.println("Lastname was not the same");
 				return false;
-			
 			} else if (!password.equals(u.password)) {
 				System.err.println("Password was not the same");
 				return false;
-				
 			} else if (!username.equals(u.username)) {
 				System.err.println("Username was not the same");
 				return false;
@@ -90,9 +85,8 @@ public class User {
 				return true;
 			}
 		}
-		else{
+		else
 			return false;
-		}
 	}
 	
 	public String toString()

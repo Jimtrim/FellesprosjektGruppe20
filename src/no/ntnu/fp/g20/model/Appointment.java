@@ -115,6 +115,11 @@ public class Appointment
 			return room.toString();
 	}
 
+	public Room getRoom()
+	{
+		return room;
+	}
+
 	public void setLocation(String location)
 	{
 		this.location = location;

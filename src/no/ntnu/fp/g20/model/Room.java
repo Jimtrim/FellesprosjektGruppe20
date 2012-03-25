@@ -17,44 +17,6 @@ public class Room {
 		this.description = description;
 	}
 
-	public Room(String name) {
-		this.name = name;
-	}
-
-	/**
-	 * Constructor made for the database
-	 * @param room_id
-	 * @param appointment_id
-	 * @param roomName
-	 * @param roomStatus2
-	 * @param description
-	 * @param capacity
-	 */
-	public Room(int room_id, int appointment_id, String roomName, RoomStatus roomStatus2, String description, int capacity) {
-		this(room_id, roomName, description, capacity);
-		this.appointmentID = appointment_id;
-	}
-
-	/**
-	 * Constructor made for the createRoom method, in {@code Model}.
-	 * @param name
-	 * @param roomStatus
-	 * @param description
-	 * @param capacity
-	 */
-	public Room(String name, RoomStatus roomStatus, String description, int capacity) {
-		this(0, name, description, capacity);
-		this.roomStatus = roomStatus;
-	}
-
-	public void reserve(){
-		
-	}
-
-	public void unreserve(){
-		
-	}
-
 	public String getDescription() {
 		return description;
 	}

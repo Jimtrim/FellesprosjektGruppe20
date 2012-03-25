@@ -5,7 +5,7 @@ import no.ntnu.fp.g20.model.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.util.Calendar;
+import java.util.*;
 
 /**
  * Main frame for the calendar.
@@ -37,7 +37,12 @@ public class MainFrame extends JFrame {
 		toolBar.addSeparator();
 
 		//String[] calendarList = { "My calendar" };
-		String[] calendarList = { model.getUser().getFirstName() + " " + model.getUser().getLastName() + "'s Calendar"};
+		//String[] calendarList = { model.getUser().getFirstName() + " " + model.getUser().getLastName() + "'s Calendar"};
+		Vector<Object> calendarList = new Vector(); // TODO: Maybe use something other than String?
+		calendarList.add("My calendar");
+		// TODO: Find a better way of populating this list; I made the below line just as an example :-)
+		calendarList.addAll(CalendarApp.getApplication().getConnection().getSubscriptions());
+
 		calendarBox = new JComboBox(calendarList);
 		toolBar.add(calendarBox);
 		toolBar.add(new AddCalendarAction());

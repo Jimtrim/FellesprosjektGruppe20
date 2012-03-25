@@ -10,20 +10,18 @@ public class CalendarProtocol {
 	public final static String CMD_LOGIN  = "LOGIN";
 	public final static String CMD_LOGOUT = "LOGOUT";
 
-	public final static String CMD_APPOINTMENT_ROOT   = "APPT";
-	public final static String CMD_APPOINTMENT_CREATE = "APPT CREATE";
-	public final static String CMD_APPOINTMENT_UPDATE = "APPT UPDATE";
-	public final static String CMD_APPOINTMENT_DELETE = "APPT DELETE";
-	public final static String CMD_APPOINTMENT_WEEK = "APPT WEEK";
+	public final static String CMD_APPOINTMENT		= "APPT";
+	public final static String CMD_APPOINTMENT_CREATE	= "APPT CREATE";
+	public final static String CMD_APPOINTMENT_UPDATE	= "APPT UPDATE";
+	public final static String CMD_APPOINTMENT_DELETE	= "APPT DELETE";
 
-	public final static String CMD_ROOM_ROOT	= "ROOM";
-	public final static String CMD_ROOM_CREATE 	= "ROOM CREATE";
+	public final static String CMD_ROOM		= "ROOM";
 	public final static String CMD_ROOM_RESERVE 	= "ROOM RES";
 	public final static String CMD_ROOM_UNRESERVE 	= "ROOM UNRES";
-	public final static String CMD_ROOM_DELETE 	= "ROOM DEL";
 
-	public final static String CMD_UPDATE 	= "UPDATE";
-	public final static String CMD_UPDATE_INIT = "UPDATE INIT";
+	public final static String CMD_SUBSCRIBER = "SUBS";
+
+	public final static String CMD_INIT = "INIT";
 	
 	/* Status codes: */
 	public final static int STATUS_LOGIN_SUCCESS = 100;
@@ -41,23 +39,24 @@ public class CalendarProtocol {
 	public final static int STATUS_ROOM_RESERVE_ERROR = 319;
 	public final static int STATUS_ROOM_UNRESERVE_SUCCESS = 320;
 	public final static int STATUS_ROOM_UNRESERVE_ERROR = 329;
-	
-	public final static int STATUS_GENERAL_NEW_UPDATES = 910;
-	public final static int STATUS_GENERAL_NO_UPDATES = 911;
-	public final static int STATUS_GENERAL_REQUEST_ERROR = 919;
+
+	public final static int STATUS_INIT_ERROR = 929;
+	public final static int STATUS_INIT_LIST = 921;
+	public final static int STATUS_INIT_EOL = 922;
+
+	public final static int STATUS_GENERAL_REQUEST_ERROR = 999;
 
 	/**
 	 * Creates a command string.
 	 * @param command the command to send.
-	 * @param args arguments to the command.
+	 * @param arguments arguments to the command.
 	 * @return a pretty little command string.
 	 */
 	public static String makeCommand(String command, Object ... arguments)
 	{
-		Object[] args = arguments;
 		String retval = command;
 
-		for(Object argument : args)
+		for(Object argument : arguments)
 			retval += " " + argument;
 
 		return retval;
