@@ -10,10 +10,10 @@ import java.awt.event.KeyListener;
 import java.util.Calendar;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import javax.swing.event.*;
 
-import no.ntnu.fp.g20.model.Appointment;
+import no.ntnu.fp.g20.*;
+import no.ntnu.fp.g20.model.*;
 
 /**
  * Appointment information panel class.
@@ -334,7 +334,8 @@ public class AppointmentPanel extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
+			RoomReservationDialog dialog = new RoomReservationDialog(null /* FIXME */);
+			dialog.setVisible(true);
 		}
 	}
 	

@@ -6,23 +6,9 @@ import java.util.ArrayList;
 
 import no.ntnu.fp.g20.Status;
 import no.ntnu.fp.g20.model.Room;
-import no.ntnu.fp.g20.model.Room.RoomStatus;
 
 public class DBRoom {
-	
-	public static int addRoom(Room room) {
-		return addRoom(room.getName(), room.getRoomStatus(), room.getDescription(), room.getCapacity());
-		
-	}
-
-	public static int addRoom(String name, no.ntnu.fp.g20.model.Room.RoomStatus roomStatus, String description, int capacity) {
-		String query = "INSERT INTO rooms "
-				+ "(name, available, description, capacity) VALUES ('" + name + "','"
-				+ roomStatus + "','" + description + "','" + capacity + "')";
-		
-//		return Database.executeUpdate(query, true);
-		return 0;
-	}
+	public final static String GET_ROOMS_STATEMENT = "SELECT * FROM rooms";
 	
 	public static Room getRoom(int id) {
 		String query = "SELECT * FROM rooms WHERE id = '" + id +"'";
@@ -58,13 +44,6 @@ public class DBRoom {
 		return rooms;
 	}
 	
-	public static int updateRoomStatus(int roomID, RoomStatus roomStatus) {
-		String query = "UPDATE rooms SET available ='" + roomStatus.name() + "' WHERE id='" + roomID + "'";
-//		int roomId = Database.executeUpdate(query, true);
-//		return roomId;
-		return 0;
-	}
-
 	private static Room makeRoomObject(ResultSet rs) {
 		Room room = null;
 		

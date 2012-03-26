@@ -9,6 +9,7 @@ import no.ntnu.fp.g20.model.Room;
 
 public class DBAppointment {
 	public final static String GET_APPOINTMENTS_FOR_USER_STATEMENT = "SELECT * FROM appointments WHERE owner = ?";
+	public final static String GET_NUM_PARTICIPANTS_STATEMENT = "SELECT COUNT(*) FROM participants WHERE appointment_id = ?";
 
 	public static int addAppointment(long start, int duration, String description, String title, Room room){
 		String query = "INSERT INTO appointments "

@@ -23,7 +23,6 @@ import javax.swing.event.ListSelectionListener;
 
 import no.ntnu.fp.g20.database.DBRoom;
 import no.ntnu.fp.g20.model.Room;
-import no.ntnu.fp.g20.model.Room.RoomStatus;
 import no.ntnu.fp.g20.model.SortableRoomListModel;
 
 
@@ -50,7 +49,7 @@ public class RoomReservationPanel extends JPanel implements ActionListener, List
 		c.ipady = 2;
 
 		//Add the description
-		JLabel descriptionLabel = new JLabel("Room reservation in chosen period");
+		JLabel descriptionLabel = new JLabel("Room reservation");
 		layout.setConstraints(descriptionLabel, c);
 		add(descriptionLabel);
 
@@ -107,54 +106,33 @@ public class RoomReservationPanel extends JPanel implements ActionListener, List
 		cancelReservationButton.addActionListener(this);
 		roomList.addListSelectionListener(this);
 		sortBox.addItemListener(this);
-
-
 	}
+
 	public Room getModel() {
 		return model;
 	}
+
 	public void setModel(Room room) {
 		this.model = room;
 	}
-	public static void main(String[] args) {
-		JFrame testFrame = new JFrame("RoomreservationPanel Test");
-		testFrame.add(new RoomReservationPanel(), BorderLayout.CENTER);
-		testFrame.pack();
 
-		testFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		testFrame.setVisible(true);
-	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == reserveButton) {
-			getModel().setRoomStatus(RoomStatus.UNAVAILABLE);
-		}
 		if (e.getSource() == cancelButton) {
 			getTopLevelAncestor().setEnabled(false);
 			getTopLevelAncestor().setVisible(false);
 		}
-		if (e.getSource() == cancelReservationButton) {
-			getModel().setRoomStatus(RoomStatus.AVAILABLE);
-		}
-
 	}
+
 	@Override
 	//Handle listeners for the roomList
 	public void valueChanged(ListSelectionEvent e) {
 		roomList.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
 		if (!e.getValueIsAdjusting()) {
 			setModel((Room) roomList.getSelectedValue());
-			if (getModel().getRoomStatus() == RoomStatus.AVAILABLE) {
-				reserveButton.setEnabled(true);
-				cancelReservationButton.setEnabled(false);
-			}
-			else {
-				reserveButton.setEnabled(false);
-				cancelReservationButton.setEnabled(true);
-			}
 		}
 	}
+
 	@Override
 	//Handle listeners for sort box
 	public void itemStateChanged(ItemEvent e) {

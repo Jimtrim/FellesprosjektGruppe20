@@ -73,6 +73,16 @@ public class ServerConnection implements MessageListener
 	}
 
 	/**
+	 * Gets the list of available rooms.
+	 * Available, as in returns all rooms.
+	 * @return the list of rooms.
+	 */
+	public LinkedList<Room> getRoomList()
+	{
+		return rooms;
+	}
+
+	/**
 	 * Connects the the server using {@link SERVER_HOST} as host and {@link SERVER_PORT} as port.
 	 * This function shows an error dialogue if something goes wrong.
 	 * @return true if successful, false otherwise.
@@ -172,10 +182,16 @@ public class ServerConnection implements MessageListener
 
 		String[] message = receiveAsArray();
 		if(message == null)
+		{
+			System.out.println("Null received!");
 			return false;
+		}
 
-		if(!message[0].equals(CalendarProtocol.STATUS_INIT_LIST) || message.length != 4)
+		if(!message[0].equals("" + CalendarProtocol.STATUS_INIT_LIST) || message.length != 4)
+		{
+			System.out.println("message[0] is "  + message[0]);
 			return false;
+		}
 
 		int numSubscriptions = Integer.parseInt(message[1]);
 		int numRooms = Integer.parseInt(message[2]);
@@ -203,7 +219,15 @@ public class ServerConnection implements MessageListener
 		// Receive all rooms:
 		for(int room = 0; room < numRooms; ++room)
 		{
+			Room temp;
+			String[] msg = receiveAsArray();
 
+			if(msg == null || msg.length != 4 || !msg[0].equals(CalendarProtocol.CMD_ROOM))
+				return false;
+			else {
+				System.out.println("Room added: " + msg[1] + " - " + msg[2] + " (" + msg[3] + ")");
+				rooms.add(new Room(Integer.parseInt(msg[1]), msg[2], Integer.parseInt(msg[3])));
+			}
 		}
 
 		// Receive all appointments:
@@ -216,6 +240,17 @@ public class ServerConnection implements MessageListener
 _endOfList:
 
 		return true;
+	}
+
+	/**
+	 * Checks if a room is reserved at the specified time.
+	 * @param room the room.
+	 * @param time the time of the reservation.
+	 * @return true if the room is reserved.
+	 */
+	public boolean isRoomReserved(Room room, long time)
+	{
+		return false;
 	}
 
 	/**

@@ -20,6 +20,20 @@ public class Participant extends User
 		this.status = status;
 	}
 
+	public Participant(int id, int appointmentID, String username, String firstname, String lastname, String status)
+	{
+		super(id, username, null, firstname, lastname);
+		this.appointmentID = appointmentID;
+		if(status.equals("CONFIRMED"))
+			this.status = Status.CONFIRMED;
+		else if(status.equals("UNCONFIRMED"))
+			this.status = Status.UNCONFIRMED;
+		else if(status.equals("REJECTED"))
+			this.status = Status.REJECTED;
+		else
+			this.status = Status.UNCONFIRMED;
+	}
+
 	public int getAppointmentID()
 	{
 		return appointmentID;
@@ -38,16 +52,6 @@ public class Participant extends User
 	public void setStatus(Status status)
 	{
 		this.status = status;
-	}
-
-	public void confirm()
-	{
-		this.status = Status.CONFIRMED;
-	}
-
-	public void reject()
-	{
-		this.status = Status.REJECTED;
 	}
 }
 

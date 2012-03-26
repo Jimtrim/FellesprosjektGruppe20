@@ -3,24 +3,26 @@ package no.ntnu.fp.g20.database;
 import java.sql.*;
 import java.util.*;
 
-import no.ntnu.fp.g20.model.Appointment;
-import no.ntnu.fp.g20.model.Room;
-import no.ntnu.fp.g20.model.User;
+import no.ntnu.fp.g20.model.*;
 
 public class Database extends Connection
 {
 	private PreparedStatement loginStmt;
 	private PreparedStatement getAppointmentsForUserStmt;
 	private PreparedStatement getParticipantsStmt;
+	private PreparedStatement getNumParticipantsStmt;
 	private PreparedStatement getSubscriptionsStmt;
+	private PreparedStatement getRoomsStmt;
 
 	public Database() throws SQLException
 	{
 		super();
 		loginStmt = getConnection().prepareStatement(DBUser.LOGIN_STATEMENT);
 		getAppointmentsForUserStmt = getConnection().prepareStatement(DBAppointment.GET_APPOINTMENTS_FOR_USER_STATEMENT);
+		getNumParticipantsStmt = getConnection().prepareStatement(DBAppointment.GET_NUM_PARTICIPANTS_STATEMENT);
 		getParticipantsStmt = getConnection().prepareStatement(DBParticipants.GET_PARTICIPANTS_STATEMENT);
 		getSubscriptionsStmt = getConnection().prepareStatement(DBSubscription.GET_SUBSCRIPTIONS_STATEMENT);
+		getRoomsStmt = getConnection().prepareStatement(DBRoom.GET_ROOMS_STATEMENT);
 	}
 
 	public boolean addAppointment(Appointment appt)
@@ -80,13 +82,16 @@ public class Database extends Connection
 	 * @param apptID the ID of the appointment whose users you would like.
 	 * @return an array of users who are participants of the specified appointment.
 	 */
-	public LinkedList<User> getParticipantsForAppointment(int apptID)
+	public LinkedList<Participant> getParticipantsForAppointment(int apptID)
 	{
-		LinkedList<User> retval = new LinkedList<User>();
+		LinkedList<Participant> retval = new LinkedList<Participant>();
 
 		try {
 			getParticipantsStmt.setInt(1, apptID);
 			ResultSet rs = getParticipantsStmt.executeQuery();
+			while(rs.next())
+				retval.add(new Participant(rs.getInt(1), apptID, rs.getString(2), rs.getString(3), rs.getString(4),
+					rs.getString(5)));
 		} catch(Exception error)
 		{
 			System.out.println(error.getMessage());
@@ -113,8 +118,28 @@ public class Database extends Connection
 			{
 				retval.add(new Appointment(rs.getInt(1), rs.getLong(2), rs.getInt(3), rs.getString(4),
 					rs.getString(5), rs.getString(6)));
-//				getAppointmentParticipants(rs.getInt(1));
 			}
+		} catch(Exception error)
+		{
+			System.err.println(error.getMessage());
+			return null;
+		}
+
+		return retval;
+	}
+
+	/**
+	 * Gets the list of rooms.
+	 * @return a linked list of room objects.
+	 */
+	public LinkedList<Room> getRoomList()
+	{
+		LinkedList<Room> retval = new LinkedList<Room>();
+
+		try {
+			ResultSet rs = getRoomsStmt.executeQuery();
+			while(rs.next())
+				retval.add(new Room(rs.getInt(1), rs.getString(2), rs.getInt(3)));
 		} catch(Exception error)
 		{
 			System.err.println(error.getMessage());

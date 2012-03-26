@@ -17,14 +17,10 @@ Status codes:
 		290 Appointment DELETE SUCCESS
 		299 Appointment DELETE ERROR
 		
-		300 Room CREATE SUCCESS
-		309 Room CREATE ERROR
 		310 Room RESERVE SUCCESS
 		319 Room RESERVE ERROR
 		320 Room UNRESERVE SUCCESS
 		321 Room UNRESERVE ERROR
-		390 Room DELETE SUCCESS
-		399 Room DELETE ERROR
 		
 		910 General NEW UPDATES
 		911 General NO UPDATES
@@ -41,9 +37,6 @@ Login:
 Logout:
 	Client request:
 		LOGOUT
-	Server reply:
-		190
-
 
 -- 2xx : Appointment --
 Create Appointment:
@@ -71,12 +64,13 @@ Delete Appointment:
 
 Appointment information from server:
 	Server sends:
-		APPT <id> <name> <description> <startTime> <duration> <location> <room> [<participant> ...]
+		APPT <id> <owner> <name> <startTime> <duration> <location> <room> <number of participants> <description...>
+		PART <id> <username> <firstname> <lastname> <status>
 
 -- 3xx : Room --
 Room:
 	Server sends:
-		ROOM <String: name> <String: description> <Int: Capacity> 
+		ROOM <Int: id> <String: name> <Int: Capacity> 
 
 Reserve Room:
 	Client request:

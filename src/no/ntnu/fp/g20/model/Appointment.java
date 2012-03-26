@@ -71,6 +71,16 @@ public class Appointment
 		listOfParticipants.remove(participant);
 	}
 
+	public User getOwner()
+	{
+		return owner;
+	}
+
+	public void setOwner(User owner)
+	{
+		this.owner = owner;
+	}
+
 	public java.util.Calendar getStartTime()
 	{
 		return startTime;

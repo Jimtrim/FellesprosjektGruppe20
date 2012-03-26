@@ -163,8 +163,8 @@ public class ClientHandler extends ReceiveWorker implements MessageListener
 	private void handleInit()
 	{
 		LinkedList<User> subscriptions = dbConnection.getSubscriptions(connectedUser.getId());
-		LinkedList<Room> rooms = new LinkedList<Room>(); // Temporary
-		LinkedList<Appointment> appointments = new LinkedList<Appointment>(); // Temporary
+		LinkedList<Room> rooms = dbConnection.getRoomList();
+		LinkedList<Appointment> appointments = new LinkedList<Appointment>(); // Temporary?
 
 		send("" + CalendarProtocol.STATUS_INIT_LIST + " " + subscriptions.size() + " " +
 			rooms.size() + " " + appointments.size());
@@ -173,13 +173,16 @@ public class ClientHandler extends ReceiveWorker implements MessageListener
 			send(CalendarProtocol.makeCommand(CalendarProtocol.CMD_SUBSCRIBER, sub.getId(), sub.getUsername(),
 				sub.getFirstName(), sub.getLastName()));
 		for(Room room : rooms)
-			send(CalendarProtocol.makeCommand(CalendarProtocol.CMD_ROOM, room.getName(), room.getDescription(),
+			send(CalendarProtocol.makeCommand(CalendarProtocol.CMD_ROOM, room.getId(), room.getName(), 
 				room.getCapacity()));
 		for(Appointment appt : appointments)
-			send(CalendarProtocol.makeCommand(CalendarProtocol.CMD_APPOINTMENT, appt.getID(), appt.getTitle(),
-				appt.getDescription(), appt.getStartTime().getTimeInMillis(), appt.getDuration(),
+		{
+			LinkedList<Participant> participants = dbConnection.getParticipantsForAppointment(appt.getID());
+			send(CalendarProtocol.makeCommand(CalendarProtocol.CMD_APPOINTMENT, appt.getID(), appt.getOwner(),
+				appt.getTitle(), appt.getStartTime().getTimeInMillis(), appt.getDuration(),
 				appt.getRoom() == null ? appt.getLocation() : "NULL",
-				appt.getRoom() == null ? "NULL" : appt.getRoom()));
+				appt.getRoom() == null ? "NULL" : appt.getRoom(), participants.size(), appt.getDescription()));
+		}
 		send("" + CalendarProtocol.STATUS_INIT_EOL + " End of list");
 	}
 }

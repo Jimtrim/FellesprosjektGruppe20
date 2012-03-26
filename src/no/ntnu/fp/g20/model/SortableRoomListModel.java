@@ -1,9 +1,19 @@
 package no.ntnu.fp.g20.model;
 
-import javax.swing.DefaultListModel;
+import no.ntnu.fp.g20.*;
+
+import javax.swing.*;
+import java.util.*;
 
 public class SortableRoomListModel extends DefaultListModel{
 	
+	public SortableRoomListModel()
+	{
+		LinkedList<Room> rooms = CalendarApp.getApplication().getConnection().getRoomList();
+		for(Room room : rooms)
+			addElement(room);
+	}
+
 	private boolean isValidInsertion(Object o){
 		if (!(o instanceof Room)){
 			System.err.println("Tried to add non-Room object to SortableRoomListModel. Cancelled.");
