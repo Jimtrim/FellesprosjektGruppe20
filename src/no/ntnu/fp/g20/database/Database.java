@@ -13,6 +13,7 @@ public class Database extends Connection
 	private PreparedStatement getNumParticipantsStmt;
 	private PreparedStatement getSubscriptionsStmt;
 	private PreparedStatement getRoomsStmt;
+	private PreparedStatement getUserStmt;
 
 	public Database() throws SQLException
 	{
@@ -23,6 +24,7 @@ public class Database extends Connection
 		getParticipantsStmt = getConnection().prepareStatement(DBParticipants.GET_PARTICIPANTS_STATEMENT);
 		getSubscriptionsStmt = getConnection().prepareStatement(DBSubscription.GET_SUBSCRIPTIONS_STATEMENT);
 		getRoomsStmt = getConnection().prepareStatement(DBRoom.GET_ROOMS_STATEMENT);
+		getUserStmt = getConnection().prepareStatement(DBUser.GET_USER_STATEMENT);
 	}
 
 	public boolean addAppointment(Appointment appt)
@@ -102,6 +104,27 @@ public class Database extends Connection
 	}
 
 	/**
+	 * Gets user information for the specified user ID.
+	 * @param userID the ID of the user whose information you would like.
+	 * @return a {@code User} object representing the user.
+	 */
+	public User getUserByID(int userID)
+	{
+		try {
+			getUserStmt.setInt(1, userID);
+			ResultSet rs = getUserStmt.executeQuery();
+
+			if(!rs.next())
+				return null;
+			else
+				return new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
+		} catch(Exception error)
+		{
+			return null;
+		}
+	}
+
+	/**
 	 * Gets the appointments for a specified user.
 	 * @return an array of appointment objects for a specified user.
 	 * @param userID the ID of the user whose appointments you would like.
@@ -116,8 +139,10 @@ public class Database extends Connection
 
 			while(rs.next())
 			{
-				retval.add(new Appointment(rs.getInt(1), rs.getLong(2), rs.getInt(3), rs.getString(4),
-					rs.getString(5), rs.getString(6)));
+				Appointment temp = new Appointment(rs.getInt(1), rs.getLong(2), rs.getInt(3),
+					rs.getString(4), rs.getString(5), rs.getString(6));
+				temp.setOwner(getUserByID(rs.getInt(7)));
+				retval.add(temp);
 			}
 		} catch(Exception error)
 		{

@@ -40,9 +40,8 @@ public class Calendar extends AbstractTableModel
 
 		// Create a start time:
 		java.util.Calendar startTime = java.util.Calendar.getInstance();
-		startTime.set(2012, 3, 19, 4, 0);
 
-//		appointments = CalendarApp.getApplication().getConnection().getAppointmentsForWeek(12, 2012);
+		appointments = CalendarApp.getApplication().getConnection().getAppointmentsForWeek(13, 2012);
 
 		appointmentWidget = new AppointmentWidget(editable);
 	}

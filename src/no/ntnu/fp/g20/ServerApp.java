@@ -33,6 +33,9 @@ public class ServerApp {
 	{
 		no.ntnu.fp.net.co.Connection connection = new no.ntnu.fp.net.co.ConnectionImpl(MY_PORT);
 
+		System.out.println("SuperCalendar Server");
+		System.out.println("(c) Copyright 2012 gruppe 20");
+
 		Log serverLog = new Log();
 		serverLog.setLogName("SuperCalendar Server Application");
 

@@ -164,7 +164,7 @@ public class ClientHandler extends ReceiveWorker implements MessageListener
 	{
 		LinkedList<User> subscriptions = dbConnection.getSubscriptions(connectedUser.getId());
 		LinkedList<Room> rooms = dbConnection.getRoomList();
-		LinkedList<Appointment> appointments = new LinkedList<Appointment>(); // Temporary?
+		LinkedList<Appointment> appointments = dbConnection.getAppointmentsForUser(connectedUser.getId()); // Temporary?
 
 		send("" + CalendarProtocol.STATUS_INIT_LIST + " " + subscriptions.size() + " " +
 			rooms.size() + " " + appointments.size());
@@ -178,7 +178,7 @@ public class ClientHandler extends ReceiveWorker implements MessageListener
 		for(Appointment appt : appointments)
 		{
 			LinkedList<Participant> participants = dbConnection.getParticipantsForAppointment(appt.getID());
-			send(CalendarProtocol.makeCommand(CalendarProtocol.CMD_APPOINTMENT, appt.getID(), appt.getOwner(),
+			send(CalendarProtocol.makeCommand(CalendarProtocol.CMD_APPOINTMENT, appt.getID(), appt.getOwner().getId(),
 				appt.getTitle(), appt.getStartTime().getTimeInMillis(), appt.getDuration(),
 				appt.getRoom() == null ? appt.getLocation() : "NULL",
 				appt.getRoom() == null ? "NULL" : appt.getRoom(), participants.size(), appt.getDescription()));

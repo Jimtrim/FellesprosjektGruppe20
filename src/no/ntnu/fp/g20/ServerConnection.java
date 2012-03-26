@@ -233,10 +233,24 @@ public class ServerConnection implements MessageListener
 		// Receive all appointments:
 		for(int appt = 0; appt < numAppointments; ++appt)
 		{
+			Appointment temp;
+			String[] msg = receiveAsArray();
+
+			if(msg == null || msg.length < 8 || !msg[0].equals(CalendarProtocol.CMD_APPOINTMENT))
+				return false;
+			else {
+				System.out.println("Appointment added: " + msg[3]);
+				if(msg[6].equals("NULL"))
+					appointments.add(new Appointment(Integer.parseInt(msg[1]), Long.parseLong(msg[4]),
+						Integer.parseInt(msg[5]), "", msg[3], getRoomById(Integer.parseInt(msg[7]))));
+				else
+					appointments.add(new Appointment(Integer.parseInt(msg[1]), Long.parseLong(msg[4]),
+						Integer.parseInt(msg[5]), "", msg[3], msg[6]));
+			}
 		}
 
 		// Receive the EOL:
-		String eol = receive(); // TODO: Maybe check if this really _is_ the EOL.
+		String eol = receive(); // TODO: Maybe check if this really _is_ the EOL; but we don't really care right now.
 _endOfList:
 
 		return true;
@@ -251,6 +265,20 @@ _endOfList:
 	public boolean isRoomReserved(Room room, long time)
 	{
 		return false;
+	}
+
+	/**
+	 * Gets a room ID.
+	 * @param id the room id
+	 * @return the room object or {@code null} if not found.
+	 */
+	public Room getRoomById(int id)
+	{
+		for(Room room : rooms) // Inefficient, but it works.
+			if(room.getId() == id)
+				return room;
+
+		return null;
 	}
 
 	/**
@@ -329,8 +357,29 @@ _endOfList:
 	 */
 	public Appointment[][] getAppointmentsForWeek(int week, int year)
 	{
-	//	send(CalendarProtocol.makeCommand(CalendarProtocol.CMD_APPOINTMENT_WEEK, week, year));
-		return null;
+		Appointment[][] retval = new Appointment[7][no.ntnu.fp.g20.model.Calendar.HOURS];
+		long startTime, endTime;
+		java.util.Calendar calendar = java.util.Calendar.getInstance();
+		calendar.clear();
+
+		calendar.set(java.util.Calendar.YEAR, year);
+		calendar.set(java.util.Calendar.WEEK_OF_YEAR, week);
+		calendar.set(java.util.Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
+		
+		startTime = calendar.getTimeInMillis();
+		calendar.set(java.util.Calendar.WEEK_OF_YEAR, week + 1);
+		endTime = calendar.getTimeInMillis();
+
+		System.out.println("Week interval: "  + startTime + " - " + endTime);
+
+		for(Appointment appt : appointments)
+		{
+
+			if(appt.getStartTime().getTimeInMillis() > startTime && appt.getStartTime().getTimeInMillis() < endTime)
+				System.out.println(appt.getTitle());
+		}
+
+		return retval;
 	}
 
 	/**

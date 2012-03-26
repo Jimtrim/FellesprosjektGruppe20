@@ -1,7 +1,6 @@
 package no.ntnu.fp.g20.model;
 
 import no.ntnu.fp.g20.*;
-
 import javax.swing.*;
 import java.util.*;
 
@@ -105,6 +104,7 @@ public class SortableRoomListModel extends DefaultListModel{
 		//Merges and returns:
 		return mergeByRoomField(p0, p1, field);
 	}
+
 	private static SortableRoomListModel mergeByRoomField(SortableRoomListModel p0, SortableRoomListModel p1, int field){
 		SortableRoomListModel merged = new SortableRoomListModel();
 		int i=0; int p0_capacity;

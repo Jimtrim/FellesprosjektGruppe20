@@ -197,8 +197,8 @@ public class CalendarModel extends AbstractTableModel
 	}
 	
 	public void setAppointmentsInWeek(int week) {
-//		this.appointments = CalendarApp.getApplication().getConnection().getAppointmentsForWeek(week, 2012);
-		appointments = new Appointment[7][HOURS];
+		this.appointments = CalendarApp.getApplication().getConnection().getAppointmentsForWeek(week, 2012);
+//		appointments = new Appointment[7][HOURS];
 		setWeek(week);
 	}
 	
