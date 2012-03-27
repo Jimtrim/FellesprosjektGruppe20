@@ -20,6 +20,7 @@ public class CalendarProtocol {
 	public final static String CMD_ROOM_UNRESERVE 	= "ROOM UNRES";
 
 	public final static String CMD_SUBSCRIBER = "SUBS";
+	public final static String CMD_SUBSCRIBER_ADD = "SUBS ADD";
 
 	public final static String CMD_INIT = "INIT";
 	public final static String CMD_EXISTS = "EXISTS";

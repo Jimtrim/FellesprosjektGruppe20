@@ -15,6 +15,7 @@ public class Database extends Connection
 	private PreparedStatement getRoomsStmt;
 	private PreparedStatement getUserStmt;
 	private PreparedStatement getUserByNameStmt;
+	private PreparedStatement addSubscriptionStmt;
 
 	public Database() throws SQLException
 	{
@@ -27,6 +28,7 @@ public class Database extends Connection
 		getRoomsStmt = getConnection().prepareStatement(DBRoom.GET_ROOMS_STATEMENT);
 		getUserStmt = getConnection().prepareStatement(DBUser.GET_USER_STATEMENT);
 		getUserByNameStmt = getConnection().prepareStatement(DBUser.GET_USER_BY_NAME_STATEMENT);
+		addSubscriptionStmt = getConnection().prepareStatement(DBSubscription.ADD_SUBSCRIPTION_STATEMENT);
 	}
 
 	public boolean addAppointment(Appointment appt)
@@ -176,6 +178,26 @@ public class Database extends Connection
 		}
 
 		return retval;
+	}
+
+	/**
+	 * Adds a subscription to a user.
+	 * @param userID the ID of the user to add the subscription for.
+	 * @param subsID the ID of the user to subscribe to.
+	 * @return true if successful.
+	 */
+	public boolean addSubscription(int userID, int subsID)
+	{
+		try {
+			addSubscriptionStmt.setInt(1, userID);
+			addSubscriptionStmt.setInt(2, subsID);
+			addSubscriptionStmt.executeUpdate();
+			return true;
+		} catch(Exception error)
+		{
+			System.err.println(error.getMessage());
+			return false;
+		}
 	}
 
 	/**

@@ -3,6 +3,7 @@ package no.ntnu.fp.g20.database;
 public class DBSubscription {
 	public final static String GET_SUBSCRIPTIONS_STATEMENT = "SELECT id,username,firstname,lastname FROM users "
 		+ "WHERE id = (SELECT subscribes_to FROM subscriptions WHERE user_id = ?)";
+	public final static String ADD_SUBSCRIPTION_STATEMENT = "INSERT INTO subscriptions VALUES (?, ?)";
 	
 //	public static Subscription getSubscriptions(int userID){
 //		
