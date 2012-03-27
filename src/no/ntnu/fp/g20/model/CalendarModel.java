@@ -178,20 +178,15 @@ public class CalendarModel extends AbstractTableModel
 	}
 
 	public void appointmentAdded(Appointment appointment) {
-		
 		CalendarApp.getApplication().getConnection().createAppointment(appointment);
-		
-		
 	}
 
 	public void appointmentUpdated(Appointment appointment) {
 		CalendarApp.getApplication().getConnection().updateAppointment(appointment);
-		
 	}
 
 	public void appointmentDeleted(Appointment appointment) {
 		CalendarApp.getApplication().getConnection().deleteAppointment(appointment);
-		
 	}
 	
 	public Appointment[][] getAppointmentsInWeek() {
@@ -200,7 +195,7 @@ public class CalendarModel extends AbstractTableModel
 	
 	public void setAppointmentsInWeek(int week) {
 		appointments = CalendarApp.getApplication().getConnection().getAppointmentsForWeek(week, 2012);
-//		appointments = new Appointment[7][HOURS];
+
 		if (week < 1) {
 			week = 52;
 			setYear(year-1);
