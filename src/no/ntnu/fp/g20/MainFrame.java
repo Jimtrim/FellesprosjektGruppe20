@@ -114,7 +114,7 @@ public class MainFrame extends JFrame implements ItemListener {
 		public DeleteAppointmentAction()
 		{
 			super("Delete appointment");
-			putValue(Action.SMALL_ICON, new ImageIcon("icons/icon_toolbar_delete.png");
+			putValue(Action.SMALL_ICON, new ImageIcon("icons/icon_toolbar_delete.png"));
 		}
 
 		public void actionPerformed(ActionEvent event)
@@ -132,7 +132,7 @@ public class MainFrame extends JFrame implements ItemListener {
 		{
 			super("+");
 
-			putValue(Action.SMALL_ICON, new ImageIcon("icons/icon_toolbar_plus.png");
+			putValue(Action.SMALL_ICON, new ImageIcon("icons/icon_toolbar_plus.png"));
 		}
 
 		public void actionPerformed(ActionEvent event)
@@ -182,7 +182,7 @@ public class MainFrame extends JFrame implements ItemListener {
 		{
 			super("Log out");
 
-			putValue(Action.SMALL_ICON, new ImageIcon("icons/icon_
+			putValue(Action.SMALL_ICON, new ImageIcon("icons/icon_toolbar_door.png"));
 		}
 
 		public void actionPerformed(ActionEvent event)
@@ -201,6 +201,8 @@ public class MainFrame extends JFrame implements ItemListener {
 		public HelpAction()
 		{
 			super("Help");
+
+			putValue(Action.SMALL_ICON, new ImageIcon("icons/icon_toolbar_questionmark.png"));
 		}
 
 		public void actionPerformed(ActionEvent event)
