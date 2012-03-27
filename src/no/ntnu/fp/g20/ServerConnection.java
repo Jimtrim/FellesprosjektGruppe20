@@ -170,6 +170,21 @@ public class ServerConnection implements MessageListener
 		return message.split("\\s+");
 	}
 
+	/**
+	 * Checks if a user exists.
+	 * @return the user information of the user or null if the user does not exist.
+	 */
+	public User userExists(int id)
+	{
+		if(!send(CalendarProtocol.makeCommand(CalendarProtocol.CMD_EXISTS, "" + id)))
+			return null;
+
+		String[] reply = receiveAsArray();
+		if(reply == null || reply[0].equals("" + CalendarProtocol.STATUS_USER_NOT_EXISTS))
+			return null;
+		else
+			return new User(Integer.parseInt(reply[1]), reply[2], reply[3], reply[4]);
+	}
 
 	/**
 	 * Gets the initial state information from the server.

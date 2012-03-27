@@ -41,8 +41,8 @@ Logout:
 -- 2xx : Appointment --
 Create Appointment:
 	Client request:
-		APPT CREATE <String: name> <String: description> <Long: startTime> 
-		   <Int: roomID> <Int: Duration> [ <String: participant> ... ]
+		APPT CREATE <String: name> <Long: startTime> <String: location> 
+			<Int: roomID> <Int: Duration> [ <String: participant> ... ]
 	Server reply:
 		200 <Int: id> <String: name>
 		209 <Explanation> 
@@ -64,7 +64,7 @@ Delete Appointment:
 
 Appointment information from server:
 	Server sends:
-		APPT <id> <owner> <name> <startTime> <duration> <location> <room> <number of participants> <description...>
+		APPT <id> <owner> <name> <startTime> <duration> <location> <room> <number of participants>
 		PART <id> <username> <firstname> <lastname> <status>
 
 -- 3xx : Room --
@@ -108,7 +108,12 @@ Request appointment data for another user:
 		931 <Number of appointments>
 			<List of appointments>
 		938 End of list
-	
+
+Check if a user exists:
+		EXISTS <username>
+		941 <id> <username> <firstname> <lastname>
+		949 User does not exist.
+
 For any unspecific error, the server sends:
 		999 <Explanation>
 The client should probably retry the request.

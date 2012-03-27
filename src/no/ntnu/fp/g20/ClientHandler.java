@@ -85,9 +85,20 @@ public class ClientHandler extends ReceiveWorker implements MessageListener
 		} else if(command.startsWith(CalendarProtocol.CMD_INIT))		// Handle INIT
 		{
 			handleInit();
+		} else if(command.startsWith(CalendarProtocol.CMD_EXISTS))
+		{
+			int userID = Integer.parseInt(dataParser.nextToken());
+			User userInfo = dbConnection.getUserByID(userID);
+			if(userInfo == null)
+				send(CalendarProtocol.makeCommand("" + CalendarProtocol.STATUS_USER_NOT_EXISTS,
+					"Unknown user ID"));
+			else
+				send(CalendarProtocol.makeCommand("" + CalendarProtocol.STATUS_USER_EXISTS, "" + userInfo.getId(),
+					userInfo.getUsername(), userInfo.getFirstName(), userInfo.getLastName()));
 		} if(command.startsWith(CalendarProtocol.CMD_APPOINTMENT_CREATE))	// Handle APPT CREATE
 		{
-			String name 		= dataParser.nextToken();
+			// TODO: Change order of things
+/*			String name 		= dataParser.nextToken();
 			String description 	= dataParser.nextToken();
 			long startTime 		= Long.parseLong(dataParser.nextToken());
 			int roomId 			= Integer.parseInt(dataParser.nextToken());
@@ -102,7 +113,7 @@ public class ClientHandler extends ReceiveWorker implements MessageListener
 			if (roomId != 0) {
 				location = "null";
 			}
-			
+*/			
 //			dbConnection.addAppointment(new Appointment(0, 
 //						startTime, 
 //						duration, 
@@ -181,7 +192,7 @@ public class ClientHandler extends ReceiveWorker implements MessageListener
 			send(CalendarProtocol.makeCommand(CalendarProtocol.CMD_APPOINTMENT, appt.getID(), appt.getOwner().getId(),
 				appt.getTitle(), appt.getStartTime().getTimeInMillis(), appt.getDuration(),
 				appt.getRoom() == null ? appt.getLocation() : "NULL",
-				appt.getRoom() == null ? "NULL" : appt.getRoom(), participants.size(), appt.getDescription()));
+				appt.getRoom() == null ? "NULL" : appt.getRoom(), participants.size()));
 		}
 		send("" + CalendarProtocol.STATUS_INIT_EOL + " End of list");
 	}

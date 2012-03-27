@@ -22,6 +22,7 @@ public class CalendarProtocol {
 	public final static String CMD_SUBSCRIBER = "SUBS";
 
 	public final static String CMD_INIT = "INIT";
+	public final static String CMD_EXISTS = "EXISTS";
 	
 	/* Status codes: */
 	public final static int STATUS_LOGIN_SUCCESS = 100;
@@ -43,6 +44,9 @@ public class CalendarProtocol {
 	public final static int STATUS_INIT_ERROR = 929;
 	public final static int STATUS_INIT_LIST = 921;
 	public final static int STATUS_INIT_EOL = 922;
+
+	public final static int STATUS_USER_EXISTS = 941;
+	public final static int STATUS_USER_NOT_EXISTS = 949;
 
 	public final static int STATUS_GENERAL_REQUEST_ERROR = 999;
 
