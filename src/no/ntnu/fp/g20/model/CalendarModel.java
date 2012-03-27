@@ -194,7 +194,6 @@ public class CalendarModel extends AbstractTableModel
 	}
 	
 	public void setAppointmentsInWeek(int week) {
-		appointments = CalendarApp.getApplication().getConnection().getAppointmentsForWeek(week, 2012);
 		if (week < 1) {
 			week = 52;
 			setYear(this.year-1);
