@@ -252,7 +252,7 @@ public class ServerConnection implements MessageListener
 			Appointment temp;
 			String[] msg = receiveAsArray();
 
-			if(msg == null || msg.length < 8 || !msg[0].equals(CalendarProtocol.CMD_APPOINTMENT))
+			if(msg == null || !msg[0].equals(CalendarProtocol.CMD_APPOINTMENT))
 				return false;
 			else {
 				System.out.println("Appointment added: " + msg[3]);
@@ -439,8 +439,8 @@ _endOfList:
 	 */
 	public boolean addSubscription(User user)
 	{
-		// TODO: implement and use me.
-		return false;
+		return send(CalendarProtocol.makeCommand(CalendarProtocol.CMD_SUBSCRIBER_ADD, "" + loggedInUser.getId(),
+			"" + user.getId()));
 	}
 
 	/**

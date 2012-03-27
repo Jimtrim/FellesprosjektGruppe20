@@ -85,6 +85,10 @@ public class ClientHandler extends ReceiveWorker implements MessageListener
 		} else if(command.startsWith(CalendarProtocol.CMD_INIT))		// Handle INIT
 		{
 			handleInit();
+		} else if(command.startsWith(CalendarProtocol.CMD_SUBSCRIBER_ADD))
+		{
+			int userID = Integer.parseInt(dataParser.nextToken());
+			dbConnection.addSubscription(connectedUser.getId(), userID);
 		} else if(command.startsWith(CalendarProtocol.CMD_EXISTS))
 		{
 			String username = dataParser.nextToken();

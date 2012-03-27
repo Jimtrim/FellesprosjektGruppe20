@@ -11,7 +11,7 @@ import java.util.*;
  * Main frame for the calendar.
  * @author Kristian Klomsten Skordal
  */
-public class MainFrame extends JFrame {
+public class MainFrame extends JFrame implements ItemListener {
 	private JTable calendarTable;
 	private JComboBox calendarBox;
 	private AppointmentListPanel appointmentPanel;
@@ -35,12 +35,15 @@ public class MainFrame extends JFrame {
 		toolBar.addSeparator();
 
 		//String[] calendarList = { "My calendar" };
-		Vector<Object> calendarList = new Vector(); // TODO: Maybe use something other than String?
-		calendarList.add("My calendar");
-		// TODO: Find a better way of populating this list; I made the below line just as an example :-)
-		calendarList.addAll(CalendarApp.getApplication().getConnection().getSubscriptions());
 
-		calendarBox = new JComboBox(calendarList);
+		calendarBox = new JComboBox();
+		Vector<User> calendarList = new Vector(CalendarApp.getApplication().getConnection().getSubscriptions());
+		calendarBox.addItem("My calendar");
+		for(User user : calendarList)
+			calendarBox.addItem(user.toString());
+
+		calendarBox.addItemListener(this);
+
 		toolBar.add(calendarBox);
 		toolBar.add(new AddCalendarAction());
 		toolBar.add(new RemoveCalendarAction());
@@ -67,6 +70,20 @@ public class MainFrame extends JFrame {
 		setMinimumSize(getSize());
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+
+	/**
+	 * {@code ItemListener} method.
+	 * @param event event.
+	 */
+	public void itemStateChanged(ItemEvent event)
+	{
+		if(calendarBox.getSelectedIndex() != 0)
+		{
+			JOptionPane.showMessageDialog(this, "I am sorry Dave, I cannot let you do that.",
+				"HAL-9000", JOptionPane.ERROR_MESSAGE);
+			calendarBox.setSelectedIndex(0);
+		}
 	}
 	
 	/**

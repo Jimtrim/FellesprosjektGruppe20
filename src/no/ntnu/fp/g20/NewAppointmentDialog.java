@@ -14,7 +14,7 @@ public class NewAppointmentDialog extends JDialog
 		super(parent, "New appointment");
 		model = new Appointment();
 
-		panel = new AppointmentPanel(model);
+		panel = new AppointmentPanel(/*model*/);
 		add(panel, BorderLayout.CENTER);
 	}
 }
