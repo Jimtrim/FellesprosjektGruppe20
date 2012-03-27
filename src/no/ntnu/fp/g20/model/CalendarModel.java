@@ -28,6 +28,7 @@ public class CalendarModel extends AbstractTableModel
 	private User user;
 	private boolean editable;
 	private int week;
+	private int year;
 
 	/**
 	 * Constructs a new calendar model class.
@@ -40,6 +41,7 @@ public class CalendarModel extends AbstractTableModel
 		this.user = user;
 		this.editable = editable;
 		this.week = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
+
 		setAppointmentsInWeek(week);
 
 		appointments[4][3] = new Appointment(2, 258342L, 4, "Test appointment for fun", "Test appointment",
@@ -175,7 +177,6 @@ public class CalendarModel extends AbstractTableModel
 		return appointmentWidget;
 	}
 
-	@Override
 	public void appointmentAdded(Appointment appointment) {
 		
 		CalendarApp.getApplication().getConnection().createAppointment(appointment);
@@ -183,13 +184,11 @@ public class CalendarModel extends AbstractTableModel
 		
 	}
 
-	@Override
 	public void appointmentUpdated(Appointment appointment) {
 		CalendarApp.getApplication().getConnection().updateAppointment(appointment);
 		
 	}
 
-	@Override
 	public void appointmentDeleted(Appointment appointment) {
 		CalendarApp.getApplication().getConnection().deleteAppointment(appointment);
 		
@@ -201,6 +200,16 @@ public class CalendarModel extends AbstractTableModel
 	
 	public void setAppointmentsInWeek(int week) {
 		appointments = CalendarApp.getApplication().getConnection().getAppointmentsForWeek(week, 2012);
+//		appointments = new Appointment[7][HOURS];
+		if (week < 1) {
+			week = 52;
+			setYear(year-1);
+		}
+		else if (week > 52) {
+			week = 1;
+			setYear(year+1);
+		}
+		
 		setWeek(week);
 	}
 	
@@ -210,6 +219,13 @@ public class CalendarModel extends AbstractTableModel
 	
 	public void setWeek(int week) {
 		this.week = week;
+	}
+	public int getYear() {
+		return this.year;
+	}
+	
+	public void setYear(int year) {
+		this.year = year;
 	}
 }
 
