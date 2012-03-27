@@ -228,6 +228,7 @@ public class MainFrame extends JFrame implements ItemListener {
 		{
 			getModel().setAppointmentsInWeek(getModel().getWeek() + 1);
 			dateLabel.setText("Year "+model.getYear()+", Week "+model.getWeek()+" ");
+			calendar.updateUI();
 		}
 	}
 
@@ -245,6 +246,7 @@ public class MainFrame extends JFrame implements ItemListener {
 		{
 			getModel().setAppointmentsInWeek(getModel().getWeek() - 1);
 			dateLabel.setText("Year "+model.getYear()+", Week "+model.getWeek()+" ");
+			calendar.updateUI();
 		}
 	}
 	
