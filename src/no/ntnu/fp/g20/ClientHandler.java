@@ -87,8 +87,8 @@ public class ClientHandler extends ReceiveWorker implements MessageListener
 			handleInit();
 		} else if(command.startsWith(CalendarProtocol.CMD_EXISTS))
 		{
-			int userID = Integer.parseInt(dataParser.nextToken());
-			User userInfo = dbConnection.getUserByID(userID);
+			String username = dataParser.nextToken();
+			User userInfo = dbConnection.getUserByName(username);
 			if(userInfo == null)
 				send(CalendarProtocol.makeCommand("" + CalendarProtocol.STATUS_USER_NOT_EXISTS,
 					"Unknown user ID"));

@@ -172,11 +172,12 @@ public class ServerConnection implements MessageListener
 
 	/**
 	 * Checks if a user exists.
+	 * @param username the name of the user.
 	 * @return the user information of the user or null if the user does not exist.
 	 */
-	public User userExists(int id)
+	public User userExists(String username)
 	{
-		if(!send(CalendarProtocol.makeCommand(CalendarProtocol.CMD_EXISTS, "" + id)))
+		if(!send(CalendarProtocol.makeCommand(CalendarProtocol.CMD_EXISTS, username)))
 			return null;
 
 		String[] reply = receiveAsArray();

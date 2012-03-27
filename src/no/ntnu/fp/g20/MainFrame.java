@@ -12,15 +12,12 @@ import java.util.*;
  * @author Kristian Klomsten Skordal
  */
 public class MainFrame extends JFrame {
-
 	private JTable calendarTable;
 	private JComboBox calendarBox;
 	private AppointmentListPanel appointmentPanel;
 	private CalendarPanel calendar;
 	private CalendarModel model;
-	private JLabel weekNumber;
 
-	
 	/**
 	 * Constructs a new MainFrame window.
 	 */
@@ -28,18 +25,16 @@ public class MainFrame extends JFrame {
 	{
 		super(title);
 		this.model = model;
-		
-		weekNumber = new JLabel("Week: "+model.getWeek());
+
 		JToolBar toolBar = new JToolBar("Main menu");
 		add(toolBar, BorderLayout.NORTH);
-		
+
 		toolBar.add(new NewAppointmentAction());
 		toolBar.add(new DeleteAppointmentAction());
 
 		toolBar.addSeparator();
 
 		//String[] calendarList = { "My calendar" };
-		//String[] calendarList = { model.getUser().getFirstName() + " " + model.getUser().getLastName() + "'s Calendar"};
 		Vector<Object> calendarList = new Vector(); // TODO: Maybe use something other than String?
 		calendarList.add("My calendar");
 		// TODO: Find a better way of populating this list; I made the below line just as an example :-)
@@ -58,14 +53,13 @@ public class MainFrame extends JFrame {
 		toolBar.add(Box.createHorizontalGlue());
 
 		toolBar.add(new PrevWeekAction());
-		toolBar.add(weekNumber);
 		toolBar.add(new NextWeekAction());
-		
+
 		toolBar.setFloatable(false);
-		
+
 		calendar = new CalendarPanel(model);
 		add(calendar, BorderLayout.CENTER);
-		
+
 		appointmentPanel = new AppointmentListPanel();
 		add(appointmentPanel, BorderLayout.SOUTH);
 
@@ -119,7 +113,21 @@ public class MainFrame extends JFrame {
 
 		public void actionPerformed(ActionEvent event)
 		{
-			
+			String username = JOptionPane.showInputDialog(null, "Username:", "Subscribe to user",
+				JOptionPane.QUESTION_MESSAGE);
+			User user = CalendarApp.getApplication().getConnection().userExists(username);
+			if(user == null)
+			{
+				JOptionPane.showMessageDialog(null, "The username provided does not exist!",
+					"Error", JOptionPane.ERROR_MESSAGE);
+			} else {
+				if(CalendarApp.getApplication().getConnection().addSubscription(user))
+					calendarBox.addItem(user);
+				else
+					JOptionPane.showMessageDialog(null,
+						"A server error prevented adding the subscription.",
+						"Error", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	}
 
@@ -186,7 +194,6 @@ public class MainFrame extends JFrame {
 		public void actionPerformed(ActionEvent event)
 		{
 			getModel().setAppointmentsInWeek(getModel().getWeek() + 1);
-			weekNumber.setText("Week: "+model.getWeek());
 		}
 	}
 
@@ -203,18 +210,16 @@ public class MainFrame extends JFrame {
 		public void actionPerformed(ActionEvent event)
 		{
 			getModel().setAppointmentsInWeek(getModel().getWeek() - 1);
-			weekNumber.setText("Week: "+model.getWeek());
 		}
 	}
 	
-	public CalendarModel getModel() {
+	public CalendarModel getModel()
+	{
 		return model;
 	}
 	
-	public void setModel(CalendarModel model) {
+	public void setModel(CalendarModel model)
+	{
 		this.model = model;
-	}
-	
-	public static void main(String[] args) {
 	}
 }

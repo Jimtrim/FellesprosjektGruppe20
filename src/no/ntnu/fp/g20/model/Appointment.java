@@ -35,6 +35,7 @@ public class Appointment
 		status = Status.UNCONFIRMED;
 		pcs = new PropertyChangeSupport(this);
 		this.startTime = java.util.Calendar.getInstance();
+		id = 0;
 	}
 
 	public Appointment(int id, long startTime, int duration, String description, String title, String location)

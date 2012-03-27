@@ -40,7 +40,7 @@ public class CalendarModel extends AbstractTableModel
 		this.user = user;
 		this.editable = editable;
 		this.week = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
-		setAppointmentsInWeek(week);
+//		setAppointmentsInWeek(week);
 
 		appointmentWidget = new AppointmentWidget(editable);
 	}

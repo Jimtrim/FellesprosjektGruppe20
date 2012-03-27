@@ -14,6 +14,7 @@ public class DBUser {
 	/** Statement executed to get user information when logging in. */
 	public final static String LOGIN_STATEMENT = "SELECT id,firstname,lastname FROM users WHERE username LIKE ? AND password LIKE ?";
 	public final static String GET_USER_STATEMENT = "SELECT id,username,firstname,lastname FROM users WHERE id = ?";
+	public final static String GET_USER_BY_NAME_STATEMENT = "SELECT id,username,firstname,lastname FROM users WHERE username LIKE ?";
 
 	/**
 	 * Selects a specified {@code User} from the database.

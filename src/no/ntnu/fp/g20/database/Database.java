@@ -14,6 +14,7 @@ public class Database extends Connection
 	private PreparedStatement getSubscriptionsStmt;
 	private PreparedStatement getRoomsStmt;
 	private PreparedStatement getUserStmt;
+	private PreparedStatement getUserByNameStmt;
 
 	public Database() throws SQLException
 	{
@@ -25,6 +26,7 @@ public class Database extends Connection
 		getSubscriptionsStmt = getConnection().prepareStatement(DBSubscription.GET_SUBSCRIPTIONS_STATEMENT);
 		getRoomsStmt = getConnection().prepareStatement(DBRoom.GET_ROOMS_STATEMENT);
 		getUserStmt = getConnection().prepareStatement(DBUser.GET_USER_STATEMENT);
+		getUserByNameStmt = getConnection().prepareStatement(DBUser.GET_USER_BY_NAME_STATEMENT);
 	}
 
 	public boolean addAppointment(Appointment appt)
@@ -101,6 +103,29 @@ public class Database extends Connection
 		}
 
 		return retval;
+	}
+
+	/**
+	 * Gets user information for the specified username.
+	 * @param username the name of the user whose information you would like.
+	 * @return a {@code User} object representing the user.
+	 */
+	public User getUserByName(String username)
+	{
+		try {
+			User retval;
+
+			getUserByNameStmt.setString(1, username);
+			ResultSet rs = getUserByNameStmt.executeQuery();
+
+			if(!rs.next())
+				return null;
+			else
+				return new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
+		} catch(Exception error)
+		{
+			return null;
+		}
 	}
 
 	/**
