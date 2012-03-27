@@ -110,7 +110,7 @@ public class AppointmentPanel extends JPanel {
 
 		//add the hours box
 		hoursBox = new JComboBox();
-		for (int i = no.ntnu.fp.g20.model.CalendarModel.START_HOUR; i < no.ntnu.fp.g20.model.CalendarModel.HOURS; i++)
+		for (int i = CalendarModel.START_HOUR; i < CalendarModel.HOURS + CalendarModel.START_HOUR; i++)
 			hoursBox.addItem(String.format("%1$2d:00", i));
 		
 		c.gridx++;
