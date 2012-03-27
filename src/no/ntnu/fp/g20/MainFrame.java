@@ -27,7 +27,7 @@ public class MainFrame extends JFrame implements ItemListener {
 		super(title);
 		this.model = model;
 		
-		weekNumber = new JLabel("Week: "+model.getWeek());
+		weekNumber = new JLabel("Week: "+model.getWeek()+" ");
 		JToolBar toolBar = new JToolBar("Main menu");
 		add(toolBar, BorderLayout.NORTH);
 
@@ -222,7 +222,7 @@ public class MainFrame extends JFrame implements ItemListener {
 		public void actionPerformed(ActionEvent event)
 		{
 			getModel().setAppointmentsInWeek(getModel().getWeek() + 1);
-			weekNumber.setText("Week: "+model.getWeek());
+			weekNumber.setText("Week: "+model.getWeek()+" ");
 		}
 	}
 
@@ -239,7 +239,7 @@ public class MainFrame extends JFrame implements ItemListener {
 		public void actionPerformed(ActionEvent event)
 		{
 			getModel().setAppointmentsInWeek(getModel().getWeek() - 1);
-			weekNumber.setText("Week: "+model.getWeek());
+			weekNumber.setText("Week: "+model.getWeek()+" ");
 		}
 	}
 	
