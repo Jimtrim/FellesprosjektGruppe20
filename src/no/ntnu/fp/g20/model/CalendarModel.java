@@ -42,6 +42,9 @@ public class CalendarModel extends AbstractTableModel
 		this.week = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
 //		setAppointmentsInWeek(week);
 
+		appointments[4][3] = new Appointment(2, 258342L, 4, "Test appointment for fun", "Test appointment",
+			"The funroom");
+
 		appointmentWidget = new AppointmentWidget(editable);
 	}
 
