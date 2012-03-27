@@ -104,6 +104,8 @@ public class LoginDialog extends JDialog
 		pack();
 		setMinimumSize(getSize());
 		setMaximumSize(getSize());
+
+		setLocationRelativeTo(null);
 	}
 
 	/**
