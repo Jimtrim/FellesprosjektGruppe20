@@ -377,14 +377,13 @@ _endOfList:
 		long startTime, endTime;
 		java.util.Calendar calendar = java.util.Calendar.getInstance();
 		calendar.clear();
-
 		calendar.set(java.util.Calendar.YEAR, year);
 		calendar.set(java.util.Calendar.WEEK_OF_YEAR, week);
 		calendar.set(java.util.Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
 		
-		startTime = calendar.getTimeInMillis();
+		startTime = calendar.getTimeInMillis()/1000;
 		calendar.set(java.util.Calendar.WEEK_OF_YEAR, week + 1);
-		endTime = calendar.getTimeInMillis();
+		endTime = calendar.getTimeInMillis()/1000;
 
 		System.out.println("Week interval: "  + startTime + " - " + endTime);
 
