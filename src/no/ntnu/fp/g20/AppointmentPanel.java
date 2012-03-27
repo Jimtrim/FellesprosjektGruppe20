@@ -34,6 +34,14 @@ public class AppointmentPanel extends JPanel {
 	protected Box buttonBox;
 
 	/**
+	 * Constructs an appointment panel with the specified model.
+	 */
+	public AppointmentPanel(Appointment model)
+	{
+		this.model = model;
+	}
+
+	/**
 	 * Constructs an appointment panel.
 	 */
 	public AppointmentPanel()

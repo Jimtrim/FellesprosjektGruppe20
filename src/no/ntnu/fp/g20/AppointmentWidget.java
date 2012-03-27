@@ -115,7 +115,10 @@ public class AppointmentWidget extends JComponent
 			titleY += metrics.getHeight();
 
 			g.setColor(Color.GRAY);
-			g.drawString(appointment.getLocation(), 0, titleY);
+			if(appointment.getLocation() != null)
+				g.drawString(appointment.getLocation(), 0, titleY);
+			else
+				g.drawString("Room reserved", 0, titleY);
 		}
 	}
 }

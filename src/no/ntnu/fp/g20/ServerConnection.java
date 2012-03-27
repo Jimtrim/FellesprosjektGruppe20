@@ -408,17 +408,19 @@ _endOfList:
 					calendar.add(java.util.Calendar.HOUR_OF_DAY, 1);
 					long bEnd = calendar.getTimeInMillis() / 1000;
 
-					if(appt.getStartTime().getTimeInMillis() >= bStart
-						&& appt.getStartTime().getTimeInMillis() < bEnd)
+					if(appt.getStartTime().getTimeInMillis() / 1000 >= bStart
+						&& appt.getStartTime().getTimeInMillis() / 1000 < bEnd)
 					{
 						retval[day][hour - CalendarModel.START_HOUR] = appt;
+						for(int i = 1; i < appt.getDuration(); ++i)
+							retval[day][hour - CalendarModel.START_HOUR] = appt;
 						System.out.println("Appointment in interval: " + appt.getTitle()
 							+ "\n\tInterval start: " + bStart);
 					}
 				}
 				System.out.println("Day: " + day + " @ "
 					+ calendar.getTimeInMillis() / 1000 + " => "
-					+ appt.getStartTime().getTimeInMillis());
+					+ appt.getStartTime().getTimeInMillis() / 1000);
 			}
 
 			if(appt.getStartTime().getTimeInMillis() > startTime && appt.getStartTime().getTimeInMillis() < endTime)

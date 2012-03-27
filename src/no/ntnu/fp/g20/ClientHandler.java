@@ -194,7 +194,7 @@ public class ClientHandler extends ReceiveWorker implements MessageListener
 		{
 			LinkedList<Participant> participants = dbConnection.getParticipantsForAppointment(appt.getID());
 			send(CalendarProtocol.makeCommand(CalendarProtocol.CMD_APPOINTMENT, appt.getID(), appt.getOwner().getId(),
-				appt.getTitle(), appt.getStartTime().getTimeInMillis() / 1000, appt.getDuration(),
+				appt.getTitle(), appt.getStartTime().getTimeInMillis(), appt.getDuration(),
 				appt.getRoom() == null ? appt.getLocation() : "NULL",
 				appt.getRoom() == null ? "NULL" : appt.getRoom(), participants.size()));
 		}
