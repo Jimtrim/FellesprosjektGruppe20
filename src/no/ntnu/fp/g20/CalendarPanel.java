@@ -7,13 +7,14 @@ import java.awt.event.*;
 import java.beans.*;
 import javax.swing.*;
 import javax.swing.event.*;
+import javax.swing.table.TableModel;
 
 /**
  * Panel containing the calendar view.
  * @author Kristian Klomsten Skordal
  */
 public class CalendarPanel extends JPanel
-	implements ComponentListener, PropertyChangeListener
+	implements ComponentListener, PropertyChangeListener, TableModelListener
 {
 	private JTable calendarTable;
 	private CalendarModel model;
@@ -59,6 +60,18 @@ public class CalendarPanel extends JPanel
 
 		layout.setConstraints(calendarTable, c);
 		add(calendarTable);
+		calendarTable.getModel().addTableModelListener(this);
+	}
+		
+		public void tableChanged(TableModelEvent e) {
+        int row = e.getFirstRow();
+        int column = e.getColumn();
+        TableModel model2 = (TableModel)e.getSource();
+        String columnName = model2.getColumnName(column);
+        Object data = model2.getValueAt(row, column);
+       
+       
+
 	}
 
 	/**
