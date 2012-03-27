@@ -225,7 +225,7 @@ public class ServerConnection implements MessageListener
 			String[] msg = receiveAsArray();
 
 			if(msg == null || msg.length != 5 || !msg[0].equals(CalendarProtocol.CMD_SUBSCRIBER))
-				return false;
+				continue;
 			else {
 				System.out.println("Subscriber added: " + msg[3] + " " + msg[4]);
 				subscriptions.add(new User(Integer.parseInt(msg[1]), msg[2], msg[3], msg[4]));
@@ -239,7 +239,7 @@ public class ServerConnection implements MessageListener
 			String[] msg = receiveAsArray();
 
 			if(msg == null || msg.length != 4 || !msg[0].equals(CalendarProtocol.CMD_ROOM))
-				return false;
+				continue;
 			else {
 				System.out.println("Room added: " + msg[1] + " - " + msg[2] + " (" + msg[3] + ")");
 				rooms.add(new Room(Integer.parseInt(msg[1]), msg[2], Integer.parseInt(msg[3])));
@@ -253,8 +253,13 @@ public class ServerConnection implements MessageListener
 			String[] msg = receiveAsArray();
 
 			if(msg == null || !msg[0].equals(CalendarProtocol.CMD_APPOINTMENT))
-				return false;
-			else {
+			{
+				if(msg == null)
+					System.out.println("Message is null!");
+				else
+					System.out.println("Invalid command: " + msg[0]);
+				continue;
+			} else {
 				System.out.println("Appointment added: " + msg[3]);
 				if(msg[6].equals("NULL"))
 					appointments.add(new Appointment(Integer.parseInt(msg[1]), Long.parseLong(msg[4]),
@@ -389,9 +394,37 @@ _endOfList:
 
 		for(Appointment appt : appointments)
 		{
+			for(int day = 0; day < 7; ++day)
+			{
+//				calendar.clear();
+				calendar.set(java.util.Calendar.WEEK_OF_YEAR, week);
+				calendar.set(java.util.Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
+				calendar.add(java.util.Calendar.DAY_OF_WEEK, day);
+				for(int hour = CalendarModel.START_HOUR; hour < CalendarModel.START_HOUR + CalendarModel.HOURS;
+					++hour)
+				{
+					calendar.set(java.util.Calendar.HOUR_OF_DAY, hour);
+					long bStart = calendar.getTimeInMillis() / 1000;
+					calendar.add(java.util.Calendar.HOUR_OF_DAY, 1);
+					long bEnd = calendar.getTimeInMillis() / 1000;
+
+					if(appt.getStartTime().getTimeInMillis() >= bStart
+						&& appt.getStartTime().getTimeInMillis() < bEnd)
+					{
+						retval[day][hour - CalendarModel.START_HOUR] = appt;
+						System.out.println("Appointment in interval: " + appt.getTitle()
+							+ "\n\tInterval start: " + bStart);
+					}
+				}
+				System.out.println("Day: " + day + " @ "
+					+ calendar.getTimeInMillis() / 1000 + " => "
+					+ appt.getStartTime().getTimeInMillis());
+			}
 
 			if(appt.getStartTime().getTimeInMillis() > startTime && appt.getStartTime().getTimeInMillis() < endTime)
+			{
 				System.out.println(appt.getTitle());
+			}
 		}
 
 		return retval;

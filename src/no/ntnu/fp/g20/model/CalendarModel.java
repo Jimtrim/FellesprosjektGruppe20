@@ -40,7 +40,7 @@ public class CalendarModel extends AbstractTableModel
 		this.user = user;
 		this.editable = editable;
 		this.week = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
-//		setAppointmentsInWeek(week);
+		setAppointmentsInWeek(week);
 
 		appointments[4][3] = new Appointment(2, 258342L, 4, "Test appointment for fun", "Test appointment",
 			"The funroom");
@@ -200,8 +200,7 @@ public class CalendarModel extends AbstractTableModel
 	}
 	
 	public void setAppointmentsInWeek(int week) {
-		this.appointments = CalendarApp.getApplication().getConnection().getAppointmentsForWeek(week, 2012);
-//		appointments = new Appointment[7][HOURS];
+		appointments = CalendarApp.getApplication().getConnection().getAppointmentsForWeek(week, 2012);
 		setWeek(week);
 	}
 	
