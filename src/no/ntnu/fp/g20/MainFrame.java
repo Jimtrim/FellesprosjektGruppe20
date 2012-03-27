@@ -105,7 +105,9 @@ public class MainFrame extends JFrame implements ItemListener {
 			NewAppointmentDialog dialog = new NewAppointmentDialog(null);
 			dialog.setVisible(true);
 
-			getModel().appointmentAdded(appointmentPanel.getAppointmentDetails());
+			Appointment newAppointment = dialog.getModel();
+			if(newAppointment != null);
+				// Do something about it here
 		}
 	}
 

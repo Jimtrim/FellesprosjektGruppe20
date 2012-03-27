@@ -1,6 +1,7 @@
 package no.ntnu.fp.g20;
 
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 import no.ntnu.fp.g20.model.*;
 
@@ -29,13 +30,14 @@ public class NewAppointmentDialog extends JDialog
 		Box buttonBox = Box.createHorizontalBox();
 		add(buttonBox, BorderLayout.SOUTH);
 
-		okButton = new JButton("OK");
-		cancelButton = new JButton("Cancel");
+		okButton = new JButton(new OkAction());
+		cancelButton = new JButton(new CancelAction());
 
 		getRootPane().setDefaultButton(okButton);
 
+		buttonBox.add(Box.createHorizontalGlue());
 		buttonBox.add(cancelButton);
-		buttonBox.createHorizontalStrut(5);
+		buttonBox.add(Box.createHorizontalStrut(5));
 		buttonBox.add(okButton);
 
 		pack();
@@ -48,6 +50,33 @@ public class NewAppointmentDialog extends JDialog
 	public Appointment getModel()
 	{
 		return model;
+	}
+
+	public class OkAction extends AbstractAction
+	{
+		public OkAction()
+		{
+			super("OK");
+		}
+
+		public void actionPerformed(ActionEvent event)
+		{
+
+		}
+	}
+
+	public class CancelAction extends AbstractAction
+	{
+		public CancelAction()
+		{
+			super("OK");
+		}
+
+		public void actionPerformed(ActionEvent event)
+		{
+			setVisible(false);
+			model = null;
+		}
 	}
 }
 
