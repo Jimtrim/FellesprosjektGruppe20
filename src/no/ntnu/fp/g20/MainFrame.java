@@ -97,6 +97,7 @@ public class MainFrame extends JFrame implements ItemListener {
 		public NewAppointmentAction()
 		{
 			super("New appointment");
+			putValue(Action.SMALL_ICON, new ImageIcon("icons/icon_toolbar_new.png"));
 		}
 		
 		public void actionPerformed(ActionEvent event)
@@ -113,6 +114,7 @@ public class MainFrame extends JFrame implements ItemListener {
 		public DeleteAppointmentAction()
 		{
 			super("Delete appointment");
+			putValue(Action.SMALL_ICON, new ImageIcon("icons/icon_toolbar_delete.png");
 		}
 
 		public void actionPerformed(ActionEvent event)
@@ -129,6 +131,8 @@ public class MainFrame extends JFrame implements ItemListener {
 		public AddCalendarAction()
 		{
 			super("+");
+
+			putValue(Action.SMALL_ICON, new ImageIcon("icons/icon_toolbar_plus.png");
 		}
 
 		public void actionPerformed(ActionEvent event)
@@ -142,7 +146,7 @@ public class MainFrame extends JFrame implements ItemListener {
 					"Error", JOptionPane.ERROR_MESSAGE);
 			} else {
 				if(CalendarApp.getApplication().getConnection().addSubscription(user))
-					calendarBox.addItem(user);
+					calendarBox.addItem(user.toString());
 				else
 					JOptionPane.showMessageDialog(null,
 						"A server error prevented adding the subscription.",
@@ -159,6 +163,8 @@ public class MainFrame extends JFrame implements ItemListener {
 		public RemoveCalendarAction()
 		{
 			super("-"); // Beware, n-dash, not hyphen.
+
+			putValue(Action.SMALL_ICON, new ImageIcon("icons/icon_toolbar_minus.png"));
 		}
 
 		public void actionPerformed(ActionEvent event)
@@ -175,6 +181,8 @@ public class MainFrame extends JFrame implements ItemListener {
 		public LogoutAction()
 		{
 			super("Log out");
+
+			putValue(Action.SMALL_ICON, new ImageIcon("icons/icon_
 		}
 
 		public void actionPerformed(ActionEvent event)
