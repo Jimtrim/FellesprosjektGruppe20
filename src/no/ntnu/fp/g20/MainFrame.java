@@ -39,7 +39,7 @@ public class MainFrame extends JFrame implements ItemListener {
 		//String[] calendarList = { "My calendar" };
 
 		calendarBox = new JComboBox();
-		Vector<User> calendarList = new Vector(CalendarApp.getApplication().getConnection().getSubscriptions());
+		Vector<User> calendarList = new Vector<User>(CalendarApp.getApplication().getConnection().getSubscriptions());
 		calendarBox.addItem("My calendar");
 		for(User user : calendarList)
 			calendarBox.addItem(user.toString());
