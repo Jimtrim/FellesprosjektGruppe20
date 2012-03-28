@@ -39,7 +39,8 @@ public class MainFrame extends JFrame implements ItemListener {
 		//String[] calendarList = { "My calendar" };
 
 		calendarBox = new JComboBox();
-		Vector<User> calendarList = new Vector<User>(CalendarApp.getApplication().getConnection().getSubscriptions());
+		Vector<User> calendarList =
+			new Vector<User>(CalendarApp.getApplication().getConnection().getSubscriptions());
 		calendarBox.addItem("My calendar");
 		for(User user : calendarList)
 			calendarBox.addItem(user.toString());
@@ -167,14 +168,19 @@ public class MainFrame extends JFrame implements ItemListener {
 	{
 		public RemoveCalendarAction()
 		{
-			super("-"); // Beware, n-dash, not hyphen.
+			super("-");
 
 			putValue(Action.SMALL_ICON, new ImageIcon("icons/icon_toolbar_minus.png"));
 		}
 
 		public void actionPerformed(ActionEvent event)
 		{
-
+			if(calendarBox.getSelectedIndex() == 0)
+				JOptionPane.showMessageDialog(null,
+					"You cannot delete your subscription to yourself!",
+					"Error", JOptionPane.ERROR_MESSAGE);
+			else
+				calendarBox.removeItemAt(calendarBox.getSelectedIndex());
 		}
 	}
 

@@ -52,7 +52,7 @@ public class CalendarApp implements Runnable
 					loggedIn = true;
 					break;
 				} else
-					JOptionPane.showMessageDialog(null, "Your username and password does not match!",
+					JOptionPane.showMessageDialog(null, "Your username and password do not match!",
 						"Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
@@ -60,8 +60,8 @@ public class CalendarApp implements Runnable
 		calendarUser = connection.getLoggedInUser();
 
 		// A very informative and polite message box:
-		JOptionPane.showMessageDialog(null, "Welcome, sir " + calendarUser.getLastName() + "!\n"
-			+ "Here is your calendar, please have fun!", "Welcome master!", JOptionPane.INFORMATION_MESSAGE);
+//		JOptionPane.showMessageDialog(null, "Welcome, sir " + calendarUser.getLastName() + "!\n"
+//			+ "Here is your calendar, please have fun!", "Welcome master!", JOptionPane.INFORMATION_MESSAGE);
 
 		calendarModel = new CalendarModel(calendarUser, true);
 
