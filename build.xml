@@ -24,6 +24,7 @@
    <target name="clean" depends="init">
       <delete dir="${build}" />
       <delete dir="${doc}" />
+      <delete dir="Log" />
    </target>
 
    <target name="compile" depends="prepare">
