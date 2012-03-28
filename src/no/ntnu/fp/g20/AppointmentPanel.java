@@ -372,7 +372,8 @@ public class AppointmentPanel extends JPanel {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
+			ParticipantListPanel dialog = new ParticipantListPanel();
+			dialog.setVisible(true);
 		}
 	}
 }
