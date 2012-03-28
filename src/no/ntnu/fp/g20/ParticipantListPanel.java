@@ -17,52 +17,48 @@ import javax.swing.JScrollPane;
 import no.ntnu.fp.g20.model.SortableUserListModel;
 import no.ntnu.fp.g20.model.User;
 
-
 public class ParticipantListPanel extends JDialog{
-	
+
 	public static void main(String[] args){
 		ParticipantListPanel participantList = new ParticipantListPanel();
 		participantList.setVisible(true);
 	}
-	
-	JScrollPane users;
-	JScrollPane participantPane;
-	
-	JList userList;
-	JList participantList;
-	
-	SortableUserListModel userListModel;
-	SortableUserListModel participantListModel;
-	
-	JButton addSelected;
-	JButton removeSelected;
-	JButton addAll;
-	JButton removeAll;
-	JButton doneButton;
-	JButton cancelButton;
-	
-	JLabel usersLabel;
-	JLabel participantsLabel;
-	
-	GridBagConstraints c;
-	
+
+	private JScrollPane users;
+	private JScrollPane participantPane;
+
+	private JList userList;
+	private	JList participantList;
+
+	private SortableUserListModel userListModel;
+	private SortableUserListModel participantListModel;
+
+	private JButton addSelected;
+	private JButton removeSelected;
+	private JButton addAll;
+	private JButton removeAll;
+	private JButton doneButton;
+	private JButton cancelButton;
+
+	private JLabel usersLabel;
+	private JLabel participantsLabel;
+
 	public ParticipantListPanel(){
 		this.setLayout(new GridBagLayout());
 		this.setTitle("Add/remove participants");
-		
+
+		GridBagConstraints c;
 		c = new GridBagConstraints();
-		
-		
-		
+
 		//Labels:
 		usersLabel = new JLabel("Users:");
 		participantsLabel = new JLabel("Participants:");
-		
+
 		//Users:
 		userList = new JList(); //TODO: get user list
 		userList.setBorder(BorderFactory.createLoweredBevelBorder());
 		users = new JScrollPane(userList);
-		
+
 		//"Add selected" button:
 		addSelected = new JButton("Add selected");
 		addSelected.addActionListener(new ActionListener() {
@@ -77,11 +73,11 @@ public class ParticipantListPanel extends JDialog{
 					userListModel.removeElementAt(selectedIndices[i]);
 				}
 				userList.setSelectedIndex(selectedIndices[0]<userListModel.size() ? selectedIndices[0] : selectedIndices[0]-1);
-				
+
 				participantListModel.sortByLastName();
 			}
 		});
-		
+
 		//"Remove selected" button:
 		removeSelected = new JButton("Remove selected");
 		removeSelected.addActionListener(new ActionListener() {
@@ -96,11 +92,11 @@ public class ParticipantListPanel extends JDialog{
 					participantListModel.removeElementAt(selectedIndices[i]);
 				}
 				participantList.setSelectedIndex(selectedIndices[0]<participantListModel.size() ? selectedIndices[0] : selectedIndices[0]-1);
-				
+
 				userListModel.sortByLastName();
 			}
 		});
-		
+
 		//"Add all" button
 		addAll = new JButton("Add all");
 		addAll.addActionListener(new ActionListener() {
@@ -113,11 +109,11 @@ public class ParticipantListPanel extends JDialog{
 				}
 				userList.setSelectedIndices(allIndices);
 				addSelected.doClick();
-				
+
 				participantListModel.sortByLastName();
 			}
 		});
-		
+
 		//"Remove all" button
 		removeAll = new JButton("Remove all");
 		removeAll.addActionListener(new ActionListener() {
@@ -134,7 +130,7 @@ public class ParticipantListPanel extends JDialog{
 				userListModel.sortByLastName();
 			}
 		});
-		
+
 		//"Done" button
 		doneButton = new JButton("Done");
 		doneButton.addActionListener(new ActionListener() {
@@ -144,7 +140,7 @@ public class ParticipantListPanel extends JDialog{
 				// TODO Close dialog
 			}
 		});
-		
+
 		//"Cancel" button
 		cancelButton = new JButton("Cancel");
 		cancelButton.setForeground(new Color(170,0,0));
@@ -154,14 +150,11 @@ public class ParticipantListPanel extends JDialog{
 				// TODO Close dialog (without saving)
 			}
 		});
-		
-		
-		
+
 		//Participants:
 		participantList = new JList(); //TODO: get participant list
 		participantList.setBorder(BorderFactory.createLoweredBevelBorder());
 		participantPane = new JScrollPane(participantList);
-		
 		
 		//MODELS:
 		userListModel = new SortableUserListModel();
@@ -169,89 +162,81 @@ public class ParticipantListPanel extends JDialog{
 		participantListModel = new SortableUserListModel();
 		participantList.setModel(participantListModel);
 		
-		
-		
-		
-		
 		//Adds test Users. Remove this when we don't need/want 'em anymore. (TODO)
-//		for (int i=0; i<15; i++){
-//			userListModel.addElement(
-//					new User(
-//							i, 
-//							"userName_"+i, 
-//							"pwd"+i, 
-//							""+(int)(Math.random()*10)+"-f", 
-//							""+(int)(Math.random()*10)+"-l"
-//					)
-//			);
-//		}
-		
-		
-		
-		
-		
+		for (int i=0; i<15; i++){
+			userListModel.addElement(
+					new User(
+							i, 
+							"userName_"+i, 
+							"pwd"+i, 
+							""+(int)(Math.random()*100)+"-first", 
+							""+(int)(Math.random()*100)+"-last"
+					)
+			);
+		}
+		userListModel.sortByLastName();
+
 		//ADDING:
-		
+
 		Insets insetsNormal = new Insets(2, 5, 2, 5);
 		Insets insetsLargeUpper = new Insets(15, 5, 2, 5);
 		Insets insetsVeryLargeUpper = new Insets(35, 5, 2, 5);
 		Insets insetsLargeUpperMediumBottom = new Insets(15, 5, 5, 5);
 		Insets insetsMediumBottom = new Insets(2, 5, 5, 5);
-		
+
 		c.insets = insetsNormal;
-		
+
 		c.fill = GridBagConstraints.BOTH;
-		
+
 		//Col 0:
-		
+
 		c.gridx = 0;
 		c.gridy = 0;
 		add(usersLabel,c);
-		
+
 		c.gridy++;
 		c.gridheight = GridBagConstraints.REMAINDER;
 		add(users,c);
-		
+
 		//Col 1:
-		
+
 		c.insets = insetsVeryLargeUpper;
 		c.gridx++;
 		c.gridy = 1;
 		c.gridheight = 1;
 		add(addSelected,c);
-		
+
 		c.insets = insetsNormal;
 		c.gridy++;
 		add(removeSelected,c);
-		
+
 		c.insets = insetsLargeUpper;
 		c.gridy++;
 		add(addAll,c);
-		
+
 		c.insets = insetsNormal;
 		c.gridy++;
 		add(removeAll,c);
-		
+
 		c.insets = insetsLargeUpper;
 		c.gridy++;
 		add(cancelButton,c);
-		
+
 		c.insets = insetsMediumBottom;
 		c.gridy++;
 		add(doneButton,c);
-		
+
 		//Col 2:
-		
+
 		c.insets = insetsNormal;
 		c.gridx++;
 		c.gridy = 0;
 		add(participantsLabel,c);
-		
+
 		c.gridy++;
 		c.gridheight = GridBagConstraints.REMAINDER;
 		add(participantPane,c);
-		
-		
+
 		this.pack();
 	}
 	
