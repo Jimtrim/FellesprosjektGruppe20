@@ -96,7 +96,6 @@ public class ConnectionImpl extends AbstractConnection {
 			}
 				
 			this.remotePort = packet.getSrc_port();
-//			System.out.println("remote port: " + remotePort);
 
 			sendAck(packet, false);
 		        state = State.ESTABLISHED;
@@ -180,15 +179,30 @@ public class ConnectionImpl extends AbstractConnection {
      * @see AbstractConnection#sendAck(KtnDatagram, boolean)
      */
     public String receive() throws ConnectException, IOException {
-        KtnDatagram packet = receivePacket(false);
-        if (isValid(packet)) {
-	        sendAck(packet, false);
-	        System.out.println("Packet: Valid!");
-	        return stripParityBits((String) packet.getPayload());
-        } else {
-	        System.out.println("Packet: Invalid!");
-        	return null;
-        }
+    	KtnDatagram packet = null;
+    	try {
+	        packet = receivePacket(false);
+	       	 if (isValid(packet)) {
+			sendAck(packet, false);
+			System.out.println("Packet: Valid!");
+			return stripParityBits((String) packet.getPayload());
+		}
+	} catch(EOFException eof)
+	{
+		System.out.println("EOF received");
+		state = AbstractConnection.State.CLOSE_WAIT;
+		// TODO: Set ack or seq number below.
+		packet = constructInternalPacket(KtnDatagram.Flag.ACK);
+		try {
+			simplySendPacket(packet);
+		} catch(Exception error)
+		{
+			throw new IOException("A2 error");
+		}
+		throw new EOFException("Client closed the connection");
+	}
+
+	return null;
     }
 
     /**
@@ -196,34 +210,40 @@ public class ConnectionImpl extends AbstractConnection {
      * @see Connection#close()
      */
     public void close() throws IOException {
-        KtnDatagram packet = constructInternalPacket(Flag.FIN);
-        try {        	
-        	simplySendPacket(packet);
-        	this.state = State.FIN_WAIT_1;
-        }
-        catch (ClException e) {
+	KtnDatagram packet;
+
+    	if(state == State.CLOSE_WAIT)
+	{
+		packet = constructInternalPacket(KtnDatagram.Flag.FIN);
+		try {
+			simplySendPacket(packet);
+			state = State.TIME_WAIT;
+			receiveAck();
+		} catch(ClException e)
+		{
+			throw new IOException("A2 error");
+		}
+	} else {
+		packet = constructInternalPacket(Flag.FIN);
+		try {
+			simplySendPacket(packet);
+			this.state = State.FIN_WAIT_1;
+		}
+		catch (ClException e) {
 			throw new IOException("C1Exception");
 		}
-        KtnDatagram ack = receiveAck();
-        if (ack != null) {
-        	this.state = State.FIN_WAIT_2;
-        	KtnDatagram receivedPacket = receivePacket(true);
-		if(receivedPacket != null)
-	        	sendAck(receivedPacket, false);
-        	this.state = State.CLOSED;
-		if(receivedPacket != null)
-	        	usedPorts.remove(receivedPacket.getDest_port());
-        }
-    }
 
-    /** For testing the parity functions. */
-    public static void main(String[] args) throws UnsupportedEncodingException
-    {
-	String testString = "12345678";
-	ConnectionImpl test = new ConnectionImpl(777);
-	testString = test.addParityBits(testString);
-	for(int i = 0; i < testString.length(); ++i)
-		System.out.println("0x" + Integer.toHexString((testString.charAt(i))));
+		KtnDatagram ack = receiveAck();
+		if (ack != null) {
+			this.state = State.FIN_WAIT_2;
+			KtnDatagram receivedPacket = receivePacket(true);
+			if(receivedPacket != null)
+				sendAck(receivedPacket, false);
+			this.state = State.CLOSED;
+			if(receivedPacket != null)
+				usedPorts.remove(receivedPacket.getDest_port());
+		}
+	}
     }
 
     /**
