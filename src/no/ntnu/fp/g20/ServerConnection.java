@@ -346,6 +346,12 @@ _endOfList:
 	public void logout()
 	{
 		send(CalendarProtocol.CMD_LOGOUT);
+		try {
+			serverConnection.close();
+		} catch(Exception error)
+		{
+			// Ignore
+		}
 	}
 
 	/**

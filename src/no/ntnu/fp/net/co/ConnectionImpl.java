@@ -179,10 +179,9 @@ public class ConnectionImpl extends AbstractConnection {
      * @see AbstractConnection#sendAck(KtnDatagram, boolean)
      */
     public String receive() throws ConnectException, IOException {
-    	KtnDatagram packet = null;
     	try {
-	        packet = receivePacket(false);
-	       	 if (isValid(packet)) {
+	        KtnDatagram packet = receivePacket(false);
+	       	 if (packet != null && isValid(packet)) {
 			sendAck(packet, false);
 			System.out.println("Packet: Valid!");
 			return stripParityBits((String) packet.getPayload());
@@ -191,14 +190,7 @@ public class ConnectionImpl extends AbstractConnection {
 	{
 		System.out.println("EOF received");
 		state = AbstractConnection.State.CLOSE_WAIT;
-		// TODO: Set ack or seq number below.
-		packet = constructInternalPacket(KtnDatagram.Flag.ACK);
-		try {
-			simplySendPacket(packet);
-		} catch(Exception error)
-		{
-			throw new IOException("A2 error");
-		}
+		sendAck(disconnectRequest, false);
 		throw new EOFException("Client closed the connection");
 	}
 
@@ -214,36 +206,44 @@ public class ConnectionImpl extends AbstractConnection {
 
     	if(state == State.CLOSE_WAIT)
 	{
+		System.out.println("SENDING LAST FIN");
 		packet = constructInternalPacket(KtnDatagram.Flag.FIN);
 		try {
 			simplySendPacket(packet);
-			state = State.TIME_WAIT;
-			receiveAck();
+			state = State.LAST_ACK;
 		} catch(ClException e)
 		{
 			throw new IOException("A2 error");
 		}
+
+		System.out.println("WAITING FOR ACK");
+		receiveAck();
 	} else {
-		packet = constructInternalPacket(Flag.FIN);
+		System.out.println("CLOSING CONNECTION");
+		packet = constructInternalPacket(KtnDatagram.Flag.FIN);
+
 		try {
 			simplySendPacket(packet);
-			this.state = State.FIN_WAIT_1;
+			state = State.FIN_WAIT_1;
 		}
 		catch (ClException e) {
+			System.out.println("EXCEPTION: " + e.getMessage());
 			throw new IOException("C1Exception");
 		}
 
-		KtnDatagram ack = receiveAck();
-		if (ack != null) {
-			this.state = State.FIN_WAIT_2;
-			KtnDatagram receivedPacket = receivePacket(true);
-			if(receivedPacket != null)
-				sendAck(receivedPacket, false);
-			this.state = State.CLOSED;
-			if(receivedPacket != null)
-				usedPorts.remove(receivedPacket.getDest_port());
+		System.out.println("Waiting for ack");
+		receiveAck();
+
+		state = State.FIN_WAIT_2;
+	//	KtnDatagram p = receivePacket(true);
+		KtnDatagram p = receiveAck();
+		if(p != null)
+		{
+			sendAck(p, false);
+			usedPorts.remove(p.getDest_port());
 		}
 	}
+	state = State.CLOSED;
     }
 
     /**
